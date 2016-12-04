@@ -2,6 +2,7 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
     
     <script src="lib/jquery.js"></script>
     <script src="lib/alasql.js"></script>
@@ -21,7 +22,7 @@
     <title>COMPANY</title>
 </head>
 <body>
-	<nav class="navbar navbar-primary">
+	<nav class="navbar navbar-primary navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -59,52 +60,78 @@
 		<!-- /.container-fluid -->
 	</nav>
 
-	<div class="container">
-		<form action="index.html" class="form-inline text-center">
-			<div class="form-group">
-				<label>Warehouse</label> 
-                <select name="q1" class="form-control">
-					<option value="0">All</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="s2">Classification</label> 
-                <select name="q2" id="s2" class="form-control">
-					<option value="0">All</option>
-				</select>
-			</div>
-			<div class="form-group label-floating">
-				<label class="control-label">Code</label> 
-                <input name="q3" type="text"
-					class="form-control">
-                <p class="help-block">Prefix Search</p>
-			</div>
-			<button type="submit" class="btn btn-raised btn-primary">
-				<span class="glyphicon glyphicon-search"></span> Search
-			</button>
-		</form>
-		<hr>
+	<div class="container-fluid" style="padding-top:70px;">
+        
+        <div class="row">
+            
+            <nav class="col-md-2 menu">
+              <ul >
+                <li class="active withripple">Products</li>
+                <li class="withripple" data-target="#getting-started">Getting Started</li>
+                <li><a href="bootstrap-elements.html" target="_blank">Bootstrap elements <i class="mdi-action-open-in-new"></i></a>
+                </li>
+                <li class="withripple" data-target="#checkbox">Checkbox</li>
+                <li class="withripple" data-target="#radio-button">Radio Button</li>
+                <li class="withripple" data-target="#toggle-button">Toggle Button</li>
+                <li class="withripple" data-target="#input">Input</li>
+                <li class="withripple" data-target="#fileinput">File Input</li>
+                <li class="withripple" data-target="#navbar">Navbar</li>
+                <li class="withripple" data-target="#progress-bar">Progress Bar</li>
+                <li class="withripple" data-target="#slider">Slider</li>
+                <li class="withripple" data-target="#dropdown">Dropdown (Work in progress)</li>
+                <li class="withripple" data-target="#dropdown-menu">Dropdown Menu</li>
+                <li class="withripple" data-target="#dialog">Dialog</li>
+              </ul>
+            </nav>
+            
+            <div class="col-md-10 main">
+                <form action="index.html" class="form-inline text-center">
+                    <div class="form-group">
+                        <label>Warehouse</label> 
+                        <select name="q1" class="form-control">
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="s2">Classification</label> 
+                        <select name="q2" id="s2" class="form-control">
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+                    <div class="form-group label-floating">
+                        <label class="control-label">Code</label> 
+                        <input name="q3" type="text"
+                            class="form-control">
+                        <p class="help-block">Prefix Search</p>
+                    </div>
+                    <button type="submit" class="btn btn-raised btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </form>
+                <hr>
 
-		<div class="clearfix" style="margin: 10px 0;">
-			<a href="stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
-				class="glyphicon glyphicon-plus"></span> New</a>
-		</div>
+                <div class="clearfix" style="margin: 10px 0;">
+                    <a href="stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
+                        class="glyphicon glyphicon-plus"></span> New</a>
+                </div>
 
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>Warehouse</th>
-					<th>Classification</th>
-					<th>Code</th>
-					<th>Maker</th>
-					<th>Detail</th>
-					<th>Price</th>
-					<th>In Stock</th>
-					<th>Unit</th>
-				</tr>
-			</thead>
-			<tbody id="tbody-stocks"></tbody>
-		</table>
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Warehouse</th>
+                            <th>Classification</th>
+                            <th>Code</th>
+                            <th>Maker</th>
+                            <th>Detail</th>
+                            <th>Price</th>
+                            <th>In Stock</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-stocks"></tbody>
+                </table>
+           </div>
+	   </div>
 	</div>
 	<script src="js/index.js"></script>
     <script src="lib/bootstrap.js"></script>
