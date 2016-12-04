@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="lib/jquery.js"></script>
-<link href="css/bootstrap.css" rel="stylesheet" />
-<script src="lib/bootstrap.js"></script>
-<script src="lib/alasql.js"></script>
-<script src="lib/purl.js"></script>
-<script src="js/db.js"></script>
-<meta charset="utf-8">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta name="viewport" content="width=device-width">
-<title>COMPANY</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    
+    <script src="lib/jquery.js"></script>
+    <script src="lib/alasql.js"></script>
+    <script src="lib/purl.js"></script>
+    <script src="js/db.js"></script>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width">
+    
+    <!-- Bootstrap Material Design -->
+    <link href="material/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="material/css/ripples.min.css" rel="stylesheet">
+    <link href="material/css/jquery.dropdown.css" rel="stylesheet">
+    
+    <title>COMPANY</title>
 </head>
 <body>
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-primary">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -55,27 +62,31 @@
 	<div class="container">
 		<form action="index.html" class="form-inline text-center">
 			<div class="form-group">
-				<label>Warehouse</label> <select name="q1" class="form-control">
+				<label>Warehouse</label> 
+                <select name="q1" class="form-control">
 					<option value="0">All</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<label>Classification</label> <select name="q2" class="form-control">
+				<label for="s2">Classification</label> 
+                <select name="q2" id="s2" class="form-control">
 					<option value="0">All</option>
 				</select>
 			</div>
-			<div class="form-group">
-				<label>Code</label> <input name="q3" type="text"
-					class="form-control" placeholder="Prefix Search">
+			<div class="form-group label-floating">
+				<label class="control-label">Code</label> 
+                <input name="q3" type="text"
+					class="form-control">
+                <p class="help-block">Prefix Search</p>
 			</div>
-			<button type="submit" class="btn btn-primary">
+			<button type="submit" class="btn btn-raised btn-primary">
 				<span class="glyphicon glyphicon-search"></span> Search
 			</button>
 		</form>
 		<hr>
 
 		<div class="clearfix" style="margin: 10px 0;">
-			<a href="stock-form.html" class="btn btn-sm btn-success pull-right"><span
+			<a href="stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
 				class="glyphicon glyphicon-plus"></span> New</a>
 		</div>
 
@@ -96,5 +107,15 @@
 		</table>
 	</div>
 	<script src="js/index.js"></script>
+    <script src="lib/bootstrap.js"></script>
+    
+    <!-- Material Design for Bootstrap -->
+    <script src="material/js/material.js"></script>
+    <script src="material/js/ripples.min.js"></script>
+    
+    <!-- Script to initialize Material Design -->
+    <script>
+      $.material.init();
+    </script>
 </body>
 </html>

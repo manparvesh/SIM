@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sign in</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="css/signin.css" rel="stylesheet">
+    
+    <!-- Bootstrap Material Design -->
+    <link href="material/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="material/css/ripples.min.css" rel="stylesheet">
+    <link href="material/css/jquery.dropdown.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+          <div class="form-group label-floating">
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+          </div>
+          <div class="form-group label-floating">        
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-raised btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    
+    <!-- Material Design for Bootstrap -->
+    <script src="material/js/material.js"></script>
+    <script src="material/js/ripples.min.js"></script>
+    
+    <!-- Script to initialize Material Design -->
+    <script>
+      $.material.init();
+    </script>
+    
+  </body>
+</html>

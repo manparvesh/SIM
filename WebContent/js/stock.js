@@ -24,7 +24,11 @@ var rows = alasql('SELECT * FROM trans WHERE stock = ?', [ id ]);
 var tbody = $('#tbody-transs');
 for (var i = 0; i < rows.length; i++) {
 	var row = rows[i];
-	var tr = $('<tr>').appendTo(tbody);
+    if(row.qty > 0){
+        var tr = $('<tr class="success">').appendTo(tbody);
+    }else if(row.qty < 0){
+        var tr = $('<tr class="danger">').appendTo(tbody);
+    }
 	tr.append('<td>' + row.date + '</td>');
 	tr.append('<td>' + row.qty + '</td>');
 	tr.append('<td>' + row.balance + '</td>');
