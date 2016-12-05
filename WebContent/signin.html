@@ -12,7 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
-
+      <script src="lib/bootstrap.js"></script>
     <!-- Custom styles for this page -->
     <link href="css/signin.css" rel="stylesheet">
     
@@ -22,32 +22,37 @@
     <link href="material/css/jquery.dropdown.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body style="background-color: #009688;">
 
     <div class="container">
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
+      <form class="form-signin well" action="index.html">
+          <thread>
+              <h2 class="form-signin-heading text-primary text-center">Sign in</h2>
+          </thread>
           <div class="form-group label-floating">
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputUserName" class="control-label">Username</label>
+            <input type="text" id="inputUserName" class="form-control" required>
           </div>
           <div class="form-group label-floating">        
-              <label for="inputPassword" class="sr-only">Password</label>
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <label for="inputPassword" class="control-label">Password</label>
+              <input type="password" id="inputPassword" class="form-control" required>
           </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-raised btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <div class="form-group">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> Notifications
+                </label>
+              </div>
+              <p class="help-block">Notify me about updates to apps or games that I've downloaded</p>
+            </div>
+        <button class="btn btn-raised btn-lg btn-primary btn-block" type="submit" onclick="window.load('index.html');">Sign in</button>
       </form>
 
     </div> <!-- /container -->
-
-
     
+      
+
     <!-- Material Design for Bootstrap -->
     <script src="material/js/material.js"></script>
     <script src="material/js/ripples.min.js"></script>
