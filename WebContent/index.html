@@ -15,6 +15,7 @@
       <script src="lib/jquery.js"></script>
       <script src="lib/bootstrap.js"></script>
       <script src="lib/alasql.js"></script>
+      <script src="js/db.js"></script>
     <!-- Custom styles for this page -->
     <link href="css/signin.css" rel="stylesheet">
     
@@ -40,7 +41,7 @@
               <label for="inputPassword" class="control-label">Password</label>
               <input type="password" id="inputPassword" class="form-control" required>
           </div>
-        <button class="btn btn-raised btn-lg btn-primary btn-block" type="submit" style="margin-top:20px;">Sign in</button>
+        <a class="btn btn-raised btn-lg btn-primary btn-block" style="margin-top:20px;" onclick="login();" id="signin">Sign in</a>
       </form>
 
     </div> <!-- /container -->

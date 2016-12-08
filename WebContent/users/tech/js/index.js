@@ -1,3 +1,9 @@
+var logins = alasql('SELECT * FROM logins');
+console.log(logins.length);
+console.log(logins[0].emp_id);
+var user = alasql('SELECT * FROM users WHERE id=?',[logins[0].emp_id]);
+console.log(user[0].name);
+
 // create search box
 var rows = alasql('SELECT * FROM whouse;');
 for (var i = 0; i < rows.length; i++) {

@@ -61,20 +61,31 @@ DB.load = function() {
 					alasql('INSERT INTO trans VALUES(?,?,?,?,?,?);', trans);
 				}
 			});
+    
+    // Users
+    alasql('DROP TABLE IF EXISTS users;');
+    alasql('CREATE TABLE users(id INT IDENTITY, name STRING, pass STRING, dept STRING);');
+    var pusers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/USERS-USERS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?,?,?);', user);
+                }
+            });
 
-	// Users
-	alasql('DROP TABLE IF EXISTS users;');
-	alasql('CREATE TABLE users(id INT IDENTITY, name STRING, pass STRING, dept STRING);');
-	var pusers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/USERS-USERS.csv", {headers: true})').then(
-			function(users) {
-				for (var i = 0; i < users.length; i++) {
-					var user = users[i];
-					alasql('INSERT INTO users VALUES(?,?,?,?);', user);
-				}
-			});
+    // Logins
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/LOGINS-LOGINS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
 
 	// Reload page
-	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers ]).then(function() {
+	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins ]).then(function() {
 		window.location.reload(true);
 	});
 };
