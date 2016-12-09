@@ -9,33 +9,8 @@ var username = false, password = false;
 var dept = 0;
 
 function setURL(dept){
-    var url;
-    switch(dept){
-        case 0:
-            url = '/';
-            break;
-        case 1:
-            url = 'users/purchase';
-            break;
-        case 2:
-            url = 'users/sales';
-            break;
-        case 3:
-            url = 'users/tech';
-            break;
-        case 4:
-            url = 'users/warehouse';
-            break;
-        case 5:
-            url = 'users/warehouse';
-            break;
-        case 6:
-            url = 'users/warehouse';
-            break;
-        case 7:
-            url = 'users/warehouse';
-            break;
-    }
+    var url = getURL(dept);
+    
     co('url = '+url);
     
     $('#signin').attr('href', url);

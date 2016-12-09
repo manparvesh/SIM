@@ -65,3 +65,8 @@ for (var i = 0; i < stocks.length; i++) {
 $('tbody > tr').css('cursor', 'pointer').on('click', function() {
 	window.location = $(this).attr('data-href');
 });
+
+function logout(){
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+}
