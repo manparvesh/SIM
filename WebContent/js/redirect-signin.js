@@ -2,7 +2,7 @@ function getURL(dept){
     var url;
     switch(dept){
         case 0:
-            url = '/';
+            url = '#';
             break;
         case 1:
             url = 'users/purchase';
@@ -31,5 +31,5 @@ function getURL(dept){
 
 var tempLogin = alasql('SELECT * FROM logins');
 if(tempLogin.length){
-    window.location = getURL(tempLogin[0].emp_id);
+    window.location.pathname = getURL(tempLogin[0].emp_id);
 }

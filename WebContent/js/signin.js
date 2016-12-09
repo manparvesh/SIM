@@ -37,9 +37,11 @@ $('#inputUserName').on('input', function(){
         co('dept = ' + dept);
         
         setURL(dept);
+        $('#signin').prop('disabled', false);
     }else{
         dept = 0;
         setURL(dept);
+        $('#signin').prop('disabled', true);
     }
 });
 
@@ -63,9 +65,11 @@ $('#inputPassword').on('input', function(){
         co('dept = ' + dept);
         
         setURL(dept);
+        $('#signin').prop('disabled', false);
     }else{
         dept = 0;
         setURL(dept);
+        $('#signin').prop('disabled', true);
     }
 });
 
