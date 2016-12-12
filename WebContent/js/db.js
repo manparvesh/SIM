@@ -83,6 +83,72 @@ DB.load = function() {
                     alasql('INSERT INTO users VALUES(?,?);', user);
                 }
             });
+    
+    // customers
+    alasql('DROP TABLE IF EXISTS customers;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/CUSTOMERS-CUSTOMERS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
+
+	// order add
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERADD-ORDERADD.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
+
+	// order add details
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERADDDETAILS-ORDERADDDETAILS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
+
+	// order remove
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
+
+	// order remove details
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERREMOVEDETAILS-ORDERREMOVEDETAILS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
+
+	// suppliers
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+    var plogins = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERS-SUPPLIERS.csv", {headers: true})').then(
+            function(users) {
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    alasql('INSERT INTO users VALUES(?,?);', user);
+                }
+            });
 
 	// Reload page
 	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins ]).then(function() {
