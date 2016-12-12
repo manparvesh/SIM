@@ -31,5 +31,5 @@ function getURL(dept){
 
 var tempLogin = alasql('SELECT * FROM logins');
 if(tempLogin.length){
-    window.location.pathname = getURL(tempLogin[0].emp_id);
+    window.location = getURL(tempLogin[0].emp_id);
 }

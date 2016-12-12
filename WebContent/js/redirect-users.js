@@ -26,6 +26,11 @@ function getURL(dept){
             url = '/users/warehouse/';
             break;
     }
+    
+    if(window.location.hostname != "127.0.0.1"){
+        url = '/inventory-i18n-task3' + url;
+    }
+    
     return url;
 }
 
