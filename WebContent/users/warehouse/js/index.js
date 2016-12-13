@@ -1,6 +1,7 @@
 var logins = alasql('SELECT * FROM logins');
 console.log(logins.length);
 console.log(logins[0].emp_id);
+var loginID = logins[0].emp_id;
 var user = alasql('SELECT * FROM users WHERE id=?',[logins[0].emp_id]);
 console.log(user[0].name);
 
@@ -41,6 +42,10 @@ var sql = 'SELECT stock.id, whouse.name, kind.text, item.code, item.maker, item.
 
 sql += q1 ? 'AND whouse.id = ' + q1 + ' ' : '';
 sql += q2 ? 'AND kind.id = ' + q2 + ' ' : '';
+
+sql += 'AND whouse.id = ' + (loginID - 3) + ' ';
+
+console.log(sql);
 
 // send query
 var stocks = alasql(sql, [ '%' + q3 + '%' ]);
