@@ -84,8 +84,10 @@
 
             <nav class="col-md-2 menu">
               <ul >
-                <li class="active withripple" onclick="showTab(1,2);" id="nav-list-item-1">All Products</li>
-                <li class="withripple" onclick="showTab(2,2);" id="nav-list-item-2">Orders</li> <!-- new, approved, completed, all -->
+                <li class="active withripple" onclick="showTab(1,4);" id="nav-list-item-1">All Products</li>
+                <li class="withripple" onclick="showTab(2,4);" id="nav-list-item-2">Orders</li> <!-- new, approved, completed, all -->
+                <li class="withripple" onclick="showTab(3,4);" id="nav-list-item-2">Restocking</li> 
+                <li class="withripple" onclick="showTab(4,4);" id="nav-list-item-2">Defective products</li>
               </ul>
             </nav>
 
@@ -178,6 +180,18 @@
                         </div>
                     </div>
                     <!-- / div 2 -->
+                    
+                    <!-- div 3 -->
+                    <div id="div-3" style="display:none;">
+                        <h2 class="text-center text-primary">Restocking</h2>
+                    </div>
+                    <!-- / div 3 -->
+                    
+                    <!-- div 4 -->
+                    <div id="div-4" style="display:none;">
+                        <h2 class="text-center text-primary">Defective products</h2>
+                    </div>
+                    <!-- / div 4 -->
                 </div>
            </div>
         </div>

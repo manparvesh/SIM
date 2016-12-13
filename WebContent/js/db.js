@@ -97,7 +97,7 @@ DB.load = function() {
 
 	// order add
     alasql('DROP TABLE IF EXISTS ordersadd;');
-    alasql('CREATE TABLE ordersadd(id INT IDENTITY, customer_id INT, status INT);');
+    alasql('CREATE TABLE ordersadd(id INT IDENTITY, supplier_id INT, status INT);');
     var pordersadd = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERADD-ORDERADD.csv", {headers: true})').then(
             function(ordersadd) {
                 for (var i = 0; i < ordersadd.length; i++) {
@@ -119,12 +119,12 @@ DB.load = function() {
 
 	// order remove
     alasql('DROP TABLE IF EXISTS ordersremove;');
-    alasql('CREATE TABLE ordersremove(id INT IDENTITY, supplier_id INT);');
+    alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT);');
     var pordersremove = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
             function(ordersremove) {
                 for (var i = 0; i < ordersremove.length; i++) {
                     var orderremove = ordersremove[i];
-                    alasql('INSERT INTO ordersremove VALUES(?,?);', orderremove);
+                    alasql('INSERT INTO ordersremove VALUES(?,?,?);', orderremove);
                 }
             });
 

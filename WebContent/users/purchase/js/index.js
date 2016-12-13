@@ -76,7 +76,7 @@ function populateOrderTable(){
         var order = orders[i];
         var tr = $('<tr></tr>');
         tr.append('<td>' + order.id + '</td>');
-        tr.append('<td>' + order.customer_id + '</td>');
+        tr.append('<td>' + order.supplier_id + '</td>');
 
         tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>');
         tr.appendTo(tbody_orders);

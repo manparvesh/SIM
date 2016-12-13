@@ -66,6 +66,44 @@ $('tbody > tr').css('cursor', 'pointer').on('click', function() {
 	window.location = $(this).attr('data-href');
 });
 
+// build html table for orders
+var orders = alasql('SELECT * FROM ordersremove');
+
+function populateOrderTable(){
+    var tbody_orders = $('#tbody-sales-orders');
+    tbody_orders.empty();
+    for (var i = 0; i < orders.length; i++) {
+        var order = orders[i];
+        var tr = $('<tr></tr>');
+        tr.append('<td>' + order.id + '</td>');
+        tr.append('<td>' + order.customer_id + '</td>');
+
+        tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>');
+        tr.appendTo(tbody_orders);
+    }
+}
+
+populateOrderTable();
+
+function showOrders(n){
+    switch(n){
+        case 1:
+            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [1]);
+            break;
+        case 2:
+            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [2]);
+            break;
+        case 3:
+            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [3]);
+            break;
+        case 4:
+            orders = alasql('SELECT * FROM ordersremove');
+            break;
+    }
+    console.log(orders.length);
+    populateOrderTable();
+}
+
 function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
     alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
