@@ -49,7 +49,7 @@ var stocks = alasql(sql, [ '%' + q3 + '%' ]);
 var tbody = $('#tbody-stocks');
 for (var i = 0; i < stocks.length; i++) {
 	var stock = stocks[i];
-	var tr = $('<tr data-href="stock.html?id=' + stock.id + '"></tr>');
+	var tr = $('<tr data-href="../../stock.html?id=' + stock.id + '"></tr>');
 	tr.append('<td>' + stock.name + '</td>');
 	tr.append('<td>' + stock.text + '</td>');
 	tr.append('<td>' + stock.code + '</td>');
