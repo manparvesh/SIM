@@ -81,16 +81,29 @@
         <div class="row">
             
             <nav class="col-md-2 menu">
-              <ul >
-                <li class="active withripple" onclick="showTab(1,3);" id="nav-list-item-1">Products</li>
-                <li class="withripple" onclick="showTab(2,3);" id="nav-list-item-2">Getting Started</li>
-                <li class="withripple" onclick="showTab(3,3);" id="nav-list-item-3">Checkbox</li>
+              <ul>
+                <li class="active withripple" onclick="showTab(1,3);" id="nav-list-item-1">Defective products</li>
+                <li class="withripple" onclick="showTab(2,3);" id="nav-list-item-2">Products replaced</li>
+                <li class="withripple" onclick="showTab(3,3);" id="nav-list-item-3">Products</li>
               </ul>
             </nav>
             
             <div class="col-md-10 main">
-                <!-- div 1 -->
+                
+                <!-- / div 1 -->
                 <div id="div-1">
+                    <h2 class="text-center text-primary">Div 1</h2>
+                </div>
+                <!-- / div 1 -->
+                
+                <!-- / div 2 -->
+                <div id="div-2" style="display:none;">
+                    <h2 class="text-center text-primary">Div 2</h2>
+                </div>
+                <!-- / div 2 -->
+                
+                <!-- div 3 -->
+                <div id="div-3" style="display:none;">
                     <form action="index.html" class="form-inline text-center">
                         <div class="form-group">
                             <label>Warehouse</label> 
@@ -137,19 +150,8 @@
                         <tbody id="tbody-stocks"></tbody>
                     </table>
                </div>
-                <!-- / div 1 -->
-                
-                <!-- / div 2 -->
-                <div id="div-2">
-                    <h2>Div 2</h2>
-                </div>
-                <!-- / div 2 -->
-                
                 <!-- / div 3 -->
-                <div id="div-3">
-                    <h2>Div 3</h2>
-                </div>
-                <!-- / div 3 -->
+
             </div>
 	   </div>
 	</div>
