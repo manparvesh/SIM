@@ -49,7 +49,7 @@ var stocks = alasql(sql, [ '%' + q3 + '%' ]);
 var tbody = $('#tbody-stocks');
 for (var i = 0; i < stocks.length; i++) {
 	var stock = stocks[i];
-	var tr = $('<tr data-href="stock.html?id=' + stock.id + '"></tr>');
+	var tr = $('<tr data-href="../../stock.html?id=' + stock.id + '"></tr>');
 	tr.append('<td>' + stock.name + '</td>');
 	tr.append('<td>' + stock.text + '</td>');
 	tr.append('<td>' + stock.code + '</td>');
@@ -65,6 +65,44 @@ for (var i = 0; i < stocks.length; i++) {
 $('tbody > tr').css('cursor', 'pointer').on('click', function() {
 	window.location = $(this).attr('data-href');
 });
+
+// build html table for orders
+var orders = alasql('SELECT * FROM ordersadd');
+
+function populateOrderTable(){
+    var tbody_orders = $('#tbody-purchase-orders');
+    tbody_orders.empty();
+    for (var i = 0; i < orders.length; i++) {
+        var order = orders[i];
+        var tr = $('<tr></tr>');
+        tr.append('<td>' + order.id + '</td>');
+        tr.append('<td>' + order.customer_id + '</td>');
+
+        tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>');
+        tr.appendTo(tbody_orders);
+    }
+}
+
+populateOrderTable();
+
+function showOrders(n){
+    switch(n){
+        case 1:
+            orders = alasql('SELECT * FROM ordersadd WHERE status=?', [1]);
+            break;
+        case 2:
+            orders = alasql('SELECT * FROM ordersadd WHERE status=?', [2]);
+            break;
+        case 3:
+            orders = alasql('SELECT * FROM ordersadd WHERE status=?', [3]);
+            break;
+        case 4:
+            orders = alasql('SELECT * FROM ordersadd');
+            break;
+    }
+    console.log(orders.length);
+    populateOrderTable();
+}
 
 function logout(){
     alasql('DROP TABLE IF EXISTS logins;');

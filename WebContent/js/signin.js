@@ -1,4 +1,3 @@
-
 var users = alasql('SELECT * FROM users;');
 
 function co(s){
