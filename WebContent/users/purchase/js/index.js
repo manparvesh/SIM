@@ -61,10 +61,13 @@ for (var i = 0; i < stocks.length; i++) {
 	tr.appendTo(tbody);
 }
 
-// click event
-$('tbody > tr').css('cursor', 'pointer').on('click', function() {
-	window.location = $(this).attr('data-href');
-});
+function setRowLinks(){
+    // click event
+    $('tbody > tr').css('cursor', 'pointer').on('click', function() {
+        window.location = $(this).attr('data-href');
+    });
+}
+
 
 // build html table for orders
 var orders = alasql('SELECT * FROM ordersadd');
@@ -74,13 +77,15 @@ function populateOrderTable(){
     tbody_orders.empty();
     for (var i = 0; i < orders.length; i++) {
         var order = orders[i];
-        var tr = $('<tr></tr>');
+        var tr = $('<tr data-href="order.html?id=' + order.id + '"></tr>');
         tr.append('<td>' + order.id + '</td>');
         tr.append('<td>' + order.supplier_id + '</td>');
 
         tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>');
         tr.appendTo(tbody_orders);
     }
+    
+    setRowLinks();
 }
 
 populateOrderTable();
