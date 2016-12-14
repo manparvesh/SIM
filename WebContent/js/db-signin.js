@@ -120,7 +120,7 @@ DB.load = function() {
 	// order remove
     alasql('DROP TABLE IF EXISTS ordersremove;');
     alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT);');
-    var pordersremove = alasql.promise('SELECT MATRIX * FROM CSV(data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
+    var pordersremove = alasql.promise('SELECT MATRIX * FROM CSV("data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
             function(ordersremove) {
                 for (var i = 0; i < ordersremove.length; i++) {
                     var orderremove = ordersremove[i];
