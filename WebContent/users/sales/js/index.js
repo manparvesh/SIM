@@ -85,7 +85,28 @@ function populateOrderTable(){
     setRowLinks();
 }
 
+function populateCustomerTable(){
+    var tbody_customers = $('#tbody-customers');
+    tbody_customers.empty();
+    var customers = alasql('SELECT * FROM customers');
+    var whouses = alasql('select * from whouse');
+    for (var i = 0; i < customers.length; i++) {
+        var customer = customers[i];
+        var tr = $('<tr data-href="customer.html?id=' + customer.id + '"></tr>');
+        tr.append('<td>' + customer.id + '</td>');
+        tr.append('<td>' + customer.name + '</td>');
+        tr.append('<td>' + customer.addr + '</td>');
+        tr.append('<td>' + customer.contact + '</td>');
+        tr.append('<td>' + whouses[customer.whouse - 1].name + '</td>');
+
+        tr.appendTo(tbody_customers);
+    }
+    
+    setRowLinks();
+}
+
 populateOrderTable();
+populateCustomerTable();
 
 function showOrders(n){
     switch(n){

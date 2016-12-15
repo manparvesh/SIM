@@ -86,12 +86,12 @@ DB.load = function() {
     
     // customers
     alasql('DROP TABLE IF EXISTS customers;');
-    alasql('CREATE TABLE customers(id INT IDENTITY, name STRING, addr STRING, contact STRING);');
+    alasql('CREATE TABLE customers(id INT IDENTITY, name STRING, addr STRING, contact STRING, whouse INT);');
     var pcustomers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/CUSTOMERS-CUSTOMERS.csv", {headers: true})').then(
             function(customers) {
                 for (var i = 0; i < customers.length; i++) {
                     var customer = customers[i];
-                    alasql('INSERT INTO customers VALUES(?,?,?,?);', customer);
+                    alasql('INSERT INTO customers VALUES(?,?,?,?,?);', customer);
                 }
             });
 

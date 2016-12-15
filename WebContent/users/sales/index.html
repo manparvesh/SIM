@@ -85,15 +85,16 @@
             
             <nav class="col-md-2 menu">
               <ul >
-                <li class="active withripple" onclick="showTab(1,3);" id="nav-list-item-1">Orders</li>
-                <li class="withripple" onclick="showTab(2,3);" id="nav-list-item-2">Replacements</li>
-                <li class="withripple" onclick="showTab(3,3);" id="nav-list-item-3">Products</li>
+                <li class="active withripple" onclick="showTab(1,4);" id="nav-list-item-1">Orders</li>
+                <li class="withripple" onclick="showTab(2,4);" id="nav-list-item-2">Replacements</li>
+                <li class="withripple" onclick="showTab(3,4);" id="nav-list-item-3">Customers</li>
+                <li class="withripple" onclick="showTab(4,4);" id="nav-list-item-4">Products</li>
               </ul>
             </nav>
             
             <div class="col-md-10 main">
-                <!-- div 3 products -->
-                <div id="div-3" style="display:none;">
+                <!-- div 4 products -->
+                <div id="div-4" style="display:none;">
                     <form action="index.html" class="form-inline text-center">
                         <div class="form-group">
                             <label>Warehouse</label> 
@@ -140,7 +141,7 @@
                         <tbody id="tbody-stocks"></tbody>
                     </table>
                </div>
-                <!-- / div 3 -->
+                <!-- / div 4 -->
                 
                 <!-- / div 1 orders -->
                 <div id="div-1">
@@ -182,6 +183,26 @@
                     <h2 class="text-center text-primary">Replacements</h2>
                 </div>
                 <!-- / div 2 -->
+                
+                <!-- / div 3 replacements -->
+                <div id="div-3" style="display:none;">
+                    <h2 class="text-center text-primary">Customers</h2>
+                    <div class="container">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Contact no</th>
+                                    <th>Warehouse</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-customers"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- / div 3 -->
             </div>
 	   </div>
 	</div>
