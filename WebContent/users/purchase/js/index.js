@@ -88,7 +88,29 @@ function populateOrderTable(){
     setRowLinks();
 }
 
+function populateSupplierTable(){
+    var tbody_suppliers = $('#tbody-suppliers');
+    tbody_suppliers.empty();
+    var suppliers = alasql('SELECT * FROM suppliers');
+    var whouses = alasql('select * from whouse');
+    for (var i = 0; i < suppliers.length; i++) {
+        var supplier = suppliers[i];
+        var tr = $('<tr data-href="supplier.html?id=' + supplier.id + '"></tr>');
+        tr.append('<td>' + supplier.id + '</td>');
+        tr.append('<td>' + supplier.name + '</td>');
+        tr.append('<td>' + supplier.addr + '</td>');
+        tr.append('<td>' + supplier.contact + '</td>');
+        tr.append('<td>' + whouses[supplier.whouse - 1].name + '</td>');
+        tr.append('<td>' + supplier.delivery_time + '</td>');
+
+        tr.appendTo(tbody_suppliers);
+    }
+    
+    setRowLinks();
+}
+
 populateOrderTable();
+populateSupplierTable();
 
 function showOrders(n){
     switch(n){

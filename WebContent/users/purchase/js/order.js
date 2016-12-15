@@ -4,7 +4,7 @@ if(orderID){
 }else{
     alert('Please select an order first');
     $('#everything').empty();
-    //$('#everything').append('<h2>nothing here, homes</h2>');
+    $('#everything').append('<a class="btn btn-raised btn-warning" href="/">Click here to return to the previous page</a>');
 }
 
 var order = alasql('SELECT * FROM ordersadd WHERE id=?', [orderID])[0];

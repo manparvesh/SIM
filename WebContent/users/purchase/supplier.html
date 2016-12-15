@@ -82,39 +82,63 @@
 	</nav>
 
 	<div class="container" style="padding-top:70px;" id="everything">
-        <!-- order details -->
+        <!-- supplier details -->
         <table class="table">
 			<tbody>
-				<tr>
-					<th>Order ID</th>
-					<td id="order-id"></td>
-				</tr>
-				<tr>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
 					<th>Supplier ID</th>
 					<td id="supplier-id"></td>
 				</tr>
-				<tr>
-					<th>Status</th>
-					<td id="status"></td>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
+					<th>Name</th>
+					<td id="name"></td>
+				</tr>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
+					<th>Address</th>
+					<td id="address"></td>
+				</tr>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
+					<th>Contact</th>
+					<td id="contact"></td>
+				</tr>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
+					<th>Warehouse</th>
+					<td id="warehouse"></td>
+				</tr>
+				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
+					<th>Delivery time (days)</th>
+					<td id="delivery-time"></td>
 				</tr>
 			</tbody>
 		</table>
         
-        <h3 class="text-primary">Details</h3>
+        <h3 class="text-primary">Products available</h3>
         
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th class="col-md-1">ID</th>
                     <th class="col-md-2">Product</th>
-                    <th class="col-md-1">Quantity</th>
+                    <th class="col-md-1">Cost (in JPY)</th>
                 </tr>
             </thead>
-            <tbody id="tbody-purchase-order-details"></tbody>
+            <tbody id="tbody-supplier-details"></tbody>
+        </table>
+        
+        <h3 class="text-primary">Orders placed</h3>
+        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-1">ID</th>
+                    <th class="col-md-2">Status</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-supplier-orders"></tbody>
         </table>
 	</div>
     
-    <script src="js/order.js"></script>
+    <script src="js/supplier.js"></script>
 	
     <script src="../../lib/bootstrap.js"></script>
     

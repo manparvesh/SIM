@@ -84,17 +84,18 @@
 
             <nav class="col-md-2 menu">
               <ul >
-                <li class="active withripple" onclick="showTab(1,4);" id="nav-list-item-1">Orders</li> <!-- new, approved, completed, all -->
-                <li class="withripple" onclick="showTab(2,4);" id="nav-list-item-2">Restocking</li> 
-                <li class="withripple" onclick="showTab(3,4);" id="nav-list-item-3">Defective products</li>
-                <li class="withripple" onclick="showTab(4,4);" id="nav-list-item-4">All Products</li>
+                <li class="active withripple" onclick="showTab(1,5);" id="nav-list-item-1">Orders</li> <!-- new, approved, completed, all -->
+                <li class="withripple" onclick="showTab(2,5);" id="nav-list-item-2">Restocking</li> 
+                <li class="withripple" onclick="showTab(3,5);" id="nav-list-item-3">Defective products</li>
+                <li class="withripple" onclick="showTab(4,5);" id="nav-list-item-4">Suppliers</li>
+                <li class="withripple" onclick="showTab(5,5);" id="nav-list-item-5">All Products</li>
               </ul>
             </nav>
 
             <div class="col-md-10 main">
                 <div class="">
-                    <!-- div 4 Products -->
-                    <div id="div-4" style="display:none;">
+                    <!-- div 5 Products -->
+                    <div id="div-5" style="display:none;">
                         <form action="index.html" class="form-inline text-center">
                             <div class="form-group">
                                 <label>Warehouse</label> 
@@ -141,7 +142,7 @@
                             <tbody id="tbody-stocks"></tbody>
                         </table>
                    </div>
-                    <!-- / div 4 -->
+                    <!-- / div 5 -->
 
                     <!-- / div 1 orders -->
                     <div id="div-1">
@@ -176,7 +177,6 @@
                                 </thead>
                                 <tbody id="tbody-purchase-orders"></tbody>
                             </table>
-                            
                         </div>
                     </div>
                     <!-- / div 1 -->
@@ -192,6 +192,27 @@
                         <h2 class="text-center text-primary">Defective products</h2>
                     </div>
                     <!-- / div 3 -->
+                    
+                    <!-- div 4 Suppliers -->
+                    <div id="div-4" style="display:none;">
+                        <h2 class="text-center text-primary">Suppliers</h2>
+                        <div class="container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Contact no</th>
+                                        <th>Warehouse</th>
+                                        <th>Delivery time (days)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-suppliers"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- / div 4 -->
                 </div>
            </div>
         </div>
