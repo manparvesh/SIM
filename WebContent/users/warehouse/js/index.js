@@ -66,10 +66,70 @@ for (var i = 0; i < stocks.length; i++) {
 	tr.appendTo(tbody);
 }
 
-// click event
-$('tbody > tr').css('cursor', 'pointer').on('click', function() {
-	window.location = $(this).attr('data-href');
-});
+function setRowLinks(){
+    // click event
+    $('tbody > tr').css('cursor', 'pointer').on('click', function() {
+        window.location = $(this).attr('data-href');
+    });
+}
+
+setRowLinks();
+
+var ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=?',[loginID - 3]);
+var ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=?',[loginID - 3]);
+
+function populateSaleTable(){
+    var tbody_orders = $('#tbody-sales-orders');
+    tbody_orders.empty();
+    for (var i = 0; i < ordersremove.length; i++) {
+        var orderremove = ordersremove[i];
+        var tr = $('<tr data-href="../sales/order.html?id=' + orderremove.id + '"></tr>');
+        tr.append('<td>' + orderremove.id + '</td>');
+        tr.append('<td>' + orderremove.customer_id + '</td>');
+
+        tr.append('<td>' + getLabelForOrderStatus(orderremove.status) + '</td>');
+        tr.appendTo(tbody_orders);
+    }
+    setRowLinks();
+}
+
+
+function populatePurchaseTable(){
+    var tbody_orders = $('#tbody-purchases-orders');
+    tbody_orders.empty();
+    for (var i = 0; i < ordersadd.length; i++) {
+        var orderadd = ordersadd[i];
+        var tr = $('<tr data-href="../purchase/order.html?id=' + orderadd.id + '"></tr>');
+        tr.append('<td>' + orderadd.id + '</td>');
+        tr.append('<td>' + orderadd.supplier_id + '</td>');
+
+        tr.append('<td>' + getLabelForOrderStatus(orderadd.status) + '</td>');
+        tr.appendTo(tbody_orders);
+    }
+    setRowLinks();
+}
+
+populatePurchaseTable();
+populateSaleTable();
+
+function showOrders(type, status){
+    if(type == 1){ // purchase orders (order add)
+        if(status < 4){
+            ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=? AND status=?',[loginID - 3, status]);
+        }else{
+            ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=?',[loginID - 3]);
+        }
+        populatePurchaseTable();
+    }else{ // sales ( remove )
+        if(status < 4){
+            ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=? AND status=?',[loginID - 3, status]);
+        }else{
+            ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=?',[loginID - 3]);
+        }
+        populateSaleTable();
+    }
+    setRowLinks();
+}
 
 function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
