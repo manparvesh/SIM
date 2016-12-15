@@ -141,14 +141,14 @@ DB.load = function() {
 
 	// suppliers
     alasql('DROP TABLE IF EXISTS suppliers;');
-    alasql('CREATE TABLE suppliers(id INT IDENTITY, name STRING, addr STRING, contact STRING, whouse INT);');
+    alasql('CREATE TABLE suppliers(id INT IDENTITY, name STRING, addr STRING, contact STRING, whouse INT, delivery_time INT);');
     var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERS-SUPPLIERS.csv", {headers: true})').then(
             function(suppliers) {
                 for (var i = 0; i < suppliers.length; i++) {
                     var supplier = suppliers[i];
                     alasql('INSERT INTO suppliers VALUES(?,?,?,?,?);', supplier);
                 }
-            });
+            }); 
 
 	// Reload page
 	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers ]).then(function() {
