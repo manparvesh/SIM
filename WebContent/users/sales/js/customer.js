@@ -28,7 +28,7 @@ $('#delivery-time').text(customer.delivery_time);
 
 function populateTable2(){
     var tbody_supplier_orders = $('#tbody-supplier-orders');
-    var orders = alasql('select * from ordersadd where supplier_id=?',[customerID]);
+    var orders = alasql('select * from ordersremove where customer_id=?',[customerID]);
     tbody_supplier_orders.empty();
     for (var i = 0; i < orders.length; i++) {
         var order = orders[i];
