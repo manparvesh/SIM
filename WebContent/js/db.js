@@ -97,12 +97,12 @@ DB.load = function() {
 
 	// order add
     alasql('DROP TABLE IF EXISTS ordersadd;');
-    alasql('CREATE TABLE ordersadd(id INT IDENTITY, supplier_id INT, status INT);');
+    alasql('CREATE TABLE ordersadd(id INT IDENTITY, supplier_id INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
     var pordersadd = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERADD-ORDERADD.csv", {headers: true})').then(
             function(ordersadd) {
                 for (var i = 0; i < ordersadd.length; i++) {
                     var orderadd = ordersadd[i];
-                    alasql('INSERT INTO ordersadd VALUES(?,?,?);', orderadd);
+                    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?);', orderadd);
                 }
             });
 
@@ -119,12 +119,12 @@ DB.load = function() {
 
 	// order remove
     alasql('DROP TABLE IF EXISTS ordersremove;');
-    alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT);');
+    alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
     var pordersremove = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
             function(ordersremove) {
                 for (var i = 0; i < ordersremove.length; i++) {
                     var orderremove = ordersremove[i];
-                    alasql('INSERT INTO ordersremove VALUES(?,?,?);', orderremove);
+                    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?);', orderremove);
                 }
             });
 
@@ -146,7 +146,18 @@ DB.load = function() {
             function(suppliers) {
                 for (var i = 0; i < suppliers.length; i++) {
                     var supplier = suppliers[i];
-                    alasql('INSERT INTO suppliers VALUES(?,?,?,?,?);', supplier);
+                    alasql('INSERT INTO suppliers VALUES(?,?,?,?,?,?);', supplier);
+                }
+            }); 
+
+	// supplier products
+    alasql('DROP TABLE IF EXISTS supplierproducts;');
+    alasql('CREATE TABLE supplierproducts(id INT IDENTITY, supplier_id INT, product_id INT, cost INT);');
+    var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
+            function(supplierproducts) {
+                for (var i = 0; i < supplierproducts.length; i++) {
+                    var supplierproduct = supplierproducts[i];
+                    alasql('INSERT INTO supplierproducts VALUES(?,?,?,?);', supplierproduct);
                 }
             }); 
 
