@@ -68,6 +68,9 @@ function setRowLinks(){
     });
 }
 
+//set order numbers in dashboard
+var temporders = alasql('SELECT * FROM ordersadd WHERE status=?', [1]);
+$('#well-orders').text(temporders.length);
 
 // build html table for orders
 var orders = alasql('SELECT * FROM ordersadd');
