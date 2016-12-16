@@ -6,16 +6,17 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width">
         
-    <script src="lib/jquery.js"></script>
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <script src="lib/alasql.js"></script>
-    <script src="lib/purl.js"></script>
-    <script src="js/db.js"></script>
+    <script src="../../lib/jquery.js"></script>
+    <link href="../../css/bootstrap.css" rel="stylesheet" />
+    <script src="../../lib/alasql.js"></script>
+    <script src="../../lib/purl.js"></script>
+    <script src="../../js/db.js"></script>
+    <script src="../../js/co.js"></script>
     
     <!-- Bootstrap Material Design -->
-    <link href="material/css/bootstrap-material-design.css" rel="stylesheet">
-    <link href="material/css/ripples.min.css" rel="stylesheet">
-    <link href="material/css/jquery.dropdown.css" rel="stylesheet">
+    <link href="../../material/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="../../material/css/ripples.min.css" rel="stylesheet">
+    <link href="../../material/css/jquery.dropdown.css" rel="stylesheet">
     
     <style>
         .active{
@@ -65,13 +66,13 @@
 	</nav>
 
 	<div class="container">
-        <h2 class="text-center text-primary">New product form</h2>
         <div class="well container-fluid">
+        <h2 class="text-center text-primary">New Purchase Order form</h2>
             <!-- The top -->
             <div class="row container-fluid">
                 <div class="col-md-4 text-center active" style="padding:10px;" id="top-1">
                     <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">1</span>&nbsp;&nbsp;Enter details</h4>
-                    <p>Enter details of the product</p>
+                    <p>Enter details of the purchase order</p>
                 </div>
                 <div class="col-md-4 text-center" style="padding:10px;" id="top-2">
                     <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">2</span>&nbsp;&nbsp;Confirm details</h4>
@@ -79,34 +80,36 @@
                 </div>
                 <div class="col-md-4 text-center" style="padding:10px;" id="top-3">
                     <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">3</span>&nbsp;&nbsp;Complete</h4>
-                    <p>The product has been added</p>
+                    <p>The order has been placed</p>
                 </div>
             </div>
             <!-- / The top -->
             
             <!-- Form -->
             <div class="form container-fluid" id="the-form">
-                <input type="hidden" name="id">
-                <div class="form-group">
-                    <label>Warehouse</label> <select class="form-control" name="whouse"></select>
+                
+                <div>
+                    <button class="btn btn-success btn-raised pull-right" id="add-row"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add row</button>
                 </div>
-                <div class="form-group">
-                    <label>Item</label> <select class="form-control" name="item"></select>
+
+                <div>
+                    <h3 class="text-primary text-center"><u>Products</u></h3>
                 </div>
-                <div class="form-group">
-                    <label>Date</label> <input type="date" class="form-control"
-                        name="date">
-                </div>
-                <div class="form-group">
-                    <label>Quantity</label> <input type="number" class="form-control"
-                        name="qty" value=""
-                        placeholder="positive value for storage, negative for retrieval">
-                </div>
-                <div class="form-group">
-                    <label>Details</label>
-                    <textarea class="form-control" name="memo"
-                        placeholder="must put comment"></textarea>
-                </div>
+                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product name</th>
+                            <th>Quantity</th>
+                            <th>Warehouse</th>
+                            <th>Supplier</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-orders"></tbody>
+                </table>
+                
                 <button type="submit" class="btn btn-raised btn-success btn-block" id="update">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Done
                 </button>
@@ -115,26 +118,15 @@
             <!-- Confirmation wala part -->
             <div class="container-fluid" id="confirmation" style="display:none;">
                 <table class="table table-hover">
-                    <tr>
-                        <th>Product name</th>
-                        <td id="p-name"></td>
-                    </tr>
-                    <tr>
-                        <th>Warehouse</th>
-                        <td id="p-whouse"></td>
-                    </tr>
-                    <tr>
-                        <th>Date</th>
-                        <td id="p-date"></td>
-                    </tr>
-                    <tr>
-                        <th>Quantity</th>
-                        <td id="p-quantity"></td>
-                    </tr>
-                    <tr>
-                        <th>Details</th>
-                        <td id="p-details"></td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Product name</th>
+                            <th>Quantity</th>
+                            <th>Warehouse</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-suppliers"></tbody>
                 </table>
                 
                 <div class="row">
@@ -154,12 +146,12 @@
             </div>
         </div>
     </div>
-    <script src="lib/bootstrap.js"></script>
-	<script src="js/stock-form.js"></script>
+    <script src="../../lib/bootstrap.js"></script>
+	<script src="js/neworder.js"></script>
     
     <!-- Material Design for Bootstrap -->
-    <script src="material/js/material.js"></script>
-    <script src="material/js/ripples.min.js"></script>
+    <script src="../../material/js/material.js"></script>
+    <script src="../../material/js/ripples.min.js"></script>
     
     <!-- Script to initialize Material Design -->
     <script>

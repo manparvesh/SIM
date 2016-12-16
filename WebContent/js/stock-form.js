@@ -100,8 +100,10 @@ $('#pura-ok').on('click', function(){
 	// add trans record
 	var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
 	alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
-	// reload page
-	window.location.assign('stock.html?id=' + stock_id);
-    
+	
+    setTimeout(function() {
+        // open new product's page after 1 second
+	    window.location.assign('stock.html?id=' + stock_id);
+    }, 1000);
 });
 
