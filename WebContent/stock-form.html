@@ -17,6 +17,12 @@
     <link href="material/css/ripples.min.css" rel="stylesheet">
     <link href="material/css/jquery.dropdown.css" rel="stylesheet">
     
+    <style>
+        .active{
+            background-color: #e0e0e0;
+        }
+    </style>
+    
     <title>COMPANY</title>
 </head>
 <body>
@@ -59,41 +65,95 @@
 	</nav>
 
 	<div class="container">
-
-		<!-- Bread crumbs -->
-		<ol class="breadcrumb">
-			<li><a href="index.html">Inventory List</a></li>
-			<li class="active"><span>New</span></li>
-		</ol>
-
-		<!-- Abstract -->
-		<div class="form">
-			<input type="hidden" name="id">
-			<div class="form-group">
-				<label>Warehouse</label> <select class="form-control" name="whouse"></select>
-			</div>
-			<div class="form-group">
-				<label>Item</label> <select class="form-control" name="item"></select>
-			</div>
-			<div class="form-group">
-				<label>日付</label> <input type="date" class="form-control"
-					name="date">
-			</div>
-			<div class="form-group">
-				<label>Quantity</label> <input type="number" class="form-control"
-					name="qty" value=""
-					placeholder="positive value for storage, negative for retrieval">
-			</div>
-			<div class="form-group">
-				<label>コメント</label>
-				<textarea class="form-control" name="memo"
-					placeholder="must put comment"></textarea>
-			</div>
-			<button type="submit" class="btn btn-raised btn-success" id="update">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-			</button>
-		</div>
-	</div>
+        <h2 class="text-center text-primary">New product form</h2>
+        <div class="well container-fluid">
+            <!-- The top -->
+            <div class="row container-fluid">
+                <div class="col-md-4 text-center active" style="padding:10px;" id="top-1">
+                    <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">1</span>&nbsp;&nbsp;Enter details</h4>
+                    <p>Enter details of the product</p>
+                </div>
+                <div class="col-md-4 text-center" style="padding:10px;" id="top-2">
+                    <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">2</span>&nbsp;&nbsp;Confirm details</h4>
+                    <p>Confirm that the details entered are correct</p>
+                </div>
+                <div class="col-md-4 text-center" style="padding:10px;" id="top-3">
+                    <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">3</span>&nbsp;&nbsp;Complete</h4>
+                    <p>The product has been added</p>
+                </div>
+            </div>
+            <!-- / The top -->
+            
+            <!-- Form -->
+            <div class="form container-fluid" id="the-form">
+                <input type="hidden" name="id">
+                <div class="form-group">
+                    <label>Warehouse</label> <select class="form-control" name="whouse"></select>
+                </div>
+                <div class="form-group">
+                    <label>Item</label> <select class="form-control" name="item"></select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label> <input type="date" class="form-control"
+                        name="date">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label> <input type="number" class="form-control"
+                        name="qty" value=""
+                        placeholder="positive value for storage, negative for retrieval">
+                </div>
+                <div class="form-group">
+                    <label>Details</label>
+                    <textarea class="form-control" name="memo"
+                        placeholder="must put comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-raised btn-success btn-block" id="update">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+                </button>
+            </div>
+            
+            <!-- Confirmation wala part -->
+            <div class="container-fluid" id="confirmation" style="display:none;">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Product name</th>
+                        <td id="p-name"></td>
+                    </tr>
+                    <tr>
+                        <th>Warehouse</th>
+                        <td id="p-whouse"></td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td id="p-date"></td>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <td id="p-quantity"></td>
+                    </tr>
+                    <tr>
+                        <th>Details</th>
+                        <td id="p-details"></td>
+                    </tr>
+                </table>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                    <a id="not-confirm" class="btn btn-raised btn-danger btn-block"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back</a>
+                    </div>
+                    <div class="col-md-6">
+                    <a id="pura-ok" class="btn btn-raised btn-success btn-block"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirm</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Final wala part -->
+            <div class="container-fluid" id="ok-done" style="display:none;">
+                <h1 class="text-success text-center"><span class="glyphicon glyphicon-ok-circle" style="font-size:200px"></span></h1>
+                <h1 class="text-success text-center">The product has been added!</h1>
+            </div>
+        </div>
+    </div>
     <script src="lib/bootstrap.js"></script>
 	<script src="js/stock-form.js"></script>
     
