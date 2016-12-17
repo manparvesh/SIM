@@ -90,7 +90,7 @@ $('#pura-ok').on('click', function(){
 	var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
 	var stock_id, balance = 0;
 	if (rows.length > 0) {
-		stock_id = rows[0].id;
+		stock_id = rows[0].id; 
 		balance = rows[0].balance;
 		alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
 	} else {

@@ -97,12 +97,12 @@ DB.load = function() {
 
 	// order add
     alasql('DROP TABLE IF EXISTS ordersadd;');
-    alasql('CREATE TABLE ordersadd(id INT IDENTITY, supplier_id INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
+    alasql('CREATE TABLE ordersadd(id INT IDENTITY, whouse INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
     var pordersadd = alasql.promise('SELECT MATRIX * FROM CSV("../../data/ORDERADD-ORDERADD.csv", {headers: true})').then(
             function(ordersadd) {
                 for (var i = 0; i < ordersadd.length; i++) {
                     var orderadd = ordersadd[i];
-                    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?);', orderadd);
+                    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?,?);', orderadd);
                 }
             });
 

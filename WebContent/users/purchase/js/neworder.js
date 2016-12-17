@@ -1,6 +1,8 @@
 var rows_no = 0;
 var row_id = 0;
 
+var total = 0;
+
 function removeRow(rn){
     $('#row-'+rn).remove();
     rows_no--;
@@ -106,6 +108,8 @@ function setQuantityFunction(id){
         var price = selectedProductCost;//rows[id - 1].cost;
         //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
         $('#row-' + id + '-price').text(quantity * price);
+        
+        calcTotal();
     });
 }
 
@@ -158,6 +162,20 @@ function setWHouseFunction(id){
     });
 }
 
+function calcTotal(){
+    var sum = 0;
+    for(var i=1;i<=row_id;i++){
+        var price = $('#row-' + i + '-price');
+        if(price.text()){
+            sum += parseInt(price.text());
+        }
+    }   
+    //co(sum);
+    $('#total').text(sum);
+    $('#total-confirm').text(sum);
+    total = sum;
+}
+
 $('#add-row').on('click', function(){
     var tbody = $('#tbody-orders');
     rows_no++;
@@ -177,4 +195,98 @@ $('#add-row').on('click', function(){
     setQuantityFunction(row_id);
     testSupplier(row_id);
     setWHouseFunction(row_id);
+});
+
+$('#update').on('click',function(){
+    $('#the-form').hide();
+    $('#confirmation').show();
+    $('#top-1').removeClass('active');
+    $('#top-2').addClass('active');
+    
+    var tbody = $('#tbody-suppliers-confirm');
+    tbody.empty();
+    var whouses = alasql('select * from whouse');
+    var suppliers = alasql('select * from suppliers');
+    
+    for(var i=1;i<=row_id;i++){
+        var product_id = parseInt($('#row-' + i + '-product-name').val());
+        var product_name = alasql('select * from item where id=?',[product_id])[0].detail;
+        //co(product_name);
+        var whouse = whouses[parseInt($('#row-' + i + '-whouse').val())-1].name;
+        var quantity = parseInt($('#row-' + i + '-quantity').val());
+        var supplier = suppliers[parseInt($('#row-' + i + '-suppliers').val())-1].name;
+        //co(supplier);
+        var price = $('#row-' + i + '-price').text();
+        
+        if(product_name){
+            
+            
+            var tr = $('<tr></tr>');
+            tr.append('<td>' + product_name + '</td>');
+            tr.append('<td>' + quantity + '</td>');
+            tr.append('<td>' + whouse + '</td>');
+            tr.append('<td>' + supplier + '</td>');
+            tr.append('<td>' + price + '</td>');
+            tr.appendTo(tbody);
+        }
+        
+    }
+});
+
+$('#not-confirm').on('click', function(){
+    $('#the-form').show();
+    $('#confirmation').hide();
+    $('#top-2').removeClass('active');
+    $('#top-1').addClass('active');
+});
+
+$('#pura-ok').on('click', function(){
+    $('#ok-done').show();
+    $('#confirmation').hide();
+    $('#top-2').removeClass('active');
+    $('#top-3').addClass('active');
+    
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+    
+	var date = today;
+	var memo = 'New order on ' + date;
+    
+    // add to list ordersadd
+    var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
+    
+    for(var i=1;i<=row_id;i++){
+        // update stock record
+        var whouse = parseInt($('#row-' + i + '-whouse').val());
+        var item = parseInt($('#row-' + i + '-product-name').val());
+        var qty = parseInt($('#row-' + i + '-quantity').val());
+        var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
+        var stock_id, balance = 0;
+        if (rows.length > 0) {
+            stock_id = rows[0].id; 
+            balance = rows[0].balance;
+            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
+        } else {
+            stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
+            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance + qty ]);
+        }
+        // add trans record
+        var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
+    }
+	
+    setTimeout(function() {
+        // open new product's page after 1 second
+	    window.location.assign('index.html');
+    }, 1000);
 });

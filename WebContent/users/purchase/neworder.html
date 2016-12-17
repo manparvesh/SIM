@@ -109,8 +109,8 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <th>Total (in JPY):</th>
-                        <th>0</th>
+                        <th>Total (in JP¥):</th>
+                        <th id="total">0</th>
                     </tr>
                 </table>
                 
@@ -127,10 +127,18 @@
                             <th>Product name</th>
                             <th>Quantity</th>
                             <th>Warehouse</th>
-                            <th>Price</th>
+                            <th>Supplier</th>
+                            <th>Price (in JP¥)</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-suppliers"></tbody>
+                    <tbody id="tbody-suppliers-confirm"></tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th>Total (in JP¥):</th>
+                        <th id="total-confirm">0</th>
+                    </tr>
                 </table>
                 
                 <div class="row">
@@ -146,7 +154,7 @@
             <!-- Final wala part -->
             <div class="container-fluid" id="ok-done" style="display:none;">
                 <h1 class="text-success text-center"><span class="glyphicon glyphicon-ok-circle" style="font-size:200px"></span></h1>
-                <h1 class="text-success text-center">The product has been added!</h1>
+                <h1 class="text-success text-center">The order has been placed!</h1>
             </div>
         </div>
     </div>
