@@ -265,6 +265,10 @@ $('#pura-ok').on('click', function(){
     // add to list ordersadd
     var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
     
+    var whouse_id = parseInt($('#row-' + 1 + '-whouse').val()); // set everything for this warehouse only
+    
+    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?)', [ ordersadd_id, whouse_id, 1, date, '', '', '' ]);
+    
     for(var i=1;i<=row_id;i++){
         // update stock record
         var whouse = parseInt($('#row-' + i + '-whouse').val());
@@ -283,6 +287,10 @@ $('#pura-ok').on('click', function(){
         // add trans record
         var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
         alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
+        
+        var ordersadddetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadddetails')[0].id;
+        
+        alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?)', [ ordersadddetails_id, ordersadd_id, item, qty ]);
     }
 	
     setTimeout(function() {
