@@ -70,7 +70,12 @@ function setRowLinks(){
 
 //set order numbers in dashboard
 var temporders = alasql('SELECT * FROM ordersadd WHERE status=?', [1]);
-$('#well-orders').text(temporders.length);
+if(temporders.length){
+    $('#well-orders').text(temporders.length);
+}else{
+    $('#well-orders').text('No');
+}
+
 
 // build html table for orders
 var orders = alasql('SELECT * FROM ordersadd');

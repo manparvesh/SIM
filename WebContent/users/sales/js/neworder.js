@@ -31,11 +31,12 @@ function getWHouseID(){
 setWHouseValuesToDropDown();
 
 function setProductNameValuesToDropDown(id){
-    var rows = alasql('SELECT * FROM item;');
+    var rows = alasql('SELECT stock.*,item.detail FROM stock JOIN item ON stock.item=item.id WHERE whouse=?;',[getWHouseID()]);
+    $('#row-' + id + '-product-name').empty();
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         var option = $('<option>');// '<option value="'+row.id+'">'+row.name+'</option>'; //$('<option></option>');
-        option.attr('value', row.id);
+        option.attr('value', row.item);
         option.text(row.detail);
         //console.log(option);
         $('#row-' + id + '-product-name').append(option);
@@ -43,7 +44,7 @@ function setProductNameValuesToDropDown(id){
     }
     //do this every time product id is changed
     $('#row-' + id + '-product-name').on('change', function(){
-        console.log($(this).val());
+        //console.log($(this).val());
         var selectedProductID = parseInt($(this).val());
         var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
         $('#row-' + id + '-suppliers').empty();
@@ -72,38 +73,6 @@ function setProductNameValuesToDropDown(id){
     });
 }
 
-function setSupplierValuesToDropDown(id){
-    var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
-    var selectedWHouseID = getWHouseID();
-    var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=?',[selectedProductID, selectedWHouseID]);
-    //co(rows);
-    var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
-    for (var i = 0; i < rows.length; i++) {
-        var row = alasql('select * from suppliers where id=?;',[rows[i].supplier_id])[0] ;
-        //co(rows[i].supplier_id);
-        var option = $('<option id="row-' + id + '-product-name-option-'+(i+1)+'">');// '<option value="'+row.id+'">'+row.name+'</option>'; //$('<option></option>');
-        option.attr('value', row.id);
-        option.attr('cost', rows[i].cost);
-        option.text(row.name + ' (¥ ' + rows[i].cost +')');
-        //console.log(option);
-        $('#row-' + id + '-suppliers').append(option);
-        //co($('#row-' + id + '-suppliers'));
-        var thisCost = rows[i].cost;
-        if(thisCost > maxCost){
-            maxCost = thisCost;
-            maxIndex = i;
-        }
-        if(thisCost < minCost){
-            minCost = thisCost;
-            minIndex = i;
-        }
-    }
-    //co(maxCost + ' ' + maxIndex);
-    //co(minCost + ' ' + minIndex);
-    $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
-    $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
-}
-
 function setQuantityFunction(id){
     $('#row-' + id + '-quantity').on('change', function(){
         var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
@@ -120,23 +89,10 @@ function setQuantityFunction(id){
     });
 }
 
-function testSupplier(id){
-    $('#row-' + id + '-suppliers').on('change',function(){
-        var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
-        var product_id = parseInt($('#row-' + id + '-product-name').val());
-        var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
-        //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
-        //co(selectedProductCost);
-        var quantity = parseInt($('#row-' + id + '-quantity').val());
-        var price = selectedProductCost;//rows[id - 1].cost;
-        //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
-        $('#row-' + id + '-price').text(quantity * price);
-    });
-}
-
 function setWHouseFunction(){
     $('#whouse-select').on('change',function(){
         for(var id=1;id<=row_id;id++){
+            setProductNameValuesToDropDown(id);
             var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
             var selectedWHouseID = getWHouseID();
             var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=?',[selectedProductID, selectedWHouseID]);

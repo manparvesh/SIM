@@ -45,6 +45,14 @@ sql += q2 ? 'AND kind.id = ' + q2 + ' ' : '';
 // send query
 var stocks = alasql(sql, [ '%' + q3 + '%' ]);
 
+//set order numbers in dashboard
+var temporders = alasql('SELECT * FROM ordersremove WHERE status=?', [1]);
+if(temporders.length){
+    $('#well-orders').text(temporders.length);
+}else{
+    $('#well-orders').text('No');
+}
+
 // build html table
 var tbody = $('#tbody-stocks');
 for (var i = 0; i < stocks.length; i++) {
