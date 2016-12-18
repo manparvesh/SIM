@@ -12,12 +12,12 @@ var whouse_location = 1;
 
 function setWHouseValuesToDropDown(){
     $('#whouse-select').empty();
-    var rows = alasql('SELECT * FROM whouse;');
+    var rows = alasql('SELECT * FROM customers;');
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         var option = $('<option>');// '<option value="'+row.id+'">'+row.name+'</option>'; //$('<option></option>');
         option.attr('value', row.id);
-        option.text('Warehouse location: ' + row.name);
+        option.text(row.name);
         //console.log(option);
         $('#whouse-select').append(option);
         //co($('#row-' + id + '-whouse'));
@@ -25,7 +25,8 @@ function setWHouseValuesToDropDown(){
 }
 
 function getWHouseID(){
-    return parseInt($('#whouse-select').val());
+    var customer_id = parseInt($('#whouse-select').val());
+    return alasql('select * from customers where id=?',[customer_id])[0].whouse;
 }
 
 setWHouseValuesToDropDown();
@@ -77,7 +78,7 @@ function setQuantityFunction(id){
     $('#row-' + id + '-quantity').on('change', function(){
         var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
         var product_id = parseInt($('#row-' + id + '-product-name').val());
-        var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
+        var selectedProductCost = alasql('select * from item where id=?',[product_id])[0].price;
         //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
         //co(selectedProductCost);
         var quantity = parseInt($(this).val());
@@ -147,7 +148,6 @@ $('#add-row').on('click', function(){
     row_id++;
     var tr = $('<tr id="row-' + row_id + '"></tr>');
     tr.append('<td><select class="form-control" id="row-' + row_id + '-product-name"></select></td>'); // product name
-    tr.append('<td><select class="form-control" id="row-' + row_id + '-suppliers"></select></td>'); // supplier
     tr.append('<td><input type="number" class="form-control" name="qty" value="0" id="row-' + row_id + '-quantity"></td>'); // quantity
     tr.append('<td id="row-' + row_id + '-price"></td>'); // price
     tr.append('<td><a class="btn btn-raised btn-danger btn-sm pull-right" onclick="removeRow(' + row_id + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>');
@@ -155,10 +155,7 @@ $('#add-row').on('click', function(){
     
     setProductNameValuesToDropDown(row_id);
     setWHouseValuesToDropDown(row_id);
-    setSupplierValuesToDropDown(row_id);
     setQuantityFunction(row_id);
-    testSupplier(row_id);
-    setWHouseFunction();
 });
 
 $('#update').on('click',function(){
@@ -178,7 +175,6 @@ $('#update').on('click',function(){
         //co(product_name);
         var whouse = whouses[getWHouseID()-1].name;
         var quantity = parseInt($('#row-' + i + '-quantity').val());
-        var supplier = suppliers[parseInt($('#row-' + i + '-suppliers').val())-1].name;
         //co(supplier);
         var price = $('#row-' + i + '-price').text();
         
@@ -188,7 +184,6 @@ $('#update').on('click',function(){
             var tr = $('<tr></tr>');
             tr.append('<td>' + product_name + '</td>');
             tr.append('<td>' + whouse + '</td>');
-            tr.append('<td>' + supplier + '</td>');
             tr.append('<td>' + quantity + '</td>');
             tr.append('<td>' + price + '</td>');
             tr.appendTo(tbody);
