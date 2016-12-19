@@ -78,7 +78,7 @@ if(temporders.length){
 
 
 // build html table for orders
-var orders = alasql('SELECT * FROM ordersadd');
+var orders = alasql('SELECT * FROM ordersadd WHERE status=1');
 
 function populateOrderTable(){
     var tbody_orders = $('#tbody-purchase-orders');

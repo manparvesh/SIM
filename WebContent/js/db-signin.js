@@ -97,29 +97,29 @@ DB.load = function() {
 
 	// order add
     alasql('DROP TABLE IF EXISTS ordersadd;');
-    alasql('CREATE TABLE ordersadd(id INT IDENTITY, whouse INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
+    alasql('CREATE TABLE ordersadd(id INT IDENTITY, order_id INT, whouse INT, supplier_id INT, status INT, date_received DATE,  date_approved DATE, date_shipped DATE, date_completed DATE);');
     var pordersadd = alasql.promise('SELECT MATRIX * FROM CSV("data/ORDERADD-ORDERADD.csv", {headers: true})').then(
             function(ordersadd) {
                 for (var i = 0; i < ordersadd.length; i++) {
                     var orderadd = ordersadd[i];
-                    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?);', orderadd);
+                    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?,?,?);', orderadd);
                 }
             });
 
 	// order add details
     alasql('DROP TABLE IF EXISTS ordersadddetails;');
-    alasql('CREATE TABLE ordersadddetails(id INT IDENTITY, order_id INT, product_id INT, quantity INT);');
+    alasql('CREATE TABLE ordersadddetails(id INT IDENTITY, order_id INT, supplier_id INT, product_id INT, quantity INT);');
     var pordersadddetails = alasql.promise('SELECT MATRIX * FROM CSV("data/ORDERADDDETAILS-ORDERADDDETAILS.csv", {headers: true})').then(
             function(ordersadddetails) {
                 for (var i = 0; i < ordersadddetails.length; i++) {
                     var orderadddetails = ordersadddetails[i];
-                    alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?);', orderadddetails);
+                    alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?,?);', orderadddetails);
                 }
             });
 
 	// order remove
     alasql('DROP TABLE IF EXISTS ordersremove;');
-    alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT, DATE date_received, DATE date_approved, DATE date_shipped, DATE date_completed);');
+    alasql('CREATE TABLE ordersremove(id INT IDENTITY, customer_id INT, status INT, date_received DATE, date_approved DATE, date_shipped DATE, date_completed DATE);');
     var pordersremove = alasql.promise('SELECT MATRIX * FROM CSV("data/ORDERREMOVE-ORDERREMOVE.csv", {headers: true})').then(
             function(ordersremove) {
                 for (var i = 0; i < ordersremove.length; i++) {

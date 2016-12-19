@@ -10,6 +10,7 @@ function removeRow(rn){
 
 var whouse_location = 1;
 
+// this sets values of customers to the dropdown menu, not whouse
 function setWHouseValuesToDropDown(){
     $('#whouse-select').empty();
     var rows = alasql('SELECT * FROM customers;');
@@ -22,6 +23,10 @@ function setWHouseValuesToDropDown(){
         $('#whouse-select').append(option);
         //co($('#row-' + id + '-whouse'));
     }
+    var whouse_name = alasql('select * from whouse where id=?',[getWHouseID()])[0].name;
+        //co(whouse_name);
+    $('#warehouse-name').text(whouse_name);
+    $('#customer-name-confirm').text(getCustomerName());
 }
 
 function getWHouseID(){
@@ -90,8 +95,19 @@ function setQuantityFunction(id){
     });
 }
 
+function getCustomerName(){
+    var customer_id = parseInt($('#whouse-select').val());
+    return alasql('select * from customers where id=?',[customer_id])[0].name;
+}
+
 function setWHouseFunction(){
     $('#whouse-select').on('change',function(){
+        ///co($(this).val());
+        var whouse_name = alasql('select * from whouse where id=?',[getWHouseID()])[0].name;
+        //co(whouse_name);
+        $('#warehouse-name').text(whouse_name);
+        $('#customer-name-confirm').text(getCustomerName());
+
         for(var id=1;id<=row_id;id++){
             setProductNameValuesToDropDown(id);
             var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
@@ -127,6 +143,8 @@ function setWHouseFunction(){
         }
     });
 }
+
+setWHouseFunction();
 
 function calcTotal(){
     var sum = 0;
@@ -219,14 +237,14 @@ $('#pura-ok').on('click', function(){
     var today = yyyy+'-'+mm+'-'+dd;
     
 	var date = today;
-	var memo = 'New order on ' + date;
+	var memo = 'New order on ' + date + ' by ';
     
-    // add to list ordersadd
-    var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremove')[0].id;
+    // add to list ordersremove
+    var ordersremove_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremove')[0].id;
     
-    var whouse_id = getWHouseID(); // set everything for this warehouse only
+    var whouse_id = getWHouseID(); // this is customer id, not WHouse id
     
-    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?)', [ ordersadd_id, whouse_id, 1, date, '', '', '' ]);
+    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?)', [ ordersremove_id, getWHouseID(), 1, date, '', '', '' ]);
     
     for(var i=1;i<=row_id;i++){
         // update stock record
@@ -238,19 +256,23 @@ $('#pura-ok').on('click', function(){
         if (rows.length > 0) {
             stock_id = rows[0].id; 
             balance = rows[0].balance;
-            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
+            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance - qty, stock_id ]);
         } else {
             stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
-            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance + qty ]);
+            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance - qty ]);
         }
         // add trans record
         var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
-        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
+        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance - qty, memo ]);
         
-        var ordersadddetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadddetails')[0].id;
+        var ordersremovedetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremovedetails')[0].id;
         
-        alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?)', [ ordersadddetails_id, ordersadd_id, item, qty ]);
+        alasql('INSERT INTO ordersremovedetails VALUES(?,?,?,?)', [ ordersremovedetails_id, ordersremove_id, item, qty ]);
     }
+    
+    //co('success!');
+    //co(alasql('select * from ordersremove where id=?',[ordersremove_id])[0]);
+    //co(alasql('select * from ordersremovedetails where order_id=?',[ordersremove_id]));
 	
     setTimeout(function() {
         // open new product's page after 1 second

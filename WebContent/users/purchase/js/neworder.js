@@ -28,6 +28,11 @@ function getWHouseID(){
     return parseInt($('#whouse-select').val());
 }
 
+function getWHouseName(){
+    var whouses = alasql('select * from whouse where id=?',[getWHouseID()])[0];
+    return whouses.name;
+}
+
 setWHouseValuesToDropDown();
 
 function setProductNameValuesToDropDown(id){
@@ -67,8 +72,10 @@ function setProductNameValuesToDropDown(id){
                 minIndex = i;
             }
         }
-        $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
         $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
+        $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
+        
+        //setSupplierValuesToDropDown(id);
     });
 }
 
@@ -78,6 +85,7 @@ function setSupplierValuesToDropDown(id){
     var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=?',[selectedProductID, selectedWHouseID]);
     //co(rows);
     var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
+    $('#row-' + id + '-suppliers').empty();
     for (var i = 0; i < rows.length; i++) {
         var row = alasql('select * from suppliers where id=?;',[rows[i].supplier_id])[0] ;
         //co(rows[i].supplier_id);
@@ -100,8 +108,8 @@ function setSupplierValuesToDropDown(id){
     }
     //co(maxCost + ' ' + maxIndex);
     //co(minCost + ' ' + minIndex);
-    $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
     $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
+    $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
 }
 
 function setQuantityFunction(id){
@@ -268,15 +276,47 @@ $('#pura-ok').on('click', function(){
     var today = yyyy+'-'+mm+'-'+dd;
     
 	var date = today;
-	var memo = 'New order on ' + date;
+	var memo = 'New order on ' + date +' for warehouse in: ' + getWHouseName();
     
-    // add to list ordersadd
-    var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
+    // list of suppliers that supply goods to selected warehouse:
+    var goodSuppliers = alasql('select * from suppliers');
     
-    var whouse_id = getWHouseID(); // set everything for this warehouse only
+    //traverse and see if the suplier is there
+    // if he is, add a new entry to ordersadd table yo 
+    for(var goodSupplier = 0; goodSupplier < goodSuppliers.length; goodSupplier++){
+        var goodSupplierID = goodSuppliers[goodSupplier].id;
+        var ordersadd_order_id = alasql('SELECT MAX(order_id) + 1 as id FROM ordersadd')[0].id;
+        var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
+        
+        var ordersFromThisSupplier = 0;
+        
+        for(var i=1;i<=row_id;i++){
+            var supp = parseInt($('#row-' + i + '-suppliers').val());
+            
+            var item = parseInt($('#row-' + i + '-product-name').val());
+            var qty = parseInt($('#row-' + i + '-quantity').val());
+            
+            //co('supp='+supp +' goodSupplierID='+goodSupplierID);
+            
+            //check if this supplier supplies 
+            if(supp == goodSupplierID){
+                co(goodSupplierID);
+                var ordersadddetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadddetails')[0].id;
+
+                alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?,?)', [ ordersadddetails_id, ordersadd_id, goodSupplierID, item, qty ]);
+                
+                ordersFromThisSupplier++;
+            }
+        }
+        
+        //if there are orders from this supplier, add a row to ordersadd table
+        if(ordersFromThisSupplier){
+            alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?,?,?)', [ ordersadd_id, ordersadd_order_id, getWHouseID(), goodSupplierID, 1, date, '', '', '' ]);
+        }
+    }
     
-    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?)', [ ordersadd_id, whouse_id, 1, date, '', '', '' ]);
     
+    // add these products to the list of the 
     for(var i=1;i<=row_id;i++){
         // update stock record
         var whouse = getWHouseID();
@@ -294,11 +334,9 @@ $('#pura-ok').on('click', function(){
         }
         // add trans record
         var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+        var supplier_id = parseInt($('#row-' + i + '-suppliers').val());
         alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
         
-        var ordersadddetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadddetails')[0].id;
-        
-        alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?)', [ ordersadddetails_id, ordersadd_id, item, qty ]);
     }
 	
     setTimeout(function() {

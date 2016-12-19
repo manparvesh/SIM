@@ -89,11 +89,17 @@
             <div class="form container-fluid" id="the-form">
                 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3 form-group">
+                        <label for="whouse-select" class="text-primary">Customer:</label>
                         <select class="form-control" id="whouse-select"></select>
                     </div>
                     
-                    <div class="col-md-8">
+                    <div class="col-md-3 text-center">
+                        <h4 style="margin-top:40px;">Warehouse:</h4>
+                        <h4 id="warehouse-name"></h4>
+                    </div>
+                    
+                    <div class="col-md-6">
                         <button class="btn btn-success btn-raised pull-right" id="add-row"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add row</button>
                     </div>
                 </div>
@@ -135,10 +141,10 @@
                     </thead>
                     <tbody id="tbody-suppliers-confirm"></tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <th>Customer name:</th>
+                        <td id="customer-name-confirm"></td>
                         <th>Total (in JP¥):</th>
-                        <th id="total-confirm">0</th>
+                        <td id="total-confirm">0</td>
                     </tr>
                 </table>
                 
