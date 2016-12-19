@@ -26,6 +26,8 @@
     <!-- Order status -->
     <script src="../../js/order-status.js"></script>
     
+    <link href="../../plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+
     <title>COMPANY</title>
 </head>
 <body>
@@ -226,7 +228,7 @@
                         <div class="container" style="margin-top:30px;">
                             <div class="well col-md-10" style="margin-left:60px;">
                                 <h3 class="text-center text-primary">Calendar</h3>
-                                
+                                <div id="schedule-calendar" class="bootstrap-calendar"></div>
                             </div>
                         </div>
                         <div class="container" style="margin-top:10px;">
@@ -252,7 +254,12 @@
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>
     <script src="../../material/js/ripples.min.js"></script>
+
+    <script src="../../plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>    
+    <script src="../../plugins/moment/moment.min.js"></script>    
     
+	<script src="js/index.js"></script>
+
     <!-- Script to initialize Material Design -->
     <script>
       $.material.init();

@@ -222,11 +222,11 @@ $('#pura-ok').on('click', function(){
 	var memo = 'New order on ' + date;
     
     // add to list ordersadd
-    var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
+    var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremove')[0].id;
     
     var whouse_id = getWHouseID(); // set everything for this warehouse only
     
-    alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?)', [ ordersadd_id, whouse_id, 1, date, '', '', '' ]);
+    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?)', [ ordersadd_id, whouse_id, 1, date, '', '', '' ]);
     
     for(var i=1;i<=row_id;i++){
         // update stock record
