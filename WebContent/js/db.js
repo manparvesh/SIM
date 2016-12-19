@@ -161,6 +161,43 @@ DB.load = function() {
                 }
             }); 
 
+
+	// supplier replacements
+    // replacement type: 1. customer return 2. defective
+    alasql('DROP TABLE IF EXISTS replacements;');
+    alasql('CREATE TABLE replacements(id INT IDENTITY, order_id INT, product_id INT, quantity INT, replacement_type INT);');
+    var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
+            function(supplierproducts) {
+                for (var i = 0; i < supplierproducts.length; i++) {
+                    var supplierproduct = supplierproducts[i];
+                    alasql('INSERT INTO supplierproducts VALUES(?,?,?,?);', supplierproduct);
+                }
+            }); 
+
+
+	// supplier requirements
+    alasql('DROP TABLE IF EXISTS supplierproducts;');
+    alasql('CREATE TABLE supplierproducts(id INT IDENTITY, supplier_id INT, product_id INT, cost INT);');
+    var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
+            function(supplierproducts) {
+                for (var i = 0; i < supplierproducts.length; i++) {
+                    var supplierproduct = supplierproducts[i];
+                    alasql('INSERT INTO supplierproducts VALUES(?,?,?,?);', supplierproduct);
+                }
+            }); 
+
+
+	// supplier stockrange
+    alasql('DROP TABLE IF EXISTS supplierproducts;');
+    alasql('CREATE TABLE supplierproducts(id INT IDENTITY, supplier_id INT, product_id INT, cost INT);');
+    var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("../../data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
+            function(supplierproducts) {
+                for (var i = 0; i < supplierproducts.length; i++) {
+                    var supplierproduct = supplierproducts[i];
+                    alasql('INSERT INTO supplierproducts VALUES(?,?,?,?);', supplierproduct);
+                }
+            }); 
+
 	// Reload page
 	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers ]).then(function() {
 		window.location.reload(true);
