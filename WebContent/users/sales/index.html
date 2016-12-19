@@ -26,6 +26,8 @@
     <!-- Order status -->
     <script src="../../js/order-status.js"></script>
     
+    <link href="../../plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+    
     <title>COMPANY</title>
 </head>
 <body>
@@ -150,7 +152,7 @@
                     <!-- button group -->
                     <div class="row">
                       <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(1)">
+                          <label class="btn btn-primary col-md-3 active" onclick="showOrders(1)">
                             <input type="radio" autocomplete="off" id="show-orders-1"> New
                           </label>
                           <label class="btn btn-primary col-md-3" onclick="showOrders(2)">
@@ -159,7 +161,7 @@
                           <label class="btn btn-primary col-md-3" onclick="showOrders(3)">
                               <input type="radio" autocomplete="off" id="show-orders-3"> Completed
                           </label>
-                          <label class="btn btn-primary col-md-3 active" onclick="showOrders(4)">
+                          <label class="btn btn-primary col-md-3" onclick="showOrders(4)">
                             <input type="radio" autocomplete="off" id="show-orders-4"> All
                           </label>
                         </div>
@@ -217,6 +219,7 @@
                     <div class="container" style="margin-top:30px;">
                         <div class="well col-md-10" style="margin-left:60px;">
                             <h3 class="text-center text-primary">Calendar</h3>
+                            <div id="schedule-calendar" class="bootstrap-calendar"></div>
 
                         </div>
                     </div>
@@ -237,13 +240,16 @@
             </div>
 	   </div>
 	</div>
-	<script src="js/index.js"></script>
     <script src="../../lib/bootstrap.js"></script>
     
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>
     <script src="../../material/js/ripples.min.js"></script>
+
+    <script src="../../plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>    
+    <script src="../../plugins/moment/moment.min.js"></script> 
     
+	<script src="js/index.js"></script>
     <!-- Script to initialize Material Design -->
     <script>
       $.material.init();

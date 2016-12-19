@@ -76,7 +76,7 @@ function setRowLinks(){
     });
 }
 // build html table for orders
-var orders = alasql('SELECT * FROM ordersremove');
+var orders = alasql('SELECT * FROM ordersremove where status=1');
 
 function populateOrderTable(){
     var tbody_orders = $('#tbody-sales-orders');
@@ -139,3 +139,19 @@ function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
     alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
 }
+
+function handleScheduleCalendar(){
+    var today=new Date,d = today.getDate(),m=today.getMonth()+1,y=today.getFullYear();
+    var s = [['12/12/2016',"Start Date","#","#5da5e8",""]]; //DB.getRestockDates(100);
+    s.push([d+"/"+m+"/"+y,"Today","#","#b6c832",""]);
+    var o=$("#schedule-calendar");
+    $(o).calendar({events:s,tooltip_options:{placement:"top",html:true}});
+    $(o).find("td.event").each(
+            function(){var e=$(this).css("background-color");
+                $(this).removeAttr("style");
+                $(this).find("a").css("background-color",e)
+            });
+    $(o).find(".icon-arrow-left, .icon-arrow-right").parent().on("click",function(){$(o).find("td.event").each(function(){var e=$(this).css("background-color");$(this).removeAttr("style");$(this).find("a").css("background-color",e)})})
+}
+
+handleScheduleCalendar();

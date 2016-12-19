@@ -15,6 +15,8 @@ $('#customer-id').text(order.customer_id);
 $('#status').empty();
 $('#status').append(getLabelForOrderStatus(order.status));
 
+
+
 var details = alasql('SELECT * FROM ordersremovedetails WHERE order_id=?',[orderID]);
 
 function populateTable(){

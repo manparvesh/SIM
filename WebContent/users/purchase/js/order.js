@@ -15,6 +15,8 @@ $('#supplier-id').text(order.supplier_id);
 $('#status').empty();
 $('#status').append(getLabelForOrderStatus(order.status));
 
+
+
 var details = alasql('SELECT * FROM ordersadddetails WHERE order_id=?',[orderID]);
 
 function populateTable(){
