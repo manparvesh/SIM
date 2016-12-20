@@ -212,20 +212,46 @@ function placeRequirementRequest(){
             //co(detail.quantity + ' ' + temp_whouse_q);
             if(detail.quantity > temp_whouse_q){
                 var req = detail.quantity-temp_whouse_q;
-                var quant = parseInt($('requirement-row-' + (i+1) + '-quantity').val());
+                var quant = parseInt($('#requirement-row-' + (i+1) + '-quantity').val());
                 var requirement_id = alasql('SELECT MAX(id) + 1 as id FROM requirements')[0].id;
+                
+                if(requirement_id){
+                    
+                }else{
+                    requirement_id = 0;
+                }
 
                 alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?)', [ requirement_id, orderID, temp_whouse_id, product.id, req, quant, 7 ]);
-
-                co(alasql('select * from requirements where id=?',[requirement_id])[0]);
                 
-                // update Order
-                //alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 5, orderID ]);
+                co($('#requirement-row-' + (i+1) + '-quantity').val());
+                
+                //co(alasql('select * from requirements where id=?',[requirement_id])[0]);
+                
+                // update Order details
+                alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);
             }
         }
     }
     
+    //set status
+    alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 2, orderID ]);
     
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+    //set date
+    alasql('UPDATE ordersremove SET date_approved = ? WHERE id = ?', [ today, orderID ]);
+    
+    window.location.reload(true); // reload page
 }
 
 //ID,ORDER_ID,ORDER_TYPE,PRODUCT_ID,QUANTITY,REPLACEMENT_TYPE,STATUS - replacements table coplumns
