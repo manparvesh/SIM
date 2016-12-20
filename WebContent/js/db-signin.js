@@ -150,10 +150,10 @@ DB.load = function() {
                 }
             }); 
 
-	// supplier products
+    // supplier products
     alasql('DROP TABLE IF EXISTS supplierproducts;');
     alasql('CREATE TABLE supplierproducts(id INT IDENTITY, supplier_id INT, product_id INT, cost INT);');
-    var psuppliers = alasql.promise('SELECT MATRIX * FROM CSV("data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
+    var psupplierproducts = alasql.promise('SELECT MATRIX * FROM CSV("data/SUPPLIERPRODUCTS-SUPPLIERPRODUCTS.csv", {headers: true})').then(
             function(supplierproducts) {
                 for (var i = 0; i < supplierproducts.length; i++) {
                     var supplierproduct = supplierproducts[i];
@@ -161,8 +161,45 @@ DB.load = function() {
                 }
             }); 
 
+
+	//  replacements
+    // replacement type: 1. customer return 2. defective
+    alasql('DROP TABLE IF EXISTS replacements;');
+    alasql('CREATE TABLE replacements(id INT IDENTITY, order_id INT, order_type INT, product_id INT, quantity INT, replacement_type INT);');
+    var preplacements = alasql.promise('SELECT MATRIX * FROM CSV("data/REPLACEMENTS-REPLACEMENTS.csv", {headers: true})').then(
+            function(replacements) {
+                for (var i = 0; i < replacements.length; i++) {
+                    var replacement = replacements[i];
+                    alasql('INSERT INTO replacements VALUES(?,?,?,?,?,?);', replacement);
+                }
+            }); 
+
+
+	//  requirements
+    alasql('DROP TABLE IF EXISTS requirements;');
+    alasql('CREATE TABLE requirements(id INT IDENTITY, order_id INT, product_id INT, quantity INT, status INT);');
+    var prequirements = alasql.promise('SELECT MATRIX * FROM CSV("data/REQUIREMENTS-REQUIREMENTS.csv", {headers: true})').then(
+            function(requirements) {
+                for (var i = 0; i < requirements.length; i++) {
+                    var requirement = requirements[i];
+                    alasql('INSERT INTO requirements VALUES(?,?,?,?);', requirements);
+                }
+            }); 
+
+
+	//  stockrange
+    alasql('DROP TABLE IF EXISTS stockrange;');
+    alasql('CREATE TABLE stockrange(id INT IDENTITY, product_id INT, whouse INT, min INT, max INT);');
+    var pstockrange = alasql.promise('SELECT MATRIX * FROM CSV("data/STOCKRANGE-STOCKRANGE.csv", {headers: true})').then(
+            function(stockrange) {
+                for (var i = 0; i < stockrange.length; i++) {
+                    var stockrange_i = stockrange[i];
+                    alasql('INSERT INTO stockrange VALUES(?,?,?,?);', stockrange_i);
+                }
+            }); 
+
 	// Reload page
-	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers ]).then(function() {
+	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers, psupplierproducts, preplacements, prequirements, pstockrange ]).then(function() {
 		window.location.reload(true);
 	});
 };

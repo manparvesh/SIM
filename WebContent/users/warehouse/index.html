@@ -93,75 +93,80 @@
               </ul>
             </nav>
             
-            <div class="col-md-10 main">
+            <div class="col-md-10 main" style="margin-top:20px;">
                 <!-- div 2 Products -->
-                <div id="div-2" style="display:none;">
-                    <form action="index.html" class="form-inline text-center">
-                        <div class="form-group">
-                            <label>Warehouse</label> 
-                            <select name="q1" class="form-control">
-                                <option value="0">All</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="s2">Classification</label> 
-                            <select name="q2" id="s2" class="form-control">
-                                <option value="0">All</option>
-                            </select>
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Code</label> 
-                            <input name="q3" type="text"
-                                class="form-control">
-                            <p class="help-block">Prefix Search</p>
-                        </div>
-                        <button type="submit" class="btn btn-raised btn-primary">
-                            <span class="glyphicon glyphicon-search"></span> Search
-                        </button>
-                    </form>
-                    <hr>
+                <div id="div-2" style="display:none;" class="well container-fluid">
+                    <div class="container-fluid">
+                        <h2 class="text-center text-primary">All products</h2>
+                        <form action="index.html" class="form-inline text-center">
+                            <div class="form-group">
+                                <label>Warehouse</label> 
+                                <select name="q1" class="form-control">
+                                    <option value="0">All</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="s2">Classification</label> 
+                                <select name="q2" id="s2" class="form-control">
+                                    <option value="0">All</option>
+                                </select>
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Code</label> 
+                                <input name="q3" type="text"
+                                    class="form-control">
+                                <p class="help-block">Prefix Search</p>
+                            </div>
+                            <button type="submit" class="btn btn-raised btn-primary">
+                                <span class="glyphicon glyphicon-search"></span> Search
+                            </button>
+                        </form>
+                        <hr>
 
-                    <div class="clearfix" style="margin: 10px 0;">
-                        <a href="../../stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
-                            class="glyphicon glyphicon-plus"></span> New</a>
-                    </div>
+                        <div class="clearfix" style="margin: 10px 0;">
+                            <a href="../../stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
+                                class="glyphicon glyphicon-plus"></span> New</a>
+                        </div>
 
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Warehouse</th>
-                                <th>Classification</th>
-                                <th>Code</th>
-                                <th>Maker</th>
-                                <th>Detail</th>
-                                <th>Price</th>
-                                <th>In Stock</th>
-                                <th>Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-stocks"></tbody>
-                    </table>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Warehouse</th>
+                                    <th>Classification</th>
+                                    <th>Code</th>
+                                    <th>Maker</th>
+                                    <th>Detail</th>
+                                    <th>Price</th>
+                                    <th>In Stock</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-stocks"></tbody>
+                        </table>
+                   </div>
                </div>
                 <!-- / div 2 -->
                 
                 <!-- / div 3 Purchases -->
-                <div id="div-3" style="display:none;">
-                    <h2 class="text-center text-primary">Purchases</h2>
-                    <!-- button group -->
-                    <div class="row">
-                      <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(1,1)">
-                            <input type="radio" autocomplete="off" id="show-orders-1-1"> New
-                          </label>
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(1,2)">
-                            <input type="radio" autocomplete="off" id="show-orders-1-2"> Approved
-                          </label>
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(1,3)">
-                              <input type="radio" autocomplete="off" id="show-orders-1-3"> Completed
-                          </label>
-                          <label class="btn btn-primary col-md-3 active" onclick="showOrders(1,4)">
-                            <input type="radio" autocomplete="off" id="show-orders-1-4"> All
-                          </label>
+                <div id="div-3" style="display:none;"  class="well container-fluid">
+                    <div class="container-fluid">
+                        <h2 class="text-center text-primary">Purchases</h2>
+                        <!-- button group -->
+                        <div class="row">
+                          <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(1,1)">
+                                <input type="radio" autocomplete="off" id="show-orders-1-1"> New
+                              </label>
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(1,2)">
+                                <input type="radio" autocomplete="off" id="show-orders-1-2"> Approved
+                              </label>
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(1,3)">
+                                  <input type="radio" autocomplete="off" id="show-orders-1-3"> Completed
+                              </label>
+                              <label class="btn btn-primary col-md-3 active" onclick="showOrders(1,4)">
+                                <input type="radio" autocomplete="off" id="show-orders-1-4"> All
+                              </label>
+                            </div>
                         </div>
                     </div>
                     <!-- / button group -->
@@ -180,37 +185,39 @@
                 <!-- / div 3 -->
                 
                 <!-- / div 4 Sales -->
-                <div id="div-4" style="display:none;">
-                    <h2 class="text-center text-primary">Sales</h2>
-                    <!-- button group -->
-                    <div class="row">
-                      <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(2,1)">
-                            <input type="radio" autocomplete="off" id="show-orders-2-1"> New
-                          </label>
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(2,2)">
-                            <input type="radio" autocomplete="off" id="show-orders-2-2"> Approved
-                          </label>
-                          <label class="btn btn-primary col-md-3" onclick="showOrders(2,3)">
-                              <input type="radio" autocomplete="off" id="show-orders-2-3"> Completed
-                          </label>
-                          <label class="btn btn-primary col-md-3 active" onclick="showOrders(2,4)">
-                            <input type="radio" autocomplete="off" id="show-orders-2-4"> All
-                          </label>
+                <div id="div-4" style="display:none;"  class="well container-fluid">
+                    <div class="container-fluid">
+                        <h2 class="text-center text-primary">Sales</h2>
+                        <!-- button group -->
+                        <div class="row">
+                          <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(2,1)">
+                                <input type="radio" autocomplete="off" id="show-orders-2-1"> New
+                              </label>
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(2,2)">
+                                <input type="radio" autocomplete="off" id="show-orders-2-2"> Approved
+                              </label>
+                              <label class="btn btn-primary col-md-3" onclick="showOrders(2,3)">
+                                  <input type="radio" autocomplete="off" id="show-orders-2-3"> Completed
+                              </label>
+                              <label class="btn btn-primary col-md-3 active" onclick="showOrders(2,4)">
+                                <input type="radio" autocomplete="off" id="show-orders-2-4"> All
+                              </label>
+                            </div>
                         </div>
-                    </div>
-                    <!-- / button group -->
+                        <!-- / button group -->
 
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer ID</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-sales-orders"></tbody>
-                    </table>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer ID</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-sales-orders"></tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- / div 4 -->
                 
@@ -237,8 +244,10 @@
                 </div>
                 <!-- / div 1 -->
                 
-                <div id="div-5" style="display:none;">
-                    <h2 class="text-center text-primary">Restocking orders</h2>
+                <div id="div-5" style="display:none;" class="well container-fluid">
+                    <div class="container-fluid">
+                        <h2 class="text-center text-primary">Restocking orders</h2>
+                    </div>
                 </div>
             </div>
 	   </div>
