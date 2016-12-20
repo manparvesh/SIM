@@ -282,3 +282,9 @@ function initiateReturn(){
     
     window.location.reload(true); // reload page
 }
+
+$('#btn-approve-order').on('click', function(){
+     alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 2, orderID ]);
+    
+    window.location.reload(true); // reload page
+}); 

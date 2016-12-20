@@ -286,7 +286,17 @@ $('#pura-ok').on('click', function(){
     for(var goodSupplier = 0; goodSupplier < goodSuppliers.length; goodSupplier++){
         var goodSupplierID = goodSuppliers[goodSupplier].id;
         var ordersadd_order_id = alasql('SELECT MAX(order_id) + 1 as id FROM ordersadd')[0].id;
+        if(ordersadd_order_id){
+            
+        }else{
+            ordersadd_order_id = 1;
+        }
         var ordersadd_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadd')[0].id;
+        if(ordersadd_id){
+            
+        }else{
+            ordersadd_id = 1;
+        }
         
         var ordersFromThisSupplier = 0;
         
@@ -302,6 +312,12 @@ $('#pura-ok').on('click', function(){
             if(supp == goodSupplierID){
                 co(goodSupplierID);
                 var ordersadddetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersadddetails')[0].id;
+                
+                if(ordersadddetails_id){
+                    
+                }else{
+                    ordersadddetails_id = 1;
+                }
 
                 alasql('INSERT INTO ordersadddetails VALUES(?,?,?,?,?)', [ ordersadddetails_id, ordersadd_id, goodSupplierID, item, qty ]);
                 

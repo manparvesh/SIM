@@ -7,33 +7,97 @@ if(orderID){
     $('#everything').append('<a class="btn btn-raised btn-warning" href="/">Click here to return to the previous page</a>');
 }
 
+//co(alasql('SELECT * FROM ordersadd WHERE id=?', [orderID]));
+//co(alasql('SELECT * FROM ordersadddetails WHERE id=?', [orderID]));
+
 var order = alasql('SELECT * FROM ordersadd WHERE id=?', [orderID])[0];
 
+var status = order.status;
+if(status > 1){ //2 or more
+    $('#new-order .line').css('background-color','#4caf50');
+    $('#order-approved .imgcircle').css('background-color','#4caf50');
+    $('#span-2').show();
+    $('#btn-approve-order').hide();
+    $('#btn-shipped').show();
+    
+    if(status > 2){ //3 or more
+        $('#order-approved .line').css('background-color','#4caf50');
+        $('#order-shipped .imgcircle').css('background-color','#4caf50');
+        $('#span-3').show();
+        $('#btn-shipped').hide();
+    }
+    
+    if(status > 3){ //complete
+        $('#order-shipped .line').css('background-color','#4caf50');
+        $('#order-complete .imgcircle').css('background-color','#4caf50');
+        $('#span-4').show();
+        $('#btn-return').show();
+    }
+    if(status > 4){ // return init
+        $('#btn-return').hide();
+        $('#refund-initiated').show();
+        $('#order-complete .line').show();
+        $('#refund-track').show();
+        
+    }
+    if(status > 5){//return complete
+        $('#span-5').show();
+        $('#refund-complete').show();
+    }
+}
+
+var whouse = alasql('SELECT * FROM ordersadd WHERE id=?', [orderID])[0].whouse;
+var whouse_name = alasql('select * from whouse where id=?',[whouse])[0].name;
+var supplier_name = alasql('select * from suppliers where id=?',[order.supplier_id])[0].name;
 // put details of order
 $('#order-id').text(orderID);
-$('#supplier-id').text(order.supplier_id);
+$('#supplier-id').text(supplier_name);
+$('#waarehouse').text(whouse_name);
 $('#status').empty();
 $('#status').append(getLabelForOrderStatus(order.status));
-
-
 
 var details = alasql('SELECT * FROM ordersadddetails WHERE order_id=?',[orderID]);
 
 function populateTable(){
-    var tbody_order_details = $('#tbody-purchase-order-details');
+    var tbody_order_details = $('#tbody-sales-order-details');
     tbody_order_details.empty();
     var products = alasql('SELECT * FROM item');
     for (var i = 0; i < details.length; i++) {
         var detail = details[i];
         var product = products[detail.product_id - 1];
-        co(product);
+        //co(product);
         var tr = $('<tr></tr>');
-        tr.append('<td class="col-md-1">' + detail.id + '</td>');
-        tr.append('<td class="col-md-2">' + product.detail + '</td>');
-
-        tr.append('<td class="col-md-1">' + detail.quantity + '</td>');
+        tr.append('<td class="col-md-2">' + detail.id + '</td>');
+        tr.append('<td class="col-md-2">' + product.kind + '</td>');
+        tr.append('<td class="col-md-2">' + product.maker + '</td>');
+        tr.append('<td class="col-md-4">' + product.detail + '</td>');
+        tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
         tr.appendTo(tbody_order_details);
     }
 }
 
 populateTable();
+
+$('#address').empty();
+$('#address').append('<strong>'+ supplier_name +'</strong><br>');
+$('#address').append(alasql('select * from suppliers where id=?',[order.supplier_id])[0].addr);
+
+function getPrettyDate(daaate){
+    return moment(daaate).format('LL');
+}
+
+$('#date-1').text(getPrettyDate(order.date_received));
+$('#date-2').text(getPrettyDate(order.date_approved));
+$('#date-3').text(getPrettyDate(order.date_shipped));
+$('#date-4').text(getPrettyDate(order.date_completed));
+
+$('#btn-approve-order').on('click', function(){
+     alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 2, orderID ]);
+    
+    window.location.reload(true); // reload page
+}); 
+$('#btn-shipped').on('click', function(){
+     alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 3, orderID ]);
+    
+    window.location.reload(true); // reload page
+}); 
