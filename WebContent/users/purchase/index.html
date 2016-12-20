@@ -26,6 +26,8 @@
     <!-- Order status -->
     <script src="../../js/order-status.js"></script>
     
+    <script src="../../js/co.js"></script>
+    
     <link href="../../plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
 
     <title>COMPANY</title>
@@ -102,6 +104,7 @@
                     <div id="div-7" style="display:none;" class="well container-fluid">
                         <div class="container-fluid">
                             <h2 class="text-center text-primary">All products</h2>
+                            <hr>
                             <form action="index.html" class="form-inline text-center">
                                 <div class="form-group">
                                     <label>Warehouse</label> 
@@ -156,6 +159,7 @@
                         <div class="well container-fluid">
                             <div class="container-fluid">
                                 <h2 class="text-center text-primary">Orders</h2>
+                                <hr>
                                 <!-- button group -->
                                 <div class="row">
                                   <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
@@ -195,15 +199,33 @@
                     </div>
                     <!-- / div 2 -->
                     
-                    <!-- div 3 Restocking -->
+                    <!-- div 3 Requirements -->
                     <div id="div-3" style="display:none;" class="well container-fluid">
                         <h2 class="text-center text-primary">Requirements</h2>
+                        <hr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Order ID
+                                    </th>
+                                    <th>
+                                        Warehouse
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-requirements"></tbody>
+                        </table>
                     </div>
                     <!-- / div 3 -->
                     
                     <!-- div 4 Restocking -->
                     <div id="div-4" style="display:none;" class="well container-fluid">
                         <h2 class="text-center text-primary">Restocking</h2>
+                        <hr>
                     </div>
                     <!-- / div 4 -->
                     
@@ -211,6 +233,23 @@
                     <div id="div-5" style="display:none;" class="well container-fluid">
                         <div class="container-fluid">
                             <h2 class="text-center text-primary">Defective products</h2>
+                            <hr>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Order ID
+                                        </th>
+                                        <th>
+                                            Warehouse
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-defective"></tbody>
+                            </table>
                         </div>
                     </div>
                     <!-- / div 5 -->
@@ -219,6 +258,7 @@
                     <div id="div-6" style="display:none;"  class="well container-fluid">
                         <div class="container-fluid">
                             <h2 class="text-center text-primary">Suppliers</h2>
+                            <hr>
                             <div class="">
                                 <table class="table table-hover">
                                     <thead>

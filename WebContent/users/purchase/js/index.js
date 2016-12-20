@@ -1,8 +1,8 @@
 var logins = alasql('SELECT * FROM logins');
-console.log(logins.length);
-console.log(logins[0].emp_id);
+//console.log(logins.length);
+//console.log(logins[0].emp_id);
 var user = alasql('SELECT * FROM users WHERE id=?',[logins[0].emp_id]);
-console.log(user[0].name);
+//console.log(user[0].name);
 
 // create search box
 var rows = alasql('SELECT * FROM whouse;');
@@ -172,3 +172,34 @@ function handleScheduleCalendar(){
 }
 
 handleScheduleCalendar();
+
+function populateRequirementsTable(){
+    var tbody_requirements = $('#tbody-requirements');
+    tbody_requirements.empty();
+    var requirements = alasql('SELECT * FROM requirements group by order_id');
+    //co(requirements);
+    var whouses = alasql('select * from whouse');
+    for (var i = 0; i < requirements.length; i++) {
+        var requirement = requirements[i];
+        var tr = $('<tr data-href="requirement.html?id=' + requirement.order_id + '"></tr>');
+        tr.append('<td>' + requirement.order_id + '</td>');
+        var temp_order_id = requirement.order_id;
+        var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
+        var temp_whouse_id = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
+        //co(requirement.order_id);
+        //co(temp_whouse_id);
+        //co(alasql('select * from ordersremove'));
+        var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse_id])[0].name;
+        tr.append('<td>' + temp_whouse_name + '</td>');
+        //co(requirement);
+        //co(alasql('select * from ordersremove where id=?',[requirement.order_id])[0]);
+        var temp_status = alasql('select * from requirements where order_id=?',[requirement.order_id])[0].status;
+        tr.append('<td>' + getLabelForOrderStatus(temp_status) + '</td>');
+
+        tr.appendTo(tbody_requirements);
+    }
+    
+    setRowLinks();
+}
+
+populateRequirementsTable();
