@@ -200,7 +200,7 @@ $('#add-row').on('click', function(){
     var tr = $('<tr id="row-' + row_id + '"></tr>');
     tr.append('<td><select class="form-control" id="row-' + row_id + '-product-name"></select></td>'); // product name
     tr.append('<td><select class="form-control" id="row-' + row_id + '-suppliers"></select></td>'); // supplier
-    tr.append('<td><input type="number" class="form-control" name="qty" value="0" id="row-' + row_id + '-quantity"></td>'); // quantity
+    tr.append('<td><input type="number" class="form-control" name="qty" value="0" min="0" id="row-' + row_id + '-quantity"></td>'); // quantity
     tr.append('<td id="row-' + row_id + '-price"></td>'); // price
     tr.append('<td><a class="btn btn-raised btn-danger btn-sm pull-right" onclick="removeRow(' + row_id + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>');
     tr.appendTo(tbody);

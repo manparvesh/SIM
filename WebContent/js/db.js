@@ -163,7 +163,8 @@ DB.load = function() {
 
 
 	//  replacements
-    // replacement type: 1. customer return 2. defective
+    // replacement type: 2. customer return 1. defective
+    // order type: 1. sales 2. purchase
     alasql('DROP TABLE IF EXISTS replacements;');
     alasql('CREATE TABLE replacements(id INT IDENTITY, order_id INT, order_type INT, product_id INT, quantity INT, replacement_type INT);');
     var preplacements = alasql.promise('SELECT MATRIX * FROM CSV("../../data/REPLACEMENTS-REPLACEMENTS.csv", {headers: true})').then(
@@ -177,12 +178,12 @@ DB.load = function() {
 
 	//  requirements
     alasql('DROP TABLE IF EXISTS requirements;');
-    alasql('CREATE TABLE requirements(id INT IDENTITY, order_id INT, product_id INT, quantity INT, status INT);');
+    alasql('CREATE TABLE requirements(id INT IDENTITY, order_id INT, whouse INT, product_id INT, req INT, quantity INT, status INT);');
     var prequirements = alasql.promise('SELECT MATRIX * FROM CSV("../../data/REQUIREMENTS-REQUIREMENTS.csv", {headers: true})').then(
             function(requirements) {
                 for (var i = 0; i < requirements.length; i++) {
                     var requirement = requirements[i];
-                    alasql('INSERT INTO requirements VALUES(?,?,?,?);', requirements);
+                    alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?);', requirements);
                 }
             }); 
 

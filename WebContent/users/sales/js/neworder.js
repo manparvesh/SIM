@@ -31,13 +31,19 @@ function setWHouseValuesToDropDown(){
 
 function getWHouseID(){
     var customer_id = parseInt($('#whouse-select').val());
+    //co(alasql('select * from customers where id=?',[customer_id])[0]);
     return alasql('select * from customers where id=?',[customer_id])[0].whouse;
+}
+
+function getCustomerID(){
+    return parseInt($('#whouse-select').val());
 }
 
 setWHouseValuesToDropDown();
 
 function setProductNameValuesToDropDown(id){
     var rows = alasql('SELECT stock.*,item.detail FROM stock JOIN item ON stock.item=item.id WHERE whouse=?;',[getWHouseID()]);
+    //co(rows);
     $('#row-' + id + '-product-name').empty();
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
@@ -166,7 +172,7 @@ $('#add-row').on('click', function(){
     row_id++;
     var tr = $('<tr id="row-' + row_id + '"></tr>');
     tr.append('<td><select class="form-control" id="row-' + row_id + '-product-name"></select></td>'); // product name
-    tr.append('<td><input type="number" class="form-control" name="qty" value="0" id="row-' + row_id + '-quantity"></td>'); // quantity
+    tr.append('<td><input type="number" min="0" class="form-control" name="qty" value="0" id="row-' + row_id + '-quantity"></td>'); // quantity
     tr.append('<td id="row-' + row_id + '-price"></td>'); // price
     tr.append('<td><a class="btn btn-raised btn-danger btn-sm pull-right" onclick="removeRow(' + row_id + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>');
     tr.appendTo(tbody);
@@ -189,6 +195,7 @@ $('#update').on('click',function(){
     
     for(var i=1;i<=row_id;i++){
         var product_id = parseInt($('#row-' + i + '-product-name').val());
+        co('product id = '+$('#row-' + i + '-product-name').val());
         var product_name = alasql('select * from item where id=?',[product_id])[0].detail;
         //co(product_name);
         var whouse = whouses[getWHouseID()-1].name;
@@ -242,9 +249,11 @@ $('#pura-ok').on('click', function(){
     // add to list ordersremove
     var ordersremove_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremove')[0].id;
     
-    var whouse_id = getWHouseID(); // this is customer id, not WHouse id
+    var whouse_id = getWHouseID();
     
-    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?)', [ ordersremove_id, getWHouseID(), 1, date, '', '', '' ]);
+    alasql('INSERT INTO ordersremove VALUES(?,?,?,?,?,?,?)', [ ordersremove_id, getCustomerID(), 1, date, '', '', '' ]);
+    
+    co(alasql('select * from ordersremove where id=?',[ordersremove_id]));
     
     for(var i=1;i<=row_id;i++){
         // update stock record
