@@ -327,15 +327,15 @@ $('#pura-ok').on('click', function(){
         if (rows.length > 0) {
             stock_id = rows[0].id; 
             balance = rows[0].balance;
-            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
+            //alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
         } else {
             stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
-            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance + qty ]);
+            //alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance + qty ]);
         }
         // add trans record
         var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
         var supplier_id = parseInt($('#row-' + i + '-suppliers').val());
-        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
+        //alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance + qty, memo ]);
         
     }
 	
