@@ -91,13 +91,32 @@ $('#date-2').text(getPrettyDate(order.date_approved));
 $('#date-3').text(getPrettyDate(order.date_shipped));
 $('#date-4').text(getPrettyDate(order.date_completed));
 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd
+} 
+if(mm<10){
+    mm='0'+mm
+} 
+var today = yyyy+'-'+mm+'-'+dd;
+
+var date = today;
+
 $('#btn-approve-order').on('click', function(){
      alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 2, orderID ]);
+    
+    alasql('UPDATE ordersadd SET date_approved = ? WHERE id = ?', [ date, orderID ]);
     
     window.location.reload(true); // reload page
 }); 
 $('#btn-shipped').on('click', function(){
      alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 3, orderID ]);
+    
+    alasql('UPDATE ordersadd SET date_shipped = ? WHERE id = ?', [ date, orderID ]);
     
     window.location.reload(true); // reload page
 }); 

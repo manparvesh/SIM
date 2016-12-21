@@ -24,7 +24,7 @@ function getLabelForOrderStatus(n){
             return '<span class="label label-warning">Requirement placed</span>';
             break;
         case 8: // requirement complete - success
-            return '<span class="label label-success">Return complete</span>';
+            return '<span class="label label-success">Requirement complete</span>';
             break;
         default:
             return '';

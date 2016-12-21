@@ -221,7 +221,7 @@ function placeRequirementRequest(){
                     requirement_id = 0;
                 }
 
-                alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?)', [ requirement_id, orderID, temp_whouse_id, product.id, req, quant, 7 ]);
+                alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?,?)', [ requirement_id, orderID, temp_whouse_id, product.id, req, quant, 7, 0 ]);
                 
                 var space = ' ';
                 

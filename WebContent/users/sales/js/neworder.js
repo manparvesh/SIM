@@ -285,6 +285,6 @@ $('#pura-ok').on('click', function(){
 	
     setTimeout(function() {
         // open new product's page after 1 second
-	    window.location.assign('index.html');
+	    window.location.assign('order.html?id='+ordersremove_id);
     }, 1000);
 });

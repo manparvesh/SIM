@@ -235,6 +235,14 @@ function putValuesInRequirementModal(id){
         
         tr.appendTo(tbody_modal_req);
     }
+    
+    if(requirements[0].status > 7){//req order placed
+        $('#doneReq').hide();
+        $('#req-order-placed').show();
+        
+        var order_add_id = requirements[0].order_add_id;
+        $('#view-completed-order').attr('href','order.html?id='+order_add_id);
+    }
 }
 
 populateRequirementsTable();
@@ -242,4 +250,5 @@ populateRequirementsTable();
 function placeNewPurchaseOrder(id){
     co(id);
     //do something here
+    window.location.assign('neworder.html?type=req&id='+id);
 }

@@ -177,12 +177,12 @@ DB.load = function() {
 
 	//  requirements
     alasql('DROP TABLE IF EXISTS requirements;');
-    alasql('CREATE TABLE requirements(id INT IDENTITY, order_id INT, whouse INT, req INT, product_id INT, quantity INT, status INT);');
+    alasql('CREATE TABLE requirements(id INT IDENTITY, order_id INT, whouse INT, req INT, product_id INT, quantity INT, status INT, order_add_id INT);');
     var prequirements = alasql.promise('SELECT MATRIX * FROM CSV("data/REQUIREMENTS-REQUIREMENTS.csv", {headers: true})').then(
             function(requirements) {
                 for (var i = 0; i < requirements.length; i++) {
                     var requirement = requirements[i];
-                    alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?);', requirements);
+                    alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?,?);', requirements);
                 }
             }); 
 
