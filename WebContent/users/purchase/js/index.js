@@ -181,9 +181,11 @@ function populateRequirementsTable(){
     var whouses = alasql('select * from whouse');
     for (var i = 0; i < requirements.length; i++) {
         var requirement = requirements[i];
+        co(requirements)
         var tr = $('<tr onclick="putValuesInRequirementModal(' + requirement.order_id + ')" data-href="#" href="#requirementDialog"  data-toggle="modal"></tr>');
         tr.append('<td>' + requirement.order_id + '</td>');
         var temp_order_id = requirement.order_id;
+        co(alasql('select * from ordersremove where id=?',[requirement.order_id]));
         var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
         var temp_whouse_id = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
         //co(requirement.order_id);

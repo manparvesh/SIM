@@ -384,6 +384,7 @@ $('#pura-ok').on('click', function(){
 	
     setTimeout(function() {
         // open new product's page after 1 second
+        ordersadd_id = alasql('SELECT MAX(id) as id FROM ordersadd')[0].id;
 	    window.location.assign('order.html?id='+ordersadd_id);
     }, 1000);
 });

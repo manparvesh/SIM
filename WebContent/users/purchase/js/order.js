@@ -11,7 +11,7 @@ if(orderID){
 //co(alasql('SELECT * FROM ordersadddetails WHERE id=?', [orderID]));
 
 var order = alasql('SELECT * FROM ordersadd WHERE id=?', [orderID])[0];
-
+co(order);
 var status = order.status;
 if(status > 1){ //2 or more
     $('#new-order .line').css('background-color','#4caf50');
