@@ -1,3 +1,4 @@
+var loginID = alasql('select * from logins')[0].emp_id;
 var orderID = parseInt($.url().param('id') || '0');
 if(orderID){
     //alert(orderID);
@@ -25,12 +26,18 @@ if(status > 1){ //2 or more
         $('#order-shipped .imgcircle').css('background-color','#4caf50');
         $('#span-3').show();
         $('#btn-shipped').hide();
+        
+        if(loginID > 3){
+            //warehouse manager
+            $('#btn-complete').show();
+        }
     }
     
     if(status > 3){ //complete
         $('#order-shipped .line').css('background-color','#4caf50');
         $('#order-complete .imgcircle').css('background-color','#4caf50');
         $('#span-4').show();
+        $('#btn-complete').hide();
         //$('#btn-return').show();
     }
     if(status > 4){ // return init
@@ -117,6 +124,16 @@ $('#btn-shipped').on('click', function(){
      alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 3, orderID ]);
     
     alasql('UPDATE ordersadd SET date_shipped = ? WHERE id = ?', [ date, orderID ]);
+    
+    window.location.reload(true); // reload page
+}); 
+$('#btn-complete').on('click', function(){
+     alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 4, orderID ]);
+    
+    alasql('UPDATE ordersadd SET date_complete = ? WHERE id = ?', [ date, orderID ]);
+    
+    // add products to inventory
+    
     
     window.location.reload(true); // reload page
 }); 

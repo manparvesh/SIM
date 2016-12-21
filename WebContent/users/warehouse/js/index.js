@@ -75,8 +75,8 @@ function setRowLinks(){
 
 setRowLinks();
 
-var ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=?',[loginID - 3]);
-var ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=?',[loginID - 3]);
+var ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=? and status=2',[loginID - 3]);
+var ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=? and status=3',[loginID - 3]);
 
 function populateSaleTable(){
     var tbody_orders = $('#tbody-sales-orders');
@@ -114,14 +114,14 @@ populateSaleTable();
 
 function showOrders(type, status){
     if(type == 1){ // purchase orders (order add)
-        if(status < 4){
+        if(status < 5){
             ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=? AND status=?',[loginID - 3, status]);
         }else{
             ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=?',[loginID - 3]);
         }
         populatePurchaseTable();
     }else{ // sales ( remove )
-        if(status < 4){
+        if(status < 5){
             ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=? AND status=?',[loginID - 3, status]);
         }else{
             ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=?',[loginID - 3]);

@@ -1,3 +1,4 @@
+var loginID = alasql('select * from logins')[0].emp_id;
 var orderID = parseInt($.url().param('id') || '0');
 if(orderID){
     //alert(orderID);
@@ -30,18 +31,36 @@ if(status > 1){ //2 or more
     $('#order-approved .imgcircle').css('background-color','#4caf50');
     $('#span-2').show();
     $('#btn-approve-order').hide();
+    if(loginID >3 && status == 2){
+        $('#btn-ship-order').show();
+    }else{
+        $('#btn-ship-order').hide();
+    }
     
     if(status > 2){ //3 or more
         $('#order-approved .line').css('background-color','#4caf50');
         $('#order-shipped .imgcircle').css('background-color','#4caf50');
         $('#span-3').show();
+        $('#btn-ship-order').hide();
+        
+        if(loginID >3 && status == 3){
+            $('#btn-complete').show();
+        }else{
+            $('#btn-complete').hide();
+        }
     }
     
     if(status > 3){ //complete
         $('#order-shipped .line').css('background-color','#4caf50');
         $('#order-complete .imgcircle').css('background-color','#4caf50');
         $('#span-4').show();
+        $('#btn-ship-order').hide();
         $('#btn-return').show();
+        
+        if(loginID >3){
+            $('#btn-return').hide();
+        }
+        
     }
     if(status > 4){ // refund init
         $('#btn-return').hide();
@@ -129,21 +148,23 @@ function populateTable(){
         
         for (var i = 0; i < details.length; i++) {
             var detail = details[i];
-            var product = products[detail.product_id - 1];
-            var kind = alasql('select * from kind where id = ?',[product.kind])[0].text;
-            var tr = $('<tr></tr>');
-            tr.append('<td class="col-md-1">' + detail.id + '</td>');
-            tr.append('<td class="col-md-2">' + kind + '</td>');
-            tr.append('<td class="col-md-2">' + product.maker + '</td>');
-            tr.append('<td class="col-md-3">' + product.detail + '</td>');
-            tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
-            co(product.id + ' ' + temp_whouse_id);
-            var temp_whouse_q = alasql('select * from stock where item=? and whouse=?',[product.id, temp_whouse_id])[0].balance;
-            if(detail.quantity > temp_whouse_q){
-                requirement = true;
+            if(product){
+                var product = products[detail.product_id - 1];
+                var kind = alasql('select * from kind where id = ?',[product.kind])[0].text;
+                var tr = $('<tr></tr>');
+                tr.append('<td class="col-md-1">' + detail.id + '</td>');
+                tr.append('<td class="col-md-2">' + kind + '</td>');
+                tr.append('<td class="col-md-2">' + product.maker + '</td>');
+                tr.append('<td class="col-md-3">' + product.detail + '</td>');
+                tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
+                co(product.id + ' ' + temp_whouse_id);
+                var temp_whouse_q = alasql('select * from stock where item=? and whouse=?',[product.id, temp_whouse_id])[0].balance;
+                if(detail.quantity > temp_whouse_q){
+                    requirement = true;
+                }
+                tr.append('<td class="col-md-2">' + getAvailability(detail.quantity, temp_whouse_q) + '</td>');
+                tr.appendTo(tbody_order_details);
             }
-            tr.append('<td class="col-md-2">' + getAvailability(detail.quantity, temp_whouse_q) + '</td>');
-            tr.appendTo(tbody_order_details);
         }
     }
 }
@@ -288,8 +309,71 @@ function initiateReturn(){
     window.location.reload(true); // reload page
 }
 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd
+} 
+if(mm<10){
+    mm='0'+mm
+} 
+var today = yyyy+'-'+mm+'-'+dd;
+
+var date = today;
+
 $('#btn-approve-order').on('click', function(){
      alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 2, orderID ]);
     
+    alasql('UPDATE ordersremove SET date_approved = ? WHERE id = ?', [ date, orderID ]);
+    
     window.location.reload(true); // reload page
 }); 
+
+$('#btn-ship-order').on('click', function(){
+     alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 3, orderID ]);
+    
+    alasql('UPDATE ordersremove SET date_shipped = ? WHERE id = ?', [ date, orderID ]);
+    
+    window.location.reload(true); // reload page
+});
+
+$('#btn-complete').on('click', function(){
+     alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 4, orderID ]);
+    
+    alasql('UPDATE ordersremove SET date_completed = ? WHERE id = ?', [ date, orderID ]);
+    
+    // remove products from inventory
+    var whouse = temp_whouse_id;
+    for(var i=0;i<details.length;i++){
+        var detail = details[i];
+        
+        var item = detail.product_id;
+        
+        var qty = detail.quantity;
+        var customer_name = alasql('select * from customers where id=?',[order.customer_id])[0].name;
+
+        var memo = 'Sales Order by: ' + customer_name + ' on ' + date;
+
+        // update stock record
+        var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
+        
+        var stock_id, balance = 0;
+        if (rows.length > 0) {
+            stock_id = rows[0].id; 
+            balance = rows[0].balance;
+            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance - qty, stock_id ]);
+        } else {
+            stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
+            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance - qty ]);
+        }
+        // add trans record
+        var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance - qty, memo ]);
+    }
+    
+    window.location.reload(true); // reload page
+}); 
+
