@@ -223,7 +223,12 @@ function placeRequirementRequest(){
 
                 alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?)', [ requirement_id, orderID, temp_whouse_id, product.id, req, quant, 7 ]);
                 
-                co($('#requirement-row-' + (i+1) + '-quantity').val());
+                var space = ' ';
+                
+                //co(requirement_id + space + orderID  + space +  temp_whouse_id + space +  product.id + space +  req + space +  quant);
+                
+                
+                co(alasql('select * from requirements'));
                 
                 //co(alasql('select * from requirements where id=?',[requirement_id])[0]);
                 

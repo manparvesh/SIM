@@ -181,7 +181,7 @@ function populateRequirementsTable(){
     var whouses = alasql('select * from whouse');
     for (var i = 0; i < requirements.length; i++) {
         var requirement = requirements[i];
-        var tr = $('<tr data-href="requirement.html?id=' + requirement.order_id + '"></tr>');
+        var tr = $('<tr onclick="putValuesInRequirementModal(' + requirement.order_id + ')" data-href="#" href="#requirementDialog"  data-toggle="modal"></tr>');
         tr.append('<td>' + requirement.order_id + '</td>');
         var temp_order_id = requirement.order_id;
         var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
@@ -202,4 +202,44 @@ function populateRequirementsTable(){
     setRowLinks();
 }
 
+function putValuesInRequirementModal(id){
+    var requirements = alasql('select * from requirements where order_id=?',[id]);
+    $('#modal-span-order-id').text(id);
+    co(requirements);
+    var temp_customer_id = alasql('select * from ordersremove where id=?',[id])[0].customer_id;
+    var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
+    $('#modal-span-customer').text(temp_customer_name);
+    
+    //set onclick function to new purchase order button
+    $('#doneReq').attr('onclick','placeNewPurchaseOrder('+id+')');
+    
+    
+    var temp_whouse_name = alasql('select * from whouse');
+    
+    var tbody_modal_req = $('#modal-tbody-requirement');
+    tbody_modal_req.empty();
+    
+    //table
+    for(var i=0;i<requirements.length;i++){
+        var req = requirements[i];
+        var product = alasql('select * from item where id=?',[req.product_id])[0];
+        co(product);
+        var kind = alasql('select * from kind where id=?',[product.kind])[0];
+        var tr = $('<tr></tr>');
+        tr.append('<td>' + temp_whouse_name[req.whouse - 1].name + '</td>');
+        tr.append('<td>' + product.maker + '</td>');
+        tr.append('<td>' + kind.text + '</td>');
+        tr.append('<td>' + product.detail + '</td>');
+        tr.append('<td>' + req.req + '</td>');
+        tr.append('<td>' + req.quantity + '</td>');
+        
+        tr.appendTo(tbody_modal_req);
+    }
+}
+
 populateRequirementsTable();
+
+function placeNewPurchaseOrder(id){
+    co(id);
+    //do something here
+}

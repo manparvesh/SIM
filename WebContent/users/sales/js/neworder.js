@@ -178,7 +178,7 @@ $('#add-row').on('click', function(){
     tr.appendTo(tbody);
     
     setProductNameValuesToDropDown(row_id);
-    setWHouseValuesToDropDown(row_id);
+    //setWHouseValuesToDropDown(row_id);
     setQuantityFunction(row_id);
 });
 
