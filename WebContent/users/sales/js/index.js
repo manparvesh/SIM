@@ -159,15 +159,15 @@ handleScheduleCalendar();
 function populateReturnsTable(){
     var tbody_returns = $('#tbody-returns');
     tbody_returns.empty();
-    var returns = alasql('SELECT * FROM replacements');
-    var rets = alasql('SELECT * FROM replacements GROUP BY order_id');
+    var returns = alasql('SELECT * FROM replacements where order_type=2');
+    var rets = alasql('SELECT * FROM replacements GROUP BY order_id where order_type=2');
     
     //co('order_remove:');
     //co(order_remove);
     var whouses = alasql('select * from whouse');
     for (var i = 0; i < rets.length; i++) {
         var ret1 = rets[i];
-        var return1 = alasql('SELECT * FROM replacements where order_id=?',[ret1.order_id])[0];
+        var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=2',[ret1.order_id])[0];
         co(return1);
         var temp_order_id = return1.order_id;
         var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];

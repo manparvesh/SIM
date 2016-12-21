@@ -67,12 +67,13 @@
 
 	<div class="container">
         <div class="well container-fluid">
-        <h2 class="text-center text-primary">New Purchase Order form</h2>
+        <h2 class="text-center text-primary">Defective products form</h2>
+            <hr>
             <!-- The top -->
             <div class="row container-fluid">
                 <div class="col-md-4 text-center active" style="padding:10px;" id="top-1">
                     <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">1</span>&nbsp;&nbsp;Enter details</h4>
-                    <p>Enter details for replacement</p>
+                    <p>Enter details of defective products</p>
                 </div>
                 <div class="col-md-4 text-center" style="padding:10px;" id="top-2">
                     <h4 class="text-primary"><span class="badge" style="background-color:black;font-size:15px;">2</span>&nbsp;&nbsp;Confirm details</h4>
@@ -90,6 +91,9 @@
                 
                 <div class="row">
                     <div class="col-md-4">
+                        <h3 class="text-center text-primary">Select purchase order:</h3>
+                    </div>
+                    <div class="col-md-8">
                         <select class="form-control" id="order-select"></select>
                     </div>
                 </div>
@@ -101,17 +105,11 @@
                             <th>Product name</th>
                             <th>Supplier</th>
                             <th>Quantity</th>
-                            <th>Price (in JP¥)</th>
-                            <th></th>
+                            <th>Defective items</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-orders"></tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <th>Total (in JP¥):</th>
-                        <th id="total">0</th>
-                    </tr>
+                    
                 </table>
                 
                 <button type="submit" class="btn btn-raised btn-success btn-block" id="update">
@@ -125,20 +123,12 @@
                     <thead>
                         <tr>
                             <th>Product name</th>
-                            <th>Warehouse</th>
                             <th>Supplier</th>
                             <th>Quantity</th>
-                            <th>Price (in JP¥)</th>
+                            <th>Defective items</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-suppliers-confirm"></tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th>Total (in JP¥):</th>
-                        <th id="total-confirm">0</th>
-                    </tr>
+                    <tbody id="tbody-confirm"></tbody>
                 </table>
                 
                 <div class="row">
@@ -159,7 +149,7 @@
         </div>
     </div>
     <script src="../../lib/bootstrap.js"></script>
-	<script src="js/defective.js"></script>
+	<script src="js/newdefective.js"></script>
     
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>

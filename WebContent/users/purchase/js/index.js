@@ -236,7 +236,7 @@ function putValuesInRequirementModal(id){
         tr.appendTo(tbody_modal_req);
     }
     
-    if(requirements[0].status > 7){//req order placed
+    if(requirements[0].status == 8){//req order placed
         $('#doneReq').hide();
         $('#req-order-placed').show();
         
@@ -252,3 +252,44 @@ function placeNewPurchaseOrder(id){
     //do something here
     window.location.assign('neworder.html?type=req&id='+id);
 }
+
+function populateDefectiveProductsTable(){
+    var tbody_returns = $('#tbody-defective');
+    tbody_returns.empty();
+    var returns = alasql('SELECT * FROM replacements where order_type=1'); //purchase order tha
+    var rets = alasql('SELECT * FROM replacements GROUP BY order_id where order_type=1');
+    
+    //co('order_remove:');
+    //co(order_remove);
+    var whouses = alasql('select * from whouse');
+    for (var i = 0; i < rets.length; i++) {
+        var ret1 = rets[i];
+        var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[ret1.order_id])[0];
+        co(return1);
+        var temp_order_id = return1.order_id;
+        var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];
+        var temp_customer_id = alasql('select * from ordersremove where id=?',[temp_order_id])[0].customer_id;
+        var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
+        
+        var returnType = return1.replacement_type;
+        var returnText;
+        if(returnType == 1){
+            returnText = 'Defective';
+        }else{
+            returnText = 'Not required';
+        }
+        
+        //add these value to table
+        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
+        tr.append('<td>' + return1.order_id + '</td>');
+        tr.append('<td>' + temp_customer_name + '</td>');
+        tr.append('<td>' + returnText + '</td>');
+        tr.append('<td>' + getLabelForOrderStatus(return1.status) + '</td>');
+
+        tr.appendTo(tbody_returns);
+    }
+    
+    setRowLinks();
+}
+
+populateDefectiveProductsTable();
