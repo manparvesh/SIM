@@ -181,24 +181,27 @@ function populateRequirementsTable(){
     var whouses = alasql('select * from whouse');
     for (var i = 0; i < requirements.length; i++) {
         var requirement = requirements[i];
-        co(requirements)
-        var tr = $('<tr onclick="putValuesInRequirementModal(' + requirement.order_id + ')" data-href="#" href="#requirementDialog"  data-toggle="modal"></tr>');
-        tr.append('<td>' + requirement.order_id + '</td>');
-        var temp_order_id = requirement.order_id;
-        co(alasql('select * from ordersremove where id=?',[requirement.order_id]));
-        var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
-        var temp_whouse_id = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
-        //co(requirement.order_id);
-        //co(temp_whouse_id);
-        //co(alasql('select * from ordersremove'));
-        var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse_id])[0].name;
-        tr.append('<td>' + temp_whouse_name + '</td>');
-        //co(requirement);
-        //co(alasql('select * from ordersremove where id=?',[requirement.order_id])[0]);
-        var temp_status = alasql('select * from requirements where order_id=?',[requirement.order_id])[0].status;
-        tr.append('<td>' + getLabelForOrderStatus(temp_status) + '</td>');
+        if(requirement.length){
+            var tr = $('<tr onclick="putValuesInRequirementModal(' + requirement.order_id + ')" data-href="#" href="#requirementDialog"  data-toggle="modal"></tr>');
+            tr.append('<td>' + requirement.order_id + '</td>');
+            var temp_order_id = requirement.order_id;
+            co(alasql('select * from ordersremove where id=?',[requirement.order_id]));
+            //co(requirement);
+            //co(alasql('select * from ordersremove'));
+            var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
+            var temp_whouse_id = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
+            //co(requirement.order_id);
+            //co(temp_whouse_id);
+            //co(alasql('select * from ordersremove'));
+            var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse_id])[0].name;
+            tr.append('<td>' + temp_whouse_name + '</td>');
+            //co(requirement);
+            //co(alasql('select * from ordersremove where id=?',[requirement.order_id])[0]);
+            var temp_status = alasql('select * from requirements where order_id=?',[requirement.order_id])[0].status;
+            tr.append('<td>' + getLabelForOrderStatus(temp_status) + '</td>');
 
-        tr.appendTo(tbody_requirements);
+            tr.appendTo(tbody_requirements);
+        }
     }
     
     setRowLinks();
@@ -224,18 +227,20 @@ function putValuesInRequirementModal(id){
     //table
     for(var i=0;i<requirements.length;i++){
         var req = requirements[i];
-        var product = alasql('select * from item where id=?',[req.product_id])[0];
-        co(product);
-        var kind = alasql('select * from kind where id=?',[product.kind])[0];
-        var tr = $('<tr></tr>');
-        tr.append('<td>' + temp_whouse_name[req.whouse - 1].name + '</td>');
-        tr.append('<td>' + product.maker + '</td>');
-        tr.append('<td>' + kind.text + '</td>');
-        tr.append('<td>' + product.detail + '</td>');
-        tr.append('<td>' + req.req + '</td>');
-        tr.append('<td>' + req.quantity + '</td>');
-        
-        tr.appendTo(tbody_modal_req);
+        if(req){
+            var product = alasql('select * from item where id=?',[req.product_id])[0];
+            co(product);
+            var kind = alasql('select * from kind where id=?',[product.kind])[0];
+            var tr = $('<tr></tr>');
+            tr.append('<td>' + temp_whouse_name[req.whouse - 1].name + '</td>');
+            tr.append('<td>' + product.maker + '</td>');
+            tr.append('<td>' + kind.text + '</td>');
+            tr.append('<td>' + product.detail + '</td>');
+            tr.append('<td>' + req.req + '</td>');
+            tr.append('<td>' + req.quantity + '</td>');
+
+            tr.appendTo(tbody_modal_req);
+        }
     }
     
     if(requirements[0].status == 8){//req order placed
@@ -259,7 +264,9 @@ function populateDefectiveProductsTable(){
     var tbody_returns = $('#tbody-defective');
     tbody_returns.empty();
     var returns = alasql('SELECT * FROM replacements where order_type=1'); //purchase order tha
-    var rets = alasql('SELECT * FROM replacements GROUP BY order_id where order_type=1');
+    var rets = alasql('SELECT * FROM replacements  where order_type=1 GROUP BY order_id');
+    
+    co(rets);
     
     //co('order_remove:');
     //co(order_remove);
@@ -268,30 +275,81 @@ function populateDefectiveProductsTable(){
         var ret1 = rets[i];
         var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[ret1.order_id])[0];
         co(return1);
-        var temp_order_id = return1.order_id;
-        var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];
-        var temp_customer_id = alasql('select * from ordersremove where id=?',[temp_order_id])[0].customer_id;
-        var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
-        
-        var returnType = return1.replacement_type;
-        var returnText;
-        if(returnType == 1){
-            returnText = 'Defective';
-        }else{
-            returnText = 'Not required';
-        }
-        
-        //add these value to table
-        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
-        tr.append('<td>' + return1.order_id + '</td>');
-        tr.append('<td>' + temp_customer_name + '</td>');
-        tr.append('<td>' + returnText + '</td>');
-        tr.append('<td>' + getLabelForOrderStatus(return1.status) + '</td>');
+        if(return1){
+            var temp_order_id = return1.order_id;
+            var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];
+            var temp_customer_id = alasql('select * from ordersremove where id=?',[temp_order_id])[0].customer_id;
+            var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
 
-        tr.appendTo(tbody_returns);
+            var returnType = return1.replacement_type;
+            var returnText;
+            if(returnType == 1){
+                returnText = 'Defective';
+            }else{
+                returnText = 'Not required';
+            }
+
+            //add these value to table
+            var tr = $('<tr href="#defectiveDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
+            tr.append('<td>' + return1.order_id + '</td>');
+            tr.append('<td>' + temp_customer_name + '</td>');
+            tr.append('<td>' + returnText + '</td>');
+            tr.append('<td>' + getLabelForOrderStatus(return1.status) + '</td>');
+
+            tr.appendTo(tbody_returns);
+        }
     }
     
     setRowLinks();
 }
 
 populateDefectiveProductsTable();
+
+function populateModalReturnDetails(return_id){
+    $('#modal-span-order-id').text(return_id);
+        var temp_customer_id = alasql('select * from ordersremove where id=?',[return_id])[0].customer_id;
+        var temp_customer_name = alasql('select * from suppliers where id=?',[return_id])[0].name;
+    $('#modal-span-customer').text(temp_customer_name);
+    
+    var modal_tbody_returns = $('#modal-tbody-returns');
+    modal_tbody_returns.empty();
+    var returns = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[return_id]);
+    co(returns);
+    
+    var returnType = returns[0].replacement_type;
+    var returnText;
+    if(returnType == 1){
+        returnText = 'Defective';
+    }else{
+        returnText = 'Not required';
+    }
+    
+    $('#modal-span-replacement-type').text(returnText);
+    $('#modal-span-status').empty();
+    $('#modal-span-status').append(getLabelForOrderStatus(returns[0].status));
+    
+    //co('order_remove:');
+    //co(order_remove);
+    var whouses = alasql('select * from whouse');
+    for (var i = 0; i < returns.length; i++) {
+        var return1 = returns[i];
+        co(return1);
+        
+        var temp_whouse = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
+        var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse])[0].name;
+        
+        var temp_product_id = return1.product_id;
+        var temp_prod = alasql('select * from item where id=?',[temp_product_id])[0];
+        var kind = alasql('select * from kind where id=?',[temp_prod.kind])[0].text;
+        
+        //add these value to table
+        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
+        tr.append('<td>' + temp_whouse_name + '</td>');
+        tr.append('<td>' + temp_prod.detail + '</td>');
+        tr.append('<td>' + temp_prod.maker + '</td>');
+        tr.append('<td>' + kind + '</td>');
+        tr.append('<td>' + return1.quantity + '</td>');
+
+        tr.appendTo(modal_tbody_returns);
+    }
+}

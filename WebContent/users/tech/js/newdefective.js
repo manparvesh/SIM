@@ -150,6 +150,6 @@ $('#pura-ok').on('click', function(){
 	
     setTimeout(function() {
         // open new product's page after 1 second
-	    window.location.assign('defective.html?id='+ordersadd_id);
+	    window.location.assign('defective.html?id='+req_order_id);
     }, 1000);
 });

@@ -31,7 +31,7 @@ if(status > 1){ //2 or more
         $('#order-shipped .line').css('background-color','#4caf50');
         $('#order-complete .imgcircle').css('background-color','#4caf50');
         $('#span-4').show();
-        $('#btn-return').show();
+        //$('#btn-return').show();
     }
     if(status > 4){ // return init
         $('#btn-return').hide();
@@ -120,3 +120,9 @@ $('#btn-shipped').on('click', function(){
     
     window.location.reload(true); // reload page
 }); 
+
+var returnType = 1;
+
+function setReturnType(n){
+    returnType = parseInt(n);
+}
