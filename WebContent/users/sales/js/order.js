@@ -277,7 +277,7 @@ function initiateReturn(){
         var qty = parseInt($('#row-' + (i+1) + '-quantity').val());
         
         if(qty){
-            alasql('INSERT INTO replacements VALUES(?,?,?,?,?,?,?)', [ replacement_id, orderID, 1, product_id, qty, returnType, 5 ]);
+            alasql('INSERT INTO replacements VALUES(?,?,?,?,?,?,?)', [ replacement_id, orderID, 2, product_id, qty, returnType, 5 ]);
         }
     }
     co(alasql('select * from replacements'));

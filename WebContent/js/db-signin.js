@@ -165,12 +165,12 @@ DB.load = function() {
 	//  replacements
     // replacement type: 1. customer return 2. defective
     alasql('DROP TABLE IF EXISTS replacements;');
-    alasql('CREATE TABLE replacements(id INT IDENTITY, order_id INT, order_type INT, product_id INT, quantity INT, replacement_type INT);');
+    alasql('CREATE TABLE replacements(id INT IDENTITY, order_id INT, order_type INT, product_id INT, quantity INT, replacement_type INT, status INT);');
     var preplacements = alasql.promise('SELECT MATRIX * FROM CSV("data/REPLACEMENTS-REPLACEMENTS.csv", {headers: true})').then(
             function(replacements) {
                 for (var i = 0; i < replacements.length; i++) {
                     var replacement = replacements[i];
-                    alasql('INSERT INTO replacements VALUES(?,?,?,?,?,?);', replacement);
+                    alasql('INSERT INTO replacements VALUES(?,?,?,?,?,?,?);', replacement);
                 }
             }); 
 
