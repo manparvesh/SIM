@@ -261,7 +261,7 @@ function placeNewPurchaseOrder(id){
 }
 
 function populateDefectiveProductsTable(){
-    var tbody_returns = $('#tbody-defective');
+    var tbody_returns = $('#tbody-defective'); 
     tbody_returns.empty();
     var returns = alasql('SELECT * FROM replacements where order_type=1'); //purchase order tha
     var rets = alasql('SELECT * FROM replacements  where order_type=1 GROUP BY order_id');
