@@ -387,3 +387,8 @@ $('#btn-complete').on('click', function(){
     window.location.reload(true); // reload page
 }); 
 
+function logout(){
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+}
+

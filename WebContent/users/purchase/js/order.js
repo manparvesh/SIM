@@ -187,3 +187,8 @@ var returnType = 1;
 function setReturnType(n){
     returnType = parseInt(n);
 }
+
+function logout(){
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+}

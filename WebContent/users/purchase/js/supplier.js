@@ -63,3 +63,8 @@ function populateTable2(){
 
 populateTable();
 populateTable2();
+
+function logout(){
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+}

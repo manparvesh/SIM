@@ -153,3 +153,8 @@ $('#pura-ok').on('click', function(){
 	    window.location.assign('defective.html?id='+req_order_id);
     }, 1000);
 });
+
+function logout(){
+    alasql('DROP TABLE IF EXISTS logins;');
+    alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
+}
