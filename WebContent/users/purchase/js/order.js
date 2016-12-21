@@ -127,13 +127,57 @@ $('#btn-shipped').on('click', function(){
     
     window.location.reload(true); // reload page
 }); 
+
+function getToday(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+
+    return today;
+}
+
 $('#btn-complete').on('click', function(){
      alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 4, orderID ]);
     
     alasql('UPDATE ordersadd SET date_complete = ? WHERE id = ?', [ date, orderID ]);
     
     // add products to inventory
-    
+    var whouse = whouse;
+    for(var i=0;i<details.length;i++){
+        var detail = details[i];
+        
+        var item = detail.product_id;
+        
+        var qty = detail.quantity;
+        var customer_name = alasql('select * from suppliers where id=?',[order.supplier_id])[0].name;
+
+        var memo = 'Purchase Order by: ' + customer_name + ' on ' + getToday();
+
+        // update stock record
+        var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
+        
+        var stock_id, balance = 0;
+        if (rows.length > 0) {
+            stock_id = rows[0].id; 
+            balance = rows[0].balance;
+            alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
+        } else {
+            stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
+            alasql('INSERT INTO stock VALUES(?,?,?,?)', [ stock_id, item, whouse, balance + qty ]);
+        }
+        // add trans record
+        var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, getToday(), qty, balance + qty, memo ]);
+    }
     
     window.location.reload(true); // reload page
 }); 

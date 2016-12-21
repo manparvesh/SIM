@@ -45,7 +45,7 @@ sql += q2 ? 'AND kind.id = ' + q2 + ' ' : '';
 
 sql += 'AND whouse.id = ' + (loginID - 3) + ' ';
 
-console.log(sql);
+//console.log(sql);
 
 // send query
 var stocks = alasql(sql, [ '%' + q3 + '%' ]);

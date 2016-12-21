@@ -13,9 +13,12 @@ var requirement = false;
 
 var order = alasql('SELECT * FROM ordersremove WHERE id=?', [orderID])[0];
 
+co('order:')
 co(order);
+co('order details:')
+co(alasql('select * from ordersremovedetails where order_id=?',[orderID]));
 
-co(alasql('select * from customers where id=?',[order.customer_id]));
+//co(alasql('select * from customers where id=?',[order.customer_id]));
 
 // put details of order
 $('#order-id').text(orderID);
@@ -76,6 +79,7 @@ if(status > 1){ //2 or more
 }
 
 var details = alasql('SELECT * FROM ordersremovedetails WHERE order_id=?',[orderID]);
+//co(details);
 
 function getPrettyDate(daaate){
     return moment(daaate).format('LL');
@@ -110,6 +114,8 @@ function populateTable(){
     
     var thead_order_details = $('#thead-sales-order-details');
     thead_order_details.empty();
+    
+    details = alasql('SELECT * FROM ordersremovedetails WHERE order_id=?',[orderID]);
     
     if(status>1){
         thead_order_details.append('\
@@ -148,7 +154,7 @@ function populateTable(){
         
         for (var i = 0; i < details.length; i++) {
             var detail = details[i];
-            if(product){
+            if(1){
                 var product = products[detail.product_id - 1];
                 var kind = alasql('select * from kind where id = ?',[product.kind])[0].text;
                 var tr = $('<tr></tr>');
@@ -168,6 +174,7 @@ function populateTable(){
         }
     }
 }
+
 function populateModalTable(){
     var modal_tbody_order_details = $('#modal-tbody-sales-order-details');
     var products = alasql('SELECT * FROM item');
@@ -309,25 +316,28 @@ function initiateReturn(){
     window.location.reload(true); // reload page
 }
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
 
-var yyyy = today.getFullYear();
-if(dd<10){
-    dd='0'+dd
-} 
-if(mm<10){
-    mm='0'+mm
-} 
-var today = yyyy+'-'+mm+'-'+dd;
+function getToday(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
 
-var date = today;
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+
+    return today;
+}
 
 $('#btn-approve-order').on('click', function(){
      alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 2, orderID ]);
     
-    alasql('UPDATE ordersremove SET date_approved = ? WHERE id = ?', [ date, orderID ]);
+    alasql('UPDATE ordersremove SET date_approved = ? WHERE id = ?', [ getToday(), orderID ]);
     
     window.location.reload(true); // reload page
 }); 
@@ -335,7 +345,7 @@ $('#btn-approve-order').on('click', function(){
 $('#btn-ship-order').on('click', function(){
      alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 3, orderID ]);
     
-    alasql('UPDATE ordersremove SET date_shipped = ? WHERE id = ?', [ date, orderID ]);
+    alasql('UPDATE ordersremove SET date_shipped = ? WHERE id = ?', [ getToday(), orderID ]);
     
     window.location.reload(true); // reload page
 });
@@ -343,7 +353,7 @@ $('#btn-ship-order').on('click', function(){
 $('#btn-complete').on('click', function(){
      alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 4, orderID ]);
     
-    alasql('UPDATE ordersremove SET date_completed = ? WHERE id = ?', [ date, orderID ]);
+    alasql('UPDATE ordersremove SET date_completed = ? WHERE id = ?', [ getToday(), orderID ]);
     
     // remove products from inventory
     var whouse = temp_whouse_id;
@@ -355,7 +365,7 @@ $('#btn-complete').on('click', function(){
         var qty = detail.quantity;
         var customer_name = alasql('select * from customers where id=?',[order.customer_id])[0].name;
 
-        var memo = 'Sales Order by: ' + customer_name + ' on ' + date;
+        var memo = 'Sales Order by: ' + customer_name + ' on ' + getToday();
 
         // update stock record
         var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
@@ -371,7 +381,7 @@ $('#btn-complete').on('click', function(){
         }
         // add trans record
         var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
-        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, date, qty, balance - qty, memo ]);
+        alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, stock_id, getToday(), qty, balance - qty, memo ]);
     }
     
     window.location.reload(true); // reload page
