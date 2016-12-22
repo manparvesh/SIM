@@ -84,7 +84,7 @@ function addRows(){
             rows_no++;
             row_id++;
             
-            var opt_transfer = (maxBal - minBal)/2;
+            var opt_transfer = parseInt((maxBal - minBal)/2);
             
             var whouses = alasql('select * from whouse');
             

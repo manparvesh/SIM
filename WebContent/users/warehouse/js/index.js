@@ -175,6 +175,14 @@ function populateRestockingTable(){
         if($('#setOrderToShippedLabel-' + restock.id)){
             $('#setOrderToShippedLabel-' + restock.id).on('click', function(){
                 alasql('UPDATE restock SET status = ? WHERE id = ?', [ 3, restock.id ]);
+                
+                //update this in other tables
+                var prod_dets = alasql('select * from stock where item=? and whouse=?',[restock.product_id, restock.whouse_from])[0];
+                var balance = prod_dets.balance;
+                var qty = restock.quantity;
+                
+                alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance - qty, prod_dets.id ]);
+                
                 populateRestockingTable();
             });
         }
@@ -182,6 +190,14 @@ function populateRestockingTable(){
         if($('#setOrderToCompleteLabel-' + restock.id)){
             $('#setOrderToCompleteLabel-' + restock.id).on('click', function(){
                 alasql('UPDATE restock SET status = ? WHERE id = ?', [ 4, restock.id ]);
+                
+                //update this in other tables
+                var prod_dets = alasql('select * from stock where item=? and whouse=?',[restock.product_id, restock.whouse_to])[0];
+                var balance = prod_dets.balance;
+                var qty = restock.quantity;
+                
+                alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, prod_dets.id ]);
+
                 populateRestockingTable();
             });
         }
