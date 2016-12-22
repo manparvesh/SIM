@@ -83,59 +83,66 @@
 
 	<div class="container" style="padding-top:70px;" id="everything">
         <!-- supplier details -->
-        <table class="table">
-			<tbody>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Supplier ID</th>
-					<td id="supplier-id"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Name</th>
-					<td id="name"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Address</th>
-					<td id="address"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Contact</th>
-					<td id="contact"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Warehouse</th>
-					<td id="warehouse"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Delivery time (days)</th>
-					<td id="delivery-time"></td>
-				</tr>
-			</tbody>
-		</table>
+        <div class="well container-fluid" style="background-color: #009688;color:white;">
+            <h1 class="text-center"><strong>SUPPLIER DETAILS</strong></h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 class="text-center"><strong>Supplier ID:</strong>&nbsp;&nbsp;<span id="supplier-id"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class=""><strong>Name:</strong>&nbsp;&nbsp;<span id="name"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="pull-left"><strong>Address:</strong>&nbsp;&nbsp;<span id="address"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="text-center"><strong>contact:</strong>&nbsp;&nbsp;<span id="contact"></span></h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-center"><strong>Warehouse:</strong>&nbsp;&nbsp;<span id="warehouse"></span></h4>
+                </div>
+
+                <div class="col-md-6">
+                    <h4 class="text-center"><strong>Delivery time (days):</strong>&nbsp;&nbsp;<span id="delivery-time"></span></h4>
+                </div>
+            </div>
+        </div>
         
-        <h3 class="text-primary">Products available</h3>
+        <div class="well container-fluid">
+            <h2 class="text-primary text-center">Products available</h2>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">ID</th>
+                        <th class="col-md-2">Product</th>
+                        <th class="col-md-1">Cost (in JPY)</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-supplier-details"></tbody>
+            </table>
+        </div>
         
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="col-md-1">ID</th>
-                    <th class="col-md-2">Product</th>
-                    <th class="col-md-1">Cost (in JPY)</th>
-                </tr>
-            </thead>
-            <tbody id="tbody-supplier-details"></tbody>
-        </table>
-        
-        <h3 class="text-primary">Orders placed</h3>
-        
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="col-md-1">ID</th>
-                    <th class="col-md-2">Status</th>
-                </tr>
-            </thead>
-            <tbody id="tbody-supplier-orders"></tbody>
-        </table>
+        <div class="well container-fluid">
+            <h2 class="text-primary text-center">Orders placed</h2>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">ID</th>
+                        <th class="col-md-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-supplier-orders"></tbody>
+            </table>
+	   </div>
 	</div>
     
     <script src="js/supplier.js"></script>
