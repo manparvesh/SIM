@@ -112,8 +112,8 @@ function setSupplierValuesToDropDown(id){
     //co(minCost + ' ' + minIndex);
     $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
     $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
-    co('min= '+minCost+' max= '+maxCost);
-    co('min= '+minIndex+' max= '+maxIndex);
+    //co('min= '+minCost+' max= '+maxCost);
+    //co('min= '+minIndex+' max= '+maxIndex);
 }
 
 function setQuantityFunction(id){
@@ -432,27 +432,27 @@ if(order_type == 'req'){
 // check if the order is monthly
 
 if(order_type == 'monthly'){
-    var req_order_id = parseInt(($.url().param('id')));
+    var whouse = parseInt($('#whouse-select').val());
     
-    var order_remove = alasql('select * from requirements where order_id=?',[req_order_id]);
-    
-    co(order_remove);
-    
-    var req_whouse_id = order_remove[0].whouse;
-    
-    //set whouse location
-    $('#whouse-select').val(req_whouse_id);
+    var prods = alasql('select * from stock where whouse=?',[whouse]);
+    //co(alasql('select * from stock where whouse=1'));
+    //co(prods)
     
     // add products to list
-    for(var i=0;i<order_remove.length;i++){
-        var prod = order_remove[i];
+    for(var i=0;i<prods.length;i++){
+        var prod = prods[i];
         
         addRow();
         
-        $('#row-' + (i+1) + '-product-name').val(prod.product_id);
+        $('#row-' + (i+1) + '-product-name').val(prod.item);
         setSupplierValuesToDropDown(i+1);
-        co(prod.quantity);
-        $('#row-' + (i+1) + '-quantity').val(prod.quantity);
+        //co(prod.quantity);
+        
+        var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[prod.item, whouse])[0].optimum;
+        
+        //co(optimum)
+        
+        $('#row-' + (i+1) + '-quantity').val(optimum);
         
         var id = (i+1);
         
