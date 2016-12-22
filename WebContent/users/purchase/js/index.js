@@ -91,11 +91,23 @@ function setRowLinks(){
 }
 
 //set order numbers in dashboard
-var temporders = alasql('SELECT * FROM ordersadd WHERE status=?', [1]);
+var temporders = alasql('SELECT * FROM requirements');
 if(temporders.length){
     $('#well-orders').text(temporders.length);
 }else{
     $('#well-orders').text('No');
+}//set order numbers in dashboard
+var temporders = alasql('SELECT * FROM restock');
+if(temporders.length){
+    $('#restocking-requests').text(temporders.length);
+}else{
+    $('#restocking-requests').text('No');
+}//set order numbers in dashboard
+var temporders = alasql('SELECT * FROM replacements where replacement_type=2');
+if(temporders.length){
+    $('#products').text(temporders.length);
+}else{
+    $('#products').text('No');
 }
 
 
@@ -184,8 +196,14 @@ DB.getRestockDates = function(n){
 
 function handleScheduleCalendar(){
     var today=new Date,d = today.getDate(),m=today.getMonth()+1,y=today.getFullYear();
-    var s = [['30/12/2016',"Add monthly stock","neworder.html","#5da5e8",""]]; //DB.getRestockDates(100);
-    s.push([d+"/"+m+"/"+y,"Today","#","#b6c832",""]);
+    var s = [
+        ['29/12/2016',"Monthly restocking","restock.html","#ff9703",""],
+        ['30/12/2016',"Add monthly stock","neworder.html?type=monthly","#3bc8f2",""],
+        ['29/1/2017',"Monthly restocking","restock.html","#ff9703",""],
+        ['30/1/2017',"Add monthly stock","neworder.html?type=monthly","#3bc8f2","21"]
+            ]; //DB.getRestockDates(100);
+    //s.push();
+    s.push([d+"/"+m+"/"+y,"Today","#","#009688",""]);
     var o=$("#schedule-calendar");
     $(o).calendar({events:s,tooltip_options:{placement:"top",html:true}});
     $(o).find("td.event").each(
