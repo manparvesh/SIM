@@ -18,13 +18,16 @@
     <!-- Bootstrap Material Design -->
     <link href="../../material/css/bootstrap-material-design.css" rel="stylesheet">
     <link href="../../material/css/ripples.min.css" rel="stylesheet">
-    <link href="../../material/css/jquery.dropdown.css" rel="stylesheet">
     
     <!-- Effective navigation using sidebar -->
     <script src="../../js/tab-nav.js"></script>
     
     <!-- Effective navigation using sidebar -->
     <script src="../../js/order-status.js"></script>
+    
+    <script src="../../js/co.js"></script>
+    
+    <link href="../../plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
     
     <title>COMPANY</title>
 </head>
@@ -227,19 +230,19 @@
                     <div class="container" style="margin-top:30px;">
                         <div class="well col-md-10" style="margin-left:60px;">
                             <h3 class="text-center text-primary">Calendar</h3>
-                        <hr>
-
+                            <hr>
+                            <div id="schedule-calendar" class="bootstrap-calendar"></div>
                         </div>
                     </div>
                     <div class="container" style="margin-top:10px;">
-                        <div class="well col-md-3" style="margin-right:47.5px;margin-left:60px;cursor:pointer;" onclick="showTab(3,3);">
-                            <span id="well-orders"></span> new orders!
+                        <div class="well col-md-3" style="margin-right:47.5px;margin-left:60px;cursor:pointer;" onclick="showTab(3,5);">
+                            <span id="well-orders"></span> Incoming orders!
                         </div>
-                        <div class="well col-md-3" style="margin-right:47.5px;">
-                            <span id="restocking-requests"></span> Restocking requests
+                        <div class="well col-md-3" style="margin-right:47.5px;cursor:pointer;" onclick="showTab(4,5);">
+                            <span id="restocking-requests"></span> Outgoing orders!
                         </div>
-                        <div class="well col-md-3">
-                            <span id="products"></span> products
+                        <div class="well col-md-3" style="cursor:pointer;" onclick="showTab(5,5);">
+                            <span id="products"></span> Restocking orders
                         </div>
                     </div>
                 </div>
@@ -249,7 +252,7 @@
                     <div class="container-fluid">
                         <h2 class="text-center text-primary">Restocking orders</h2>
                         <hr>
-
+                        
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -269,12 +272,16 @@
             </div>
 	   </div>
 	</div>
-	<script src="js/index.js"></script>
+	
     <script src="../../lib/bootstrap.js"></script>
     
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>
     <script src="../../material/js/ripples.min.js"></script>
+
+    <script src="../../plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>    
+    <script src="../../plugins/moment/moment.min.js"></script>  
+	<script src="js/index.js"></script>
     
     <!-- Script to initialize Material Design -->
     <script>

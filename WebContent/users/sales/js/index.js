@@ -145,8 +145,8 @@ function logout(){
 
 function handleScheduleCalendar(){
     var today=new Date,d = today.getDate(),m=today.getMonth()+1,y=today.getFullYear();
-    var s = [['30/12/2016',"Add monthly stock","neworder.html","#5da5e8",""]]; //DB.getRestockDates(100);
-    s.push([d+"/"+m+"/"+y,"Today","#","#b6c832",""]);
+    var s = []; //DB.getRestockDates(100);
+    s.push([d+"/"+m+"/"+y,"Today","#","#009688",""]);
     var o=$("#schedule-calendar");
     $(o).calendar({events:s,tooltip_options:{placement:"top",html:true}});
     $(o).find("td.event").each(

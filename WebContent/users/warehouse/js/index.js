@@ -205,3 +205,34 @@ function populateRestockingTable(){
 }
 
 populateRestockingTable();
+
+DB.getRestockDates = function(n){
+	var setting = alasql('SELECT start, duration FROM setting')[0];
+
+	var start = moment(setting.start,'YYYY-MM-DD').format('D/M/YYYY');
+	var result = [[start,"Start Date","#","#5da5e8",""]];
+	for(var i = 0; i<n; i++){
+		var date = moment(start,'D/M/YYYY').add(parseInt(setting.duration),'days').format('D/M/YYYY');
+		result.push([date,"Restocking day","#","#00acac",""]);
+		start = date;
+	}
+	return(result);
+};
+
+function handleScheduleCalendar(){
+    var today=new Date,d = today.getDate(),m=today.getMonth()+1,y=today.getFullYear();
+    var s = []; //DB.getRestockDates(100);
+    //s.push();
+    s.push([d+"/"+m+"/"+y,"Today","#","#009688",""]);
+    var o=$("#schedule-calendar");
+    $(o).calendar({events:s,tooltip_options:{placement:"top",html:true}});
+    $(o).find("td.event").each(
+            function(){var e=$(this).css("background-color");
+                $(this).removeAttr("style");
+                $(this).find("a").css("background-color",e)
+            });
+    $(o).find(".icon-arrow-left, .icon-arrow-right").parent().on("click",function(){$(o).find("td.event").each(function(){var e=$(this).css("background-color");$(this).removeAttr("style");$(this).find("a").css("background-color",e)})})
+}
+
+handleScheduleCalendar();
+

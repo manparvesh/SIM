@@ -429,6 +429,46 @@ if(order_type == 'req'){
         calcTotal();
     }
 }
+// check if the order is monthly
+
+if(order_type == 'monthly'){
+    var req_order_id = parseInt(($.url().param('id')));
+    
+    var order_remove = alasql('select * from requirements where order_id=?',[req_order_id]);
+    
+    co(order_remove);
+    
+    var req_whouse_id = order_remove[0].whouse;
+    
+    //set whouse location
+    $('#whouse-select').val(req_whouse_id);
+    
+    // add products to list
+    for(var i=0;i<order_remove.length;i++){
+        var prod = order_remove[i];
+        
+        addRow();
+        
+        $('#row-' + (i+1) + '-product-name').val(prod.product_id);
+        setSupplierValuesToDropDown(i+1);
+        co(prod.quantity);
+        $('#row-' + (i+1) + '-quantity').val(prod.quantity);
+        
+        var id = (i+1);
+        
+        var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
+        var product_id = parseInt($('#row-' + id + '-product-name').val());
+        var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
+        //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
+        //co(selectedProductCost);
+        var quantity = parseInt($('#row-' + id + '-quantity').val());
+        var price = selectedProductCost;//rows[id - 1].cost;
+        //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
+        $('#row-' + id + '-price').text(quantity * price);
+        
+        calcTotal();
+    }
+}
 
 function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
