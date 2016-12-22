@@ -247,4 +247,14 @@ function populateModalReturnDetails(return_id){
 
         tr.appendTo(modal_tbody_returns);
     }
+    
+    $('#setReturnStatus').on('click',function(){
+        alasql('UPDATE replacements SET status = ? where order_id=? and order_type=2', [ 6, return_id ]);
+        
+        window.location.assign('index.html');
+    });
+    
+    if(returns[0].status == 6){
+        $('#setReturnStatus').hide();
+    }
 }

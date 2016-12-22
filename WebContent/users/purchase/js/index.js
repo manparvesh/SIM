@@ -386,7 +386,7 @@ function populateModalReturnDetails(return_id){
         var kind = alasql('select * from kind where id=?',[temp_prod.kind])[0].text;
         
         //add these value to table
-        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
+        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#"></tr>');
         tr.append('<td>' + temp_whouse_name + '</td>');
         tr.append('<td>' + temp_prod.detail + '</td>');
         tr.append('<td>' + temp_prod.maker + '</td>');
@@ -394,6 +394,16 @@ function populateModalReturnDetails(return_id){
         tr.append('<td>' + return1.quantity + '</td>');
 
         tr.appendTo(modal_tbody_returns);
+    }
+    
+    $('#setReturnStatus').on('click',function(){
+        alasql('UPDATE replacements SET status = ? where order_id=? and order_type=1', [ 6, return_id ]);
+        
+        window.location.assign('index.html');
+    });
+    
+    if(returns[0].status == 6){
+        $('#setReturnStatus').hide();
     }
 }
 
