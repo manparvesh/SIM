@@ -45,6 +45,10 @@ function populateTable(){
     }
 }
 
+function getPrettyDate(daaate){
+    return moment(daaate).format('ll');
+}
+
 function populateTable2(){
     var tbody_supplier_orders = $('#tbody-supplier-orders');
     var orders = alasql('select * from ordersadd where supplier_id=?',[supplierID]);
@@ -52,7 +56,11 @@ function populateTable2(){
     for (var i = 0; i < orders.length; i++) {
         var order = orders[i];
         var tr = $('<tr data-href="order.html?id=' + order.id + '"></tr>');
-        tr.append('<td class="col-md-1">' + order.id + '</td>');
+        tr.append('<td class="col-md-2">' + order.id + '</td>');
+        tr.append('<td class="col-md-2">' + getPrettyDate(order.date_received) + '</td>');
+        tr.append('<td class="col-md-2">' + getPrettyDate(order.date_approved) + '</td>');
+        tr.append('<td class="col-md-2">' + getPrettyDate(order.date_shipped) + '</td>');
+        tr.append('<td class="col-md-2">' + getPrettyDate(order.date_completed) + '</td>');
         tr.append('<td class="col-md-2">' + getLabelForOrderStatus(order.status) + '</td>');
 
         tr.appendTo(tbody_supplier_orders);

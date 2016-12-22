@@ -82,44 +82,56 @@
 	</nav>
 
 	<div class="container" style="padding-top:70px;" id="everything">
-        <!-- supplier details -->
-        <table class="table">
-			<tbody>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Customer ID</th>
-					<td id="customer-id"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Name</th>
-					<td id="name"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Address</th>
-					<td id="address"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Contact</th>
-					<td id="contact"></td>
-				</tr>
-				<tr><!-- ID,NAME,ADDR,CONTACT,WHOUSE,DELIVERY_TIME -->
-					<th>Warehouse</th>
-					<td id="warehouse"></td>
-				</tr>
-			</tbody>
-		</table>
+        <!-- cust details -->
+        <div class="well container-fluid" style="background-color: #009688;color:white;">
+            <h1 class="text-center"><strong>CUSTOMER DETAILS</strong></h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 class="text-center"><strong>Supplier ID:</strong>&nbsp;&nbsp;<span id="customer-id"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class=""><strong>Name:</strong>&nbsp;&nbsp;<span id="name"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="pull-left"><strong>Address:</strong>&nbsp;&nbsp;<span id="address"></span></h4>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="text-center"><strong>Contact:</strong>&nbsp;&nbsp;<span id="contact"></span></h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="text-center"><strong>Warehouse:</strong>&nbsp;&nbsp;<span id="warehouse"></span></h4>
+                </div>
+            </div>
+        </div>
         
-        <h3 class="text-primary">Orders placed</h3>
+        <div class="well container-fluid">
         
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="col-md-1">ID</th>
-                    <th class="col-md-2">Status</th>
-                </tr>
-            </thead>
-            <tbody id="tbody-supplier-orders"></tbody>
-        </table>
+            <h2 class="text-primary text-center">Orders placed</h2>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">ID</th>
+                        <th class="col-md-2">Date placed</th>
+                        <th class="col-md-2">Date approved</th>
+                        <th class="col-md-2">Date shipped</th>
+                        <th class="col-md-2">Date complete</th>
+                        <th class="col-md-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-supplier-orders"></tbody>
+            </table>
+        </div>
 	</div>
+    
+    <script src="../../plugins/moment/moment.min.js"></script>
     
     <script src="js/customer.js"></script>
 	
