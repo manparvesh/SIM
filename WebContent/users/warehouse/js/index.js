@@ -135,3 +135,57 @@ function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
     alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
 }
+
+function getWHNameFromID(id){
+    return alasql('select * from whouse where id=?',[id])[0].name;
+}
+
+function populateRestockingTable(){
+    var temp_whouse_id = loginID - 3;
+
+    var restocks = alasql('select * from restock where whouse_from=? or whouse_to=?',[temp_whouse_id, temp_whouse_id]);
+    
+    var modal_tbody_restock = $('#tbody-restocking-orders');
+    modal_tbody_restock.empty();
+    
+    for(var i=0;i<restocks.length;i++){
+        var restock = restocks[i];
+        
+        var prod = alasql('select * from item where id=?',[restock.product_id])[0].detail;
+        
+        //ID,PRODUCT_ID,WHOUSE_FROM,WHOUSE_TO,QUANTITY,STATUS
+        var tr = $('<tr data-href="#"></tr>');
+        tr.append('<td>' + restock.id + '</td>');
+        tr.append('<td>' + prod + '</td>');
+        tr.append('<td>' + getWHNameFromID(restock.whouse_from) + '</td>');
+        tr.append('<td>' + getWHNameFromID(restock.whouse_to) + '</td>');
+        tr.append('<td>' + restock.quantity + '</td>');
+        tr.append('<td>' + getLabelForOrderStatus(restock.status) + '</td>');
+        
+        if(restock.status == 1 && temp_whouse_id == restock.whouse_from){
+            tr.append('<td><a style="cursor:pointer;" id="setOrderToShippedLabel-' + restock.id + '">' + getLabelForOrderStatus(3) + '</a></td>');
+        }else if(restock.status == 3 && temp_whouse_id == restock.whouse_to){
+            tr.append('<td><a style="cursor:pointer;" id="setOrderToCompleteLabel-' + restock.id + '">' + getLabelForOrderStatus(4) + '</a></td>');
+        }else{
+            tr.append('<td></td>');
+        }
+
+        tr.appendTo(modal_tbody_restock);
+        
+        if($('#setOrderToShippedLabel-' + restock.id)){
+            $('#setOrderToShippedLabel-' + restock.id).on('click', function(){
+                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 3, restock.id ]);
+                populateRestockingTable();
+            });
+        }
+        
+        if($('#setOrderToCompleteLabel-' + restock.id)){
+            $('#setOrderToCompleteLabel-' + restock.id).on('click', function(){
+                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 4, restock.id ]);
+                populateRestockingTable();
+            });
+        }
+    }
+}
+
+populateRestockingTable();
