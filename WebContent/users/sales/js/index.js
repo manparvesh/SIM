@@ -125,9 +125,12 @@ function showOrders(n){
             orders = alasql('SELECT * FROM ordersremove WHERE status=?', [2]);
             break;
         case 3:
-            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [4]);
+            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [3]);
             break;
         case 4:
+            orders = alasql('SELECT * FROM ordersremove WHERE status=?', [4]);
+            break;
+        case 5:
             orders = alasql('SELECT * FROM ordersremove');
             break;
     }
