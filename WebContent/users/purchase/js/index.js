@@ -24,26 +24,48 @@ for (var i = 0; i < rows.length; i++) {
 }
 
 // get search params
-var q1 = parseInt($.url().param('q1') || '0');
-$('select[name="q1"]').val(q1);
-var q2 = parseInt($.url().param('q2') || '0');
-$('select[name="q2"]').val(q2);
-var q3 = $.url().param('q3') || '';
-$('input[name="q3"]').val(q3);
+var q1;// = parseInt($.url().param('q1') || '0');
+//$('select[name="q1"]').val(q1);
+var q2;// = parseInt($.url().param('q2') || '0');
+//$('select[name="q2"]').val(q2);
+var q3;// = $.url().param('q3') || '';
+//$('input[name="q3"]').val(q3);
 
 // build sql
 var sql = 'SELECT stock.id, whouse.name, kind.text, item.code, item.maker, item.detail, item.price, stock.balance, item.unit \
 	FROM stock \
 	JOIN whouse ON whouse.id = stock.whouse \
 	JOIN item ON item.id = stock.item \
+	JOIN kind ON kind.id = item.kind';
+
+// send query
+var stocks = alasql(sql);
+//co(stocks);
+$('#tbody-stocks').empty();
+
+$('#btn-search').on('click', function(){
+    $('#tbody-stocks').empty();
+    
+    sql = 'SELECT stock.id, whouse.name, kind.text, item.code, item.maker, item.detail, item.price, stock.balance, item.unit \
+	FROM stock \
+	JOIN whouse ON whouse.id = stock.whouse \
+	JOIN item ON item.id = stock.item \
 	JOIN kind ON kind.id = item.kind \
 	WHERE item.code LIKE ? ';
 
-sql += q1 ? 'AND whouse.id = ' + q1 + ' ' : '';
-sql += q2 ? 'AND kind.id = ' + q2 + ' ' : '';
-
-// send query
-var stocks = alasql(sql, [ '%' + q3 + '%' ]);
+    co($('select[name="q1"]').val());
+    co($('select[name="q2"]').val());
+    co($('input[name="q3"]').val());
+    
+    q1 = parseInt($('select[name="q1"]').val())+1;
+    q2 = parseInt($('select[name="q2"]').val())+1;
+    q3 = $('input[name="q3"]').val();
+    
+    sql += q1 ? 'AND whouse.id = ' + q1 + ' ' : '';
+    sql += q2 ? 'AND kind.id = ' + q2 + ' ' : '';
+    
+    stocks = alasql(sql, [ '%' + q3 + '%' ]);
+});
 
 // build html table
 var tbody = $('#tbody-stocks');
