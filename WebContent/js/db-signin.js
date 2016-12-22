@@ -189,17 +189,41 @@ DB.load = function() {
 
 	//  stockrange
     alasql('DROP TABLE IF EXISTS stockrange;');
-    alasql('CREATE TABLE stockrange(id INT IDENTITY, product_id INT, whouse INT, min INT, max INT);');
+    alasql('CREATE TABLE stockrange(id INT IDENTITY, product_id INT, whouse INT, min INT, max INT, optimum INT);');
     var pstockrange = alasql.promise('SELECT MATRIX * FROM CSV("data/STOCKRANGE-STOCKRANGE.csv", {headers: true})').then(
             function(stockrange) {
                 for (var i = 0; i < stockrange.length; i++) {
                     var stockrange_i = stockrange[i];
-                    alasql('INSERT INTO stockrange VALUES(?,?,?,?);', stockrange_i);
+                    alasql('INSERT INTO stockrange VALUES(?,?,?,?,?,?);', stockrange_i);
                 }
             }); 
 
+
+	//  restock
+    alasql('DROP TABLE IF EXISTS restock;');
+    alasql('CREATE TABLE restock(id INT IDENTITY, product_id INT, whouse_from INT, whouse_to INT, quantity INT,status INT);');
+    var prestock = alasql.promise('SELECT MATRIX * FROM CSV("data/RESTOCK-RESTOCK.csv", {headers: true})').then(
+            function(restock) {
+                for (var i = 0; i < restock.length; i++) {
+                    var restock_i = restock[i];
+                    alasql('INSERT INTO restock VALUES(?,?,?,?,?,?);', restock_i);
+                }
+            }); 
+
+
+	//  temp
+    alasql('DROP TABLE IF EXISTS temp;');
+    alasql('CREATE TABLE temp(id INT IDENTITY, product_id INT, whouse_from INT, whouse_to INT, quantity INT);');
+    var ptemp = alasql.promise('SELECT MATRIX * FROM CSV("data/TEMP-TEMP.csv", {headers: true})').then(
+        function(temp) {
+            for (var i = 0; i < temp.length; i++) {
+                var temp_i = temp[i];
+                alasql('INSERT INTO temp VALUES(?,?,?,?,?);', temp_i);
+            }
+        }); 
+
 	// Reload page
-	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers, psupplierproducts, preplacements, prequirements, pstockrange ]).then(function() {
+	Promise.all([ pkind, pitem, pwhouse, pstock, ptrans, pusers, plogins, pcustomers, pordersadd, pordersadddetails, pordersremove, pordersremovedetails, psuppliers, psupplierproducts, preplacements, prequirements, pstockrange, prestock, ptemp ]).then(function() {
 		window.location.reload(true);
 	});
 };

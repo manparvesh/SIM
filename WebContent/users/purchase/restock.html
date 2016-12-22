@@ -80,7 +80,7 @@
 
 	<div class="container">
         <div class="well container-fluid">
-        <h2 class="text-center text-primary">New Purchase Order form</h2>
+        <h2 class="text-center text-primary">New Restock Order form</h2>
             <hr>
             <!-- The top -->
             <div class="row container-fluid">
@@ -102,34 +102,17 @@
             <!-- Form -->
             <div class="form container-fluid" id="the-form">
                 
-                <div class="row">
-                    <div class="col-md-4">
-                        <select class="form-control" id="whouse-select"></select>
-                    </div>
-                    
-                    <div class="col-md-8">
-                        <button class="btn btn-success btn-raised pull-right" id="add-row"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add row</button>
-                    </div>
-                </div>
-
-                
-                <table class="table table-hover">
+                <table class="table table-hover" style="margin-top:20px;">
                     <thead>
-                        <tr>
-                            <th>Product name</th>
-                            <th>Supplier</th>
-                            <th>Quantity</th>
-                            <th>Price (in JP¥)</th>
-                            <th></th>
+                        <tr class="row">
+                            <th class="col-md-2 text-center">Product name</th>
+                            <th class="col-md-3 text-center">From Warehouse (Name, quantity, maximum required quantity)</th>
+                            <th class="col-md-3 text-center">From Warehouse (Name, quantity, minimum required quantity)</th>
+                            <th class="col-md-2 text-center">Optimal Transfer quantity</th>
+                            <th class="col-md-2 text-center">Transfer quantity</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-orders"></tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <th>Total (in JP¥):</th>
-                        <th id="total">0</th>
-                    </tr>
                 </table>
                 
                 <button type="submit" class="btn btn-raised btn-success btn-block" id="update">
@@ -141,22 +124,15 @@
             <div class="container-fluid" id="confirmation" style="display:none;">
                 <table class="table table-hover">
                     <thead>
-                        <tr>
-                            <th>Product name</th>
-                            <th>Warehouse</th>
-                            <th>Supplier</th>
-                            <th>Quantity</th>
-                            <th>Price (in JP¥)</th>
+                        <tr class="row">
+                            <th class="col-md-2 text-center">Product name</th>
+                            <th class="col-md-3 text-center">From Warehouse (Name, quantity, maximum required quantity)</th>
+                            <th class="col-md-3 text-center">From Warehouse (Name, quantity, minimum required quantity)</th>
+                            <th class="col-md-2 text-center">Optimal Transfer quantity</th>
+                            <th class="col-md-2 text-center">Transfer quantity</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-suppliers-confirm"></tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th>Total (in JP¥):</th>
-                        <th id="total-confirm">0</th>
-                    </tr>
                 </table>
                 
                 <div class="row">
@@ -177,7 +153,7 @@
         </div>
     </div>
     <script src="../../lib/bootstrap.js"></script>
-	<script src="js/neworder.js"></script>
+	<script src="js/restock.js"></script>
     
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>

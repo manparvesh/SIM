@@ -74,8 +74,8 @@ function setProductNameValuesToDropDown(id){
                 minIndex = i;
             }
         }
-        $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
-        $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
+        $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
+        $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
         
         //setSupplierValuesToDropDown(id);
     });
@@ -110,8 +110,8 @@ function setSupplierValuesToDropDown(id){
     }
     //co(maxCost + ' ' + maxIndex);
     //co(minCost + ' ' + minIndex);
-    $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
-    $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
+    $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
+    $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
     co('min= '+minCost+' max= '+maxCost);
     co('min= '+minIndex+' max= '+maxIndex);
 }
@@ -177,8 +177,8 @@ function setWHouseFunction(){
             }
             //co(maxCost + ' ' + maxIndex);
             //co(minCost + ' ' + minIndex);
-            $('#row-' + id + '-product-name-option-'+minIndex).attr('style', 'background-color:green;color:white;');
-            $('#row-' + id + '-product-name-option-'+maxIndex).attr('style', 'background-color:red;color:white;');
+            $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
+            $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
         }
     });
 }

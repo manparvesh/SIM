@@ -132,6 +132,9 @@ function showOrders(n){
             orders = alasql('SELECT * FROM ordersadd WHERE status=?', [3]);
             break;
         case 4:
+            orders = alasql('SELECT * FROM ordersadd WHERE status=?', [4]);
+            break;
+        case 5:
             orders = alasql('SELECT * FROM ordersadd');
             break;
     }
@@ -353,3 +356,34 @@ function populateModalReturnDetails(return_id){
         tr.appendTo(modal_tbody_returns);
     }
 }
+
+function getWHNameFromID(id){
+    return alasql('select * from whouse where id=?',[id])[0].name;
+}
+
+function populateRestockingTable(){
+    var restocks = alasql('select * from restock');
+    
+    var modal_tbody_restock = $('#tbody-restocking-orders');
+    modal_tbody_restock.empty();
+    
+    for(var i=0;i<restocks.length;i++){
+        var restock = restocks[i];
+        
+        var prod = alasql('select * from item where id=?',[restock.product_id])[0].detail;
+        
+        //ID,PRODUCT_ID,WHOUSE_FROM,WHOUSE_TO,QUANTITY,STATUS
+        var tr = $('<tr data-href="#"></tr>');
+        tr.append('<td>' + restock.id + '</td>');
+        tr.append('<td>' + prod + '</td>');
+        tr.append('<td>' + getWHNameFromID(restock.whouse_from) + '</td>');
+        tr.append('<td>' + getWHNameFromID(restock.whouse_to) + '</td>');
+        tr.append('<td>' + restock.quantity + '</td>');
+        tr.append('<td>' + getLabelForOrderStatus(restock.status) + '</td>');
+
+        tr.appendTo(modal_tbody_restock);
+        
+    }
+}
+
+populateRestockingTable();

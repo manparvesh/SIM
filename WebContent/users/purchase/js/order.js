@@ -148,10 +148,10 @@ function getToday(){
 $('#btn-complete').on('click', function(){
      alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 4, orderID ]);
     
-    alasql('UPDATE ordersadd SET date_complete = ? WHERE id = ?', [ date, orderID ]);
+    alasql('UPDATE ordersadd SET date_completed = ? WHERE id = ?', [ getToday(), orderID ]);
     
     // add products to inventory
-    var whouse = whouse;
+    //var whouse = whouse;
     for(var i=0;i<details.length;i++){
         var detail = details[i];
         
@@ -165,10 +165,14 @@ $('#btn-complete').on('click', function(){
         // update stock record
         var rows = alasql('SELECT id, balance FROM stock WHERE whouse = ? AND item = ?', [ whouse, item ]);
         
+        co(whouse + ' '+  item);
+        co(rows);
+        
         var stock_id, balance = 0;
-        if (rows.length > 0) {
+        if (rows.length) {
             stock_id = rows[0].id; 
             balance = rows[0].balance;
+            //alert(stock_id + ' ' + balance);
             alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, stock_id ]);
         } else {
             stock_id = alasql('SELECT MAX(id) + 1 as id FROM stock')[0].id;
