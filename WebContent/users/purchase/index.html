@@ -13,7 +13,6 @@
     <script src="../../lib/alasql.js"></script>
     <script src="../../lib/purl.js"></script>
     <script src="../../js/db.js"></script>
-    <script src="../../js/redirect-users.js"></script>
     
     <!-- Bootstrap Material Design -->
     <link href="../../material/css/bootstrap-material-design.css" rel="stylesheet">
@@ -29,6 +28,9 @@
     <script src="../../js/co.js"></script>
     
     <link href="../../plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+    
+    <link href="../../css/material.min.css" rel="stylesheet" />
+    <link href="../../plugins/DataTables/css/dataTables.material.min.css" rel="stylesheet" />
 
     <title>COMPANY</title>
 </head>
@@ -284,7 +286,7 @@
                             <h2 class="text-center text-primary">Suppliers</h2>
                             <hr>
                             <div class="">
-                                <table class="table table-hover">
+                                <table id="data-table" class="table display print mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -433,6 +435,26 @@
 
     <script src="../../plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>    
     <script src="../../plugins/moment/moment.min.js"></script>  
+    
+    <!-- ================== data tables ================== -->
+    <script src="../../plugins/DataTables/js/jquery.dataTables.js"></script>
+    <script src="../../plugins/DataTables/js/dataTables.material.min.js"></script>
+    <script src="../../plugins/DataTables/js/dataTables.buttons.js"></script>
+    <script src="../../plugins/DataTables/js/buttons.print.js"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            //App.init();
+            $('#data-table').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+        });
+
+    </script>
+    
 	<script src="js/index.js"></script>
 
     <!-- Script to initialize Material Design -->
