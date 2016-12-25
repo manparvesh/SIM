@@ -246,7 +246,7 @@ function placeRequirementRequest(){
                 if(requirement_id){
                     
                 }else{
-                    requirement_id = 0;
+                    requirement_id = 1;
                 }
 
                 alasql('INSERT INTO requirements VALUES(?,?,?,?,?,?,?,?)', [ requirement_id, orderID, temp_whouse_id, product.id, req, quant, 7, 0 ]);
@@ -258,7 +258,7 @@ function placeRequirementRequest(){
                 
                 co(alasql('select * from requirements'));
                 
-                //co(alasql('select * from requirements where id=?',[requirement_id])[0]);
+                co(alasql('select * from requirements where id=?',[requirement_id])[0]);
                 
                 // update Order details
                 alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);

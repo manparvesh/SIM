@@ -220,15 +220,16 @@ function populateRequirementsTable(){
     var tbody_requirements = $('#tbody-requirements');
     tbody_requirements.empty();
     var requirements = alasql('SELECT * FROM requirements group by order_id');
-    //co(requirements);
+    co('requirements:')
+    co(requirements);
     var whouses = alasql('select * from whouse');
     for (var i = 0; i < requirements.length; i++) {
         var requirement = requirements[i];
-        if(requirement.length){
+        if(requirement){
             var tr = $('<tr onclick="putValuesInRequirementModal(' + requirement.order_id + ')" data-href="#" href="#requirementDialog"  data-toggle="modal"></tr>');
             tr.append('<td>' + requirement.order_id + '</td>');
             var temp_order_id = requirement.order_id;
-            //co(alasql('select * from ordersremove where id=?',[requirement.order_id]));
+            co(alasql('select * from ordersremove where id=?',[requirement.order_id]));
             //co(requirement);
             //co(alasql('select * from ordersremove'));
             var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
@@ -249,6 +250,8 @@ function populateRequirementsTable(){
     
     setRowLinks();
 }
+
+populateRequirementsTable();
 
 function putValuesInRequirementModal(id){
     var requirements = alasql('select * from requirements where order_id=?',[id]);
@@ -295,7 +298,7 @@ function putValuesInRequirementModal(id){
     }
 }
 
-populateRequirementsTable();
+
 
 function placeNewPurchaseOrder(id){
     co(id);
@@ -309,7 +312,7 @@ function populateDefectiveProductsTable(){
     var returns = alasql('SELECT * FROM replacements where order_type=1'); //purchase order tha
     var rets = alasql('SELECT * FROM replacements  where order_type=1 GROUP BY order_id');
     
-    co(rets);
+    //co(rets);
     
     //co('order_remove:');
     //co(order_remove);
@@ -317,7 +320,7 @@ function populateDefectiveProductsTable(){
     for (var i = 0; i < rets.length; i++) {
         var ret1 = rets[i];
         var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[ret1.order_id])[0];
-        co(return1);
+        //co(return1);
         if(return1){
             var temp_order_id = return1.order_id;
             var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];
