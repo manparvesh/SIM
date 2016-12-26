@@ -1,17 +1,17 @@
-# Super Inventory Management
+Super Inventory Management
+==========================
 
 This is a system to manage the operations of an inventory that deals with storage and delivery of PC parts.
 There are 4 types of users who can use this system:
 
-S No. |  USENAME | PASSWORD  |  DETAILS
----
-1.   |   purchase | purchase |  member of purchase team
-2.   |   sale    |  sale     |  member of sales team
-3.   |   tech    |  tech     |  member of tech team
-4.   |   ware1   |  ware1    |  warehouse manager of Tokyo warehouse
-5.   |   ware2   |  ware2    |  warehouse manager of Shanghai warehouse
-6.   |   ware3   |  ware3    |  warehouse manager of Singapore warehouse
-7.   |   ware4   |  ware4    |  warehouse manager of Delhi warehouse
+S No.   USENAME  PASSWORD    DETAILS
+1.      purchase  purchase   member of purchase team
+2.      sale      sale       member of sales team
+3.      tech      tech       member of tech team
+4.      ware1     ware1      warehouse manager of Tokyo warehouse
+5.      ware2     ware2      warehouse manager of Shanghai warehouse
+6.      ware3     ware3      warehouse manager of Singapore warehouse
+7.      ware4     ware4      warehouse manager of Delhi warehouse
 
 Here is a simple flow that explains tha working of the system:
 
