@@ -107,37 +107,13 @@
                         <div class="container-fluid">
                             <h2 class="text-center text-primary">All products</h2>
                             <hr>
-                            <form class="form-inline text-center">
-                                <div class="form-group">
-                                    <label>Warehouse</label> 
-                                    <select name="q1" class="form-control">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="s2">Classification</label> 
-                                    <select name="q2" id="s2" class="form-control">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Code</label> 
-                                    <input name="q3" type="text"
-                                        class="form-control">
-                                    <p class="help-block">Prefix Search</p>
-                                </div>
-                                <button type="button" class="btn btn-raised btn-primary" id="btn-search">
-                                    <span class="glyphicon glyphicon-search"></span> Search
-                                </button>
-                            </form>
-                            <hr>
 
                             <div class="clearfix" style="margin: 10px 0;">
                                 <a href="../../stock-form.html" class="btn btn-raised btn-sm btn-success pull-right"><span
                                     class="glyphicon glyphicon-plus"></span> New</a>
                             </div>
 
-                            <table class="table table-hover table-condensed">
+                            <table id="data-table-products" class="table table-hover table-condensed display print mdl-data-table">
                                 <thead>
                                     <tr>
                                         <th>Warehouse</th>
@@ -189,7 +165,7 @@
                                         class="glyphicon glyphicon-plus"></span> New order</a>
                                 </div>
 
-                                <table class="table table-hover">
+                                <table  id="data-table-orders" class="table table-hover display print mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -208,7 +184,7 @@
                     <div id="div-3" style="display:none;" class="well container-fluid">
                         <h2 class="text-center text-primary">Requirements</h2>
                         <hr>
-                        <table class="table table-hover">
+                        <table  id="data-table-requirements" class="table table-hover display print mdl-data-table">
                             <thead>
                                 <tr>
                                     <th>
@@ -238,7 +214,7 @@
                                     class="glyphicon glyphicon-plus"></span> New restocking order</a>
                             </div>
 
-                            <table class="table table-hover">
+                            <table  id="data-table-restocking" class="table table-hover display print mdl-data-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -260,7 +236,7 @@
                         <div class="container-fluid">
                             <h2 class="text-center text-primary">Defective products</h2>
                             <hr>
-                            <table class="table table-hover">
+                            <table  id="data-table-defective" class="table table-hover display print mdl-data-table">
                                 <thead>
                                     <tr>
                                         <th>
@@ -286,7 +262,7 @@
                             <h2 class="text-center text-primary">Suppliers</h2>
                             <hr>
                             <div class="">
-                                <table id="data-table" class="table display print mdl-data-table">
+                                <table id="data-table-suppliers" class="table display print mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -446,7 +422,32 @@
 
         $(document).ready(function() {
             //App.init();
-            $('#data-table').DataTable({
+            $('#data-table-suppliers').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-defective').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-restocking').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-requirements').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-orders').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-products').DataTable({
                 "order":[[0,"desc"]],
                 "iDisplayLength": 25,
                 className: 'mdl-data-table__cell--non-numeric'

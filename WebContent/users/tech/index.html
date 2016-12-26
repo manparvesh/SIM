@@ -25,6 +25,9 @@
     <!-- Effective navigation using sidebar -->
     <script src="../../js/tab-nav.js"></script>
     
+    <link href="../../css/material.min.css" rel="stylesheet" />
+    <link href="../../plugins/DataTables/css/dataTables.material.min.css" rel="stylesheet" />
+    
     <title>COMPANY</title>
 </head>
 <body>
@@ -102,7 +105,7 @@
                                 class="glyphicon glyphicon-plus"></span> New order</a>
                         </div>
 
-                        <table class="table table-hover">
+                        <table id="data-table-defective" class="table table-hover table-condensed display print mdl-data-table">
                             <thead>
                                 <tr>
                                     <th>Purchase order  ID</th>
@@ -120,29 +123,6 @@
                 <div id="div-2" style="display:none;" class="well container-fluid">
                     <div class="container-fluid">
                         <h2 class="text-center text-primary">All products</h2>
-                        <form action="index.html" class="form-inline text-center">
-                            <div class="form-group">
-                                <label>Warehouse</label> 
-                                <select name="q1" class="form-control">
-                                    <option value="0">All</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="s2">Classification</label> 
-                                <select name="q2" id="s2" class="form-control">
-                                    <option value="0">All</option>
-                                </select>
-                            </div>
-                            <div class="form-group label-floating">
-                                <label class="control-label">Code</label> 
-                                <input name="q3" type="text"
-                                    class="form-control">
-                                <p class="help-block">Prefix Search</p>
-                            </div>
-                            <button type="submit" class="btn btn-raised btn-primary">
-                                <span class="glyphicon glyphicon-search"></span> Search
-                            </button>
-                        </form>
                         <hr>
 
                         <div class="clearfix" style="margin: 10px 0;">
@@ -150,7 +130,7 @@
                                 class="glyphicon glyphicon-plus"></span> New</a>
                         </div>
 
-                        <table class="table table-hover table-condensed">
+                        <table id="data-table-products" class="table table-hover table-condensed display print mdl-data-table">
                             <thead>
                                 <tr>
                                     <th>Warehouse</th>
@@ -221,14 +201,37 @@
         </div>
       </div>
     </div>
-
     
-	<script src="js/index.js"></script>
     <script src="../../lib/bootstrap.js"></script>
     
     <!-- Material Design for Bootstrap -->
     <script src="../../material/js/material.js"></script>
-    <script src="../../material/js/ripples.min.js"></script>
+    <script src="../../material/js/ripples.min.js"></script> 
+    
+    <!-- ================== data tables ================== -->
+    <script src="../../plugins/DataTables/js/jquery.dataTables.js"></script>
+    <script src="../../plugins/DataTables/js/dataTables.material.min.js"></script>
+    <script src="../../plugins/DataTables/js/dataTables.buttons.js"></script>
+    <script src="../../plugins/DataTables/js/buttons.print.js"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            $('#data-table-defective').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+            $('#data-table-products').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+        });
+
+    </script>
+    
+	<script src="js/index.js"></script>
     
     <!-- Script to initialize Material Design -->
     <script>
