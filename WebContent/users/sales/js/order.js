@@ -262,6 +262,9 @@ function placeRequirementRequest(){
                 
                 // update Order details
                 alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);
+                
+                // update Order details
+                //alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);
             }
         }
     }
