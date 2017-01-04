@@ -172,10 +172,10 @@
                                             <th>Supplier</th>
                                             <th>Warehouse</th>
                                             <th>Status</th>
-                                            <th>Date placed</th>
+                                             <th>Date placed</th>
                                             <th>Date approved</th>
                                             <th>Date shipped</th>
-                                            <th>Date completed</th>
+                                            <th>Date completed</th> 
                                         </tr>
                                     </thead>
                                     <tbody id="tbody-purchase-orders"></tbody>
@@ -293,7 +293,7 @@
                         
                         <div class="container" style="margin-top:30px;">
                             <div class="well col-md-10" style="margin-left:60px;">
-                                <h3 class="text-center text-primary">Calendar</h3>
+                                <h2 class="text-center text-primary">Calendar</h2>
                                 <hr>
                                 <div id="schedule-calendar" class="bootstrap-calendar"></div>
                             </div>
@@ -431,7 +431,7 @@
         $(document).ready(function() {
             //App.init();
             $('#data-table-suppliers').DataTable({
-                "order":[[0,"desc"]],
+                "order":[[0,"asc"]],
                 "iDisplayLength": 25,
                 className: 'mdl-data-table__cell--non-numeric'
             });
@@ -450,11 +450,8 @@
                 "iDisplayLength": 25,
                 className: 'mdl-data-table__cell--non-numeric'
             });
-            $('#data-table-orders').DataTable({
-                "order":[[0,"desc"]],
-                "iDisplayLength": 25,
-                className: 'mdl-data-table__cell--non-numeric'
-            });
+            
+            
             $('#data-table-products').DataTable({
                 "order":[[0,"desc"]],
                 "iDisplayLength": 25,

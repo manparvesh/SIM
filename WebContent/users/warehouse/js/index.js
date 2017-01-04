@@ -78,35 +78,84 @@ setRowLinks();
 var ordersremove = alasql('SELECT ordersremove.*,customers.whouse FROM ordersremove JOIN customers ON ordersremove.customer_id=customers.id WHERE customers.whouse=? and status=2',[loginID - 3]);
 var ordersadd = alasql('SELECT ordersadd.*,suppliers.whouse FROM ordersadd JOIN suppliers ON ordersadd.supplier_id=suppliers.id WHERE suppliers.whouse=? and status=3',[loginID - 3]);
 
+
+var table_in = $('#data-table-incoming').DataTable({
+    "order":[[0,"desc"]],
+    "iDisplayLength": 25,
+    className: 'mdl-data-table__cell--non-numeric'
+});
+var table_out = $('#data-table-outgoing').DataTable({
+    "order":[[0,"desc"]],
+    "iDisplayLength": 25,
+    className: 'mdl-data-table__cell--non-numeric'
+});
+
+function getPrettyDate(daaate){
+    if(moment(daaate).format('LL') == 'Invalid date'){
+        return '-';
+    }
+    return moment(daaate).format('LL');
+}
+
+//outgoing
 function populateSaleTable(){
+    table_out.destroy();
+    
     var tbody_orders = $('#tbody-sales-orders');
     tbody_orders.empty();
     for (var i = 0; i < ordersremove.length; i++) {
         var orderremove = ordersremove[i];
         var tr = $('<tr data-href="../sales/order.html?id=' + orderremove.id + '"></tr>');
         tr.append('<td>' + orderremove.id + '</td>');
-        tr.append('<td>' + orderremove.customer_id + '</td>');
+        tr.append('<td>' + alasql('select * from customers where id=?',[orderremove.customer_id])[0].name + '</td>');
 
         tr.append('<td>' + getLabelForOrderStatus(orderremove.status) + '</td>');
+        
+        tr.append('<td class="col-md-2" data-order='+ orderremove.date_received +'>' + getPrettyDate(orderremove.date_received) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ orderremove.date_approved +'>' + getPrettyDate(orderremove.date_approved) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ orderremove.date_shipped +'>' + getPrettyDate(orderremove.date_shipped) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ orderremove.date_completed +'>' + getPrettyDate(orderremove.date_completed) + '</td>'); //date 
+        
         tr.appendTo(tbody_orders);
     }
     setRowLinks();
+    
+    table_out = $('#data-table-outgoing').DataTable({
+        "order":[[0,"desc"]],
+        "iDisplayLength": 25,
+        className: 'mdl-data-table__cell--non-numeric'
+    });
 }
 
-
+//incoming
 function populatePurchaseTable(){
+    table_in.destroy();
+    
     var tbody_orders = $('#tbody-purchases-orders');
     tbody_orders.empty();
     for (var i = 0; i < ordersadd.length; i++) {
         var orderadd = ordersadd[i];
-        var tr = $('<tr data-href="../purchase/order.html?id=' + orderadd.id + '"></tr>');
-        tr.append('<td>' + orderadd.id + '</td>');
-        tr.append('<td>' + orderadd.supplier_id + '</td>');
+        var tr = $('<tr class="" data-href="../purchase/order.html?id=' + orderadd.id + '"></tr>');
+        
+        tr.append('<td class="col-md-1">' + orderadd.id + '</td>'); // id
+        tr.append('<td class="col-md-1">' + alasql('select * from suppliers where id=?',[orderadd.supplier_id])[0].name + '</td>'); //supplier name
+        tr.append('<td class="col-md-1" data-order='+ orderadd.whouse +'>' + alasql('select * from whouse where id=?',[orderadd.whouse])[0].name + '</td>'); //warehouse
+        tr.append('<td class="col-md-1" data-order='+ orderadd.status +'>' + getLabelForOrderStatus(orderadd.status) + '</td>'); //status
 
-        tr.append('<td>' + getLabelForOrderStatus(orderadd.status) + '</td>');
+        tr.append('<td class="col-md-1" data-order='+ orderadd.date_received +'>' + getPrettyDate(orderadd.date_received) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ orderadd.date_approved +'>' + getPrettyDate(orderadd.date_approved) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ orderadd.date_shipped +'>' + getPrettyDate(orderadd.date_shipped) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ orderadd.date_completed +'>' + getPrettyDate(orderadd.date_completed) + '</td>'); //date 
+        
         tr.appendTo(tbody_orders);
     }
     setRowLinks();
+    
+    table_in = $('#data-table-incoming').DataTable({
+        "order":[[0,"desc"]],
+        "iDisplayLength": 25,
+        className: 'mdl-data-table__cell--non-numeric'
+    });
 }
 
 populatePurchaseTable();
@@ -155,17 +204,17 @@ function populateRestockingTable(){
         
         //ID,PRODUCT_ID,WHOUSE_FROM,WHOUSE_TO,QUANTITY,STATUS
         var tr = $('<tr data-href="#"></tr>');
-        tr.append('<td>' + restock.id + '</td>');
-        tr.append('<td>' + prod + '</td>');
-        tr.append('<td>' + getWHNameFromID(restock.whouse_from) + '</td>');
-        tr.append('<td>' + getWHNameFromID(restock.whouse_to) + '</td>');
-        tr.append('<td>' + restock.quantity + '</td>');
-        tr.append('<td>' + getLabelForOrderStatus(restock.status) + '</td>');
+        tr.append('<td class="text-center">' + restock.id + '</td>');
+        tr.append('<td class="text-center">' + prod + '</td>');
+        tr.append('<td class="text-center">' + getWHNameFromID(restock.whouse_from) + '</td>');
+        tr.append('<td class="text-center">' + getWHNameFromID(restock.whouse_to) + '</td>');
+        tr.append('<td class="text-center">' + restock.quantity + '</td>');
+        tr.append('<td class="text-center">' + getLabelForOrderStatus(restock.status) + '</td>');
         
         if(restock.status == 1 && temp_whouse_id == restock.whouse_from){
-            tr.append('<td><a style="cursor:pointer;" id="setOrderToShippedLabel-' + restock.id + '">' + getLabelForOrderStatus(3) + '</a></td>');
+            tr.append('<td class="text-center"><a style="cursor:pointer;" id="setOrderToShippedLabel-' + restock.id + '">' + getLabelForOrderStatus(3) + '</a></td>');
         }else if(restock.status == 3 && temp_whouse_id == restock.whouse_to){
-            tr.append('<td><a style="cursor:pointer;" id="setOrderToCompleteLabel-' + restock.id + '">' + getLabelForOrderStatus(4) + '</a></td>');
+            tr.append('<td class="text-center"><a style="cursor:pointer;" id="setOrderToCompleteLabel-' + restock.id + '">' + getLabelForOrderStatus(4) + '</a></td>');
         }else{
             tr.append('<td></td>');
         }

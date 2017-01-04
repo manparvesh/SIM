@@ -78,19 +78,46 @@ function setRowLinks(){
 // build html table for orders
 var orders = alasql('SELECT * FROM ordersremove where status=1');
 
+function getPrettyDate(daaate){
+    if(moment(daaate).format('LL') == 'Invalid date'){
+        return '-';
+    }
+    return moment(daaate).format('LL');
+}
+
+var table_orders = $('#data-table-orders').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+
 function populateOrderTable(){
+    table_orders.destroy();
+    
     var tbody_orders = $('#tbody-sales-orders');
     tbody_orders.empty();
     for (var i = 0; i < orders.length; i++) {
         var order = orders[i];
-        var tr = $('<tr data-href="order.html?id=' + order.id + '"></tr>');
-        tr.append('<td>' + order.id + '</td>');
-        tr.append('<td>' + order.customer_id + '</td>');
+        var tr = $('<tr class="row" data-href="order.html?id=' + order.id + '"></tr>');
+        tr.append('<td class="col-md-1">' + order.id + '</td>');
+        tr.append('<td class="col-md-2">' + alasql('select * from customers where id=?',[order.customer_id])[0].name + '</td>');
 
-        tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>');
+        tr.append('<td class="col-md-1">' + getLabelForOrderStatus(order.status) + '</td>');
+        
+        tr.append('<td class="col-md-2" data-order='+ order.date_received +'>' + getPrettyDate(order.date_received) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ order.date_approved +'>' + getPrettyDate(order.date_approved) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ order.date_shipped +'>' + getPrettyDate(order.date_shipped) + '</td>'); //date 
+        tr.append('<td class="col-md-2" data-order='+ order.date_completed +'>' + getPrettyDate(order.date_completed) + '</td>'); //date 
+        
         tr.appendTo(tbody_orders);
     }
     setRowLinks();
+    
+    table_orders = $('#data-table-orders').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
 }
 
 function populateCustomerTable(){

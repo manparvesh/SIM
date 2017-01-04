@@ -115,29 +115,47 @@ if(temporders.length){
 var orders = alasql('SELECT * FROM ordersadd WHERE status=1');
 
 function getPrettyDate(daaate){
+    if(moment(daaate).format('LL') == 'Invalid date'){
+        return '-';
+    }
     return moment(daaate).format('LL');
 }
 
+var table_orders = $('#data-table-orders').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
+
+
 function populateOrderTable(){
+    table_orders.destroy();
+    
     var tbody_orders = $('#tbody-purchase-orders');
     tbody_orders.empty();
     for (var i = 0; i < orders.length; i++) {
         var order = orders[i];
         var tr = $('<tr data-href="order.html?id=' + order.id + '"></tr>');
-        tr.append('<td>' + order.id + '</td>'); // id
-        tr.append('<td>' + alasql('select * from suppliers where id=?',[order.supplier_id])[0].name + '</td>'); //supplier name
-        tr.append('<td>' + alasql('select * from whouse where id=?',[order.whouse])[0].name + '</td>'); //warehouse
-        tr.append('<td>' + getLabelForOrderStatus(order.status) + '</td>'); //status
+        tr.append('<td class="col-md-1">' + order.id + '</td>'); // id
+        tr.append('<td class="col-md-1">' + alasql('select * from suppliers where id=?',[order.supplier_id])[0].name + '</td>'); //supplier name
+        tr.append('<td class="col-md-1" data-order='+ order.whouse +'>' + alasql('select * from whouse where id=?',[order.whouse])[0].name + '</td>'); //warehouse
+        tr.append('<td class="col-md-1" data-order='+ order.status +'>' + getLabelForOrderStatus(order.status) + '</td>'); //status
 
-        tr.append('<td>' + getPrettyDate(order.date_received) + '</td>'); //date 
-        tr.append('<td>' + getPrettyDate(order.date_approved) + '</td>'); //date 
-        tr.append('<td>' + getPrettyDate(order.date_shipped) + '</td>'); //date 
-        tr.append('<td>' + getPrettyDate(order.date_completed) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ order.date_received +'>' + getPrettyDate(order.date_received) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ order.date_approved +'>' + getPrettyDate(order.date_approved) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ order.date_shipped +'>' + getPrettyDate(order.date_shipped) + '</td>'); //date 
+        tr.append('<td class="col-md-1" data-order='+ order.date_completed +'>' + getPrettyDate(order.date_completed) + '</td>'); //date 
 
         tr.appendTo(tbody_orders);
     }
     
     setRowLinks();
+    
+    table_orders = $('#data-table-orders').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
 }
 
 function populateSupplierTable(){
@@ -182,7 +200,7 @@ function showOrders(n){
             orders = alasql('SELECT * FROM ordersadd');
             break;
     }
-    console.log(orders.length);
+    console.log('length: ' + orders.length);
     populateOrderTable();
 }
 
@@ -210,7 +228,9 @@ function handleScheduleCalendar(){
         ['29/12/2016',"Monthly restocking","restock.html","#ff9703",""],
         ['30/12/2016',"Add monthly stock","neworder.html?type=monthly","#3bc8f2",""],
         ['29/1/2017',"Monthly restocking","restock.html","#ff9703",""],
-        ['30/1/2017',"Add monthly stock","neworder.html?type=monthly","#3bc8f2","21"]
+        ['30/1/2017',"Add monthly stock","neworder.html?type=monthly","#3bc8f2",""],
+        ['27/2/2017',"Monthly restocking","restock.html","#ff9703",""],
+        ['28/2/2017',"Add monthly stock","neworder.html?type=monthly","#3bc8f2",""]
             ]; //DB.getRestockDates(100);
     //s.push();
     s.push([d+"/"+m+"/"+y,"Today","#","#009688",""]);
@@ -331,7 +351,7 @@ function populateDefectiveProductsTable(){
         var ret1 = rets[i];
         var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[ret1.order_id])[0];
         //co(return1);
-        if(return1.order_id){
+        if(return1){
             var temp_order_id = return1.order_id;
             var order_remove = alasql('select * from ordersadd where id=?',[temp_order_id])[0];
             var temp_customer_id = alasql('select * from ordersadd where id=?',[temp_order_id])[0].supplier_id;

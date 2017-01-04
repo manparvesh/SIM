@@ -163,10 +163,14 @@
 
                         <table id="data-table-orders" class="table table-hover table-condensed display print mdl-data-table">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Customer ID</th>
-                                    <th>Status</th>
+                                <tr class="row">
+                                    <th class="col-md-1">ID</th>
+                                    <th class="col-md-2">Customer</th>
+                                    <th class="col-md-1">Status</th>
+                                     <th class="col-md-2">Date placed</th>
+                                    <th class="col-md-2">Date approved</th>
+                                    <th class="col-md-2">Date shipped</th>
+                                    <th class="col-md-2">Date completed</th> 
                                 </tr>
                             </thead>
                             <tbody id="tbody-sales-orders"></tbody>
@@ -334,12 +338,7 @@
                 className: 'mdl-data-table__cell--non-numeric'
             });
             $('#data-table-customers').DataTable({
-                "order":[[0,"desc"]],
-                "iDisplayLength": 25,
-                className: 'mdl-data-table__cell--non-numeric'
-            });
-            $('#data-table-orders').DataTable({
-                "order":[[0,"desc"]],
+                "order":[[0,"asc"]],
                 "iDisplayLength": 25,
                 className: 'mdl-data-table__cell--non-numeric'
             });

@@ -155,10 +155,15 @@
 
                     <table id="data-table-incoming" class="table table-hover table-condensed display print mdl-data-table">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer ID</th>
-                                <th>Status</th>
+                            <tr class="">
+                                <th class="col-md-1">ID</th>
+                                <th class="col-md-2">Customer ID</th>
+                                <th class="col-md-1">Warehouse</th>
+                                <th class="col-md-1">Status</th>
+                                <th class="col-md-2">Date placed</th>
+                                <th class="col-md-2">Date approved</th>
+                                <th class="col-md-2">Date shipped</th>
+                                <th class="col-md-2">Date completed</th> 
                             </tr>
                         </thead>
                         <tbody id="tbody-purchases-orders"></tbody>
@@ -196,6 +201,10 @@
                                     <th>ID</th>
                                     <th>Customer ID</th>
                                     <th>Status</th>
+                                    <th>Date placed</th>
+                                    <th>Date approved</th>
+                                    <th>Date shipped</th>
+                                    <th>Date completed</th> 
                                 </tr>
                             </thead>
                             <tbody id="tbody-sales-orders"></tbody>
@@ -274,16 +283,6 @@
         $(document).ready(function() {
             //App.init();
             $('#data-table-restocking').DataTable({
-                "order":[[0,"desc"]],
-                "iDisplayLength": 25,
-                className: 'mdl-data-table__cell--non-numeric'
-            });
-            $('#data-table-incoming').DataTable({
-                "order":[[0,"desc"]],
-                "iDisplayLength": 25,
-                className: 'mdl-data-table__cell--non-numeric'
-            });
-            $('#data-table-outgoing').DataTable({
                 "order":[[0,"desc"]],
                 "iDisplayLength": 25,
                 className: 'mdl-data-table__cell--non-numeric'
