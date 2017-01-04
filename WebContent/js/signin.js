@@ -72,6 +72,16 @@ $('#inputPassword').on('input', function(){
     }
 });
 
+$('#inputPassword').keypress(function (e) {
+  if (e.which == 13) {
+    if($('#signin').prop('disabled')){}else{
+        login();
+        window.location = $('#signin').attr('href');
+    }
+    return false;
+  }
+});
+
 function login(){
     alasql('DROP TABLE IF EXISTS logins;');
     alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
