@@ -93,11 +93,11 @@ function populateDefectiveProductsTable(){
         var ret1 = rets[i];
         var return1 = alasql('SELECT * FROM replacements where order_id=? and order_type=1',[ret1.order_id])[0];
         co(return1);
-        if(return1){
+        if(return1.order_id){
             var temp_order_id = return1.order_id;
-            var order_remove = alasql('select * from ordersremove where id=?',[temp_order_id])[0];
-            var temp_customer_id = alasql('select * from ordersremove where id=?',[temp_order_id])[0].customer_id;
-            var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
+            var order_remove = alasql('select * from ordersadd where id=?',[temp_order_id])[0];
+            var temp_customer_id = alasql('select * from ordersadd where id=?',[temp_order_id])[0].supplier_id;
+            var temp_customer_name = alasql('select * from suppliers where id=?',[temp_customer_id])[0].name;
 
             var returnType = return1.replacement_type;
             var returnText;
@@ -112,6 +112,7 @@ function populateDefectiveProductsTable(){
             tr.append('<td>' + return1.order_id + '</td>');
             tr.append('<td>' + temp_customer_name + '</td>');
             //tr.append('<td>' + returnText + '</td>');
+            tr.append('<td>' + alasql('select * from whouse where id=?',[alasql('select * from suppliers where id=?',[temp_customer_id])[0].whouse])[0].name + '</td>');
             tr.append('<td>' + getLabelForOrderStatus(return1.status) + '</td>');
 
             tr.appendTo(tbody_returns);
@@ -125,8 +126,8 @@ populateDefectiveProductsTable();
 
 function populateModalReturnDetails(return_id){
     $('#modal-span-order-id').text(return_id);
-        var temp_customer_id = alasql('select * from ordersremove where id=?',[return_id])[0].customer_id;
-        var temp_customer_name = alasql('select * from suppliers where id=?',[return_id])[0].name;
+        var temp_customer_id = alasql('select * from ordersadd where id=?',[return_id])[0].supplier_id;
+        var temp_customer_name = alasql('select * from suppliers where id=?',[temp_customer_id])[0].name;
     $('#modal-span-customer').text(temp_customer_name);
     
     var modal_tbody_returns = $('#modal-tbody-returns');
@@ -153,7 +154,7 @@ function populateModalReturnDetails(return_id){
         var return1 = returns[i];
         co(return1);
         
-        var temp_whouse = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
+        var temp_whouse = alasql('select * from suppliers where id=?',[temp_customer_id])[0].whouse;
         var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse])[0].name;
         
         var temp_product_id = return1.product_id;

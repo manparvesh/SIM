@@ -335,7 +335,7 @@ $('#pura-ok').on('click', function(){
         
         //if there are orders from this supplier, add a row to ordersadd table
         if(ordersFromThisSupplier){
-            alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?,?,?)', [ ordersadd_id, ordersadd_order_id, getWHouseID(), goodSupplierID, 1, date, '', '', '' ]);
+            alasql('INSERT INTO ordersadd VALUES(?,?,?,?,?,?,?,?,?)', [ ordersadd_id, ordersadd_order_id, getWHouseID(), goodSupplierID, 1, date, '-', '-', '-' ]);
         }
     }
     
