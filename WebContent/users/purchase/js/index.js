@@ -91,19 +91,19 @@ function setRowLinks(){
 }
 
 //set order numbers in dashboard
-var temporders = alasql('SELECT * FROM requirements');
+var temporders = alasql('SELECT * FROM requirements where status=7');
 if(temporders.length){
     $('#well-orders').text(temporders.length);
 }else{
     $('#well-orders').text('No');
 }//set order numbers in dashboard
-var temporders = alasql('SELECT * FROM restock');
+var temporders = alasql('SELECT * FROM restock where status=1');
 if(temporders.length){
     $('#restocking-requests').text(temporders.length);
 }else{
     $('#restocking-requests').text('No');
 }//set order numbers in dashboard
-var temporders = alasql('SELECT * FROM replacements where replacement_type=2');
+var temporders = alasql('SELECT * FROM replacements where replacement_type=1 and order_type=1 and status=5');
 if(temporders.length){
     $('#products').text(temporders.length);
 }else{

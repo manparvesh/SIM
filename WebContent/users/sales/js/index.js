@@ -52,6 +52,13 @@ if(temporders.length){
 }else{
     $('#well-orders').text('No');
 }
+//5
+var tempreturnorders = alasql('SELECT * FROM replacements where order_type=2 and status=5');
+if(tempreturnorders.length){
+    $('#return-orders').text(tempreturnorders.length);
+}else{
+    $('#return-orders').text('No');
+}
 
 // build html table
 var tbody = $('#tbody-stocks');
