@@ -92,11 +92,11 @@
             
             <nav class="col-md-2 menu">
               <ul >
-                <li class="active withripple" onclick="showTab(1,5);" id="nav-list-item-1">Dashboard</li>
-                <li class="withripple" onclick="showTab(2,5);" id="nav-list-item-2">All Products</li>
-                <li class="withripple" onclick="showTab(3,5);" id="nav-list-item-3">Incoming orders</li>
-                <li class="withripple" onclick="showTab(4,5);" id="nav-list-item-4">Outgoing orders</li>
-                <li class="withripple" onclick="showTab(5,5);" id="nav-list-item-5">Restocking orders</li>
+                <li class="active withripple" onclick="showTab(1,5);" id="nav-list-item-1"><span class="glyphicon glyphicon-home"></span> Dashboard</li>
+                <li class="withripple" onclick="showTab(2,5);" id="nav-list-item-2"><span class="glyphicon glyphicon-list"></span> All Products</li>
+                <li class="withripple" onclick="showTab(3,5);" id="nav-list-item-3"><span class="glyphicon glyphicon-download"></span> Incoming orders</li>
+                <li class="withripple" onclick="showTab(4,5);" id="nav-list-item-4"><span class="glyphicon glyphicon-upload"></span> Outgoing orders</li>
+                <li class="withripple" onclick="showTab(5,5);" id="nav-list-item-5"><span class="glyphicon glyphicon-transfer"></span> Restocking orders</li>
               </ul>
             </nav>
             
@@ -104,7 +104,7 @@
                 <!-- div 2 Products -->
                 <div id="div-2" style="display:none;" class="well container-fluid">
                     <div class="container-fluid">
-                        <h2 class="text-center text-primary">All products</h2>
+                        <h2 class="text-center text-primary"><span class="glyphicon glyphicon-list"></span> All products</h2>
                         <hr>
             
                         <div class="clearfix" style="margin: 10px 0;">
@@ -134,7 +134,7 @@
                 <!-- / div 3 Purchases / incoming-->
                 <div id="div-3" style="display:none;"  class="well container-fluid">
                     <div class="container-fluid">
-                        <h2 class="text-center text-primary">Incoming orders</h2>
+                        <h2 class="text-center text-primary"><span class="glyphicon glyphicon-download"></span> Incoming orders</h2>
                         <hr>
                         <!-- button group -->
                         <div class="row">
@@ -174,7 +174,7 @@
                 <!-- / div 4 Sales / outgoing -->
                 <div id="div-4" style="display:none;"  class="well container-fluid">
                     <div class="container-fluid">
-                        <h2 class="text-center text-primary">Outgoing orders</h2>
+                        <h2 class="text-center text-primary"><span class="glyphicon glyphicon-upload"></span> Outgoing orders</h2>
                         <hr>
                         <!-- button group -->
                         <div class="row">
@@ -216,21 +216,24 @@
                 <!-- div 1 The Dashboard -->
                 <div id="div-1">
                     
-                    <div class="container" style="margin-top:30px;">
+                    <div class="container" style="margin-top:0px;">
                         <div class="well col-md-10" style="margin-left:60px;">
-                            <h2 class="text-center text-primary">Calendar</h2>
+                            <h2 class="text-center text-primary"><span class="glyphicon glyphicon-calendar"></span> Calendar</h2>
                             <hr>
                             <div id="schedule-calendar" class="bootstrap-calendar"></div>
                         </div>
                     </div>
-                    <div class="container" style="margin-top:10px;">
+                    <div class="container" style="margin-top:0px;">
                         <div class="well col-md-3 text-center" style="margin-right:47.5px;margin-left:60px;cursor:pointer;" onclick="showTab(3,5);" id="well-in">
+                            <h3><span class="glyphicon glyphicon-download"></span> </h3>
                             <span id="in-orders"></span> new incoming orders!
                         </div>
                         <div class="well col-md-3 text-center" style="margin-right:47.5px;cursor:pointer;" onclick="showTab(4,5);" id="well-out">
+                            <h3><span class="glyphicon glyphicon-upload"></span> </h3>
                             <span id="out-orders"></span> new outgoing orders!
                         </div>
                         <div class="well col-md-3 text-center" style="cursor:pointer;" onclick="showTab(5,5);" id="well-restock">
+                            <h3><span class="glyphicon glyphicon-transfer"></span> </h3>
                             <span id="restocking-requests"></span> new restocking orders
                         </div>
                     </div>
@@ -240,7 +243,7 @@
                 <!-- restocking -->
                 <div id="div-5" style="display:none;" class="well container-fluid">
                     <div class="container-fluid">
-                        <h2 class="text-center text-primary">Restocking orders</h2>
+                        <h2 class="text-center text-primary"><span class="glyphicon glyphicon-transfer"></span> Restocking orders</h2>
                         <hr>
                         
                         <table id="data-table-restocking" class="table table-hover table-condensed display print mdl-data-table">
