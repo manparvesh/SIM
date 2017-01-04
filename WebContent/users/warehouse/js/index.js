@@ -280,18 +280,24 @@ handleScheduleCalendar();
 var temp_add_orders = alasql('SELECT * FROM ordersadd where status=3 and whouse=?',[getWHouseID()]);
 if(temp_add_orders.length){
     $('#in-orders').text(temp_add_orders.length);
+    $('#well-in').css('background-color','#13ce0b');
+    $('#well-in').css('color','white');
 }else{
     $('#in-orders').text('No');
 }//set order numbers in dashboard
 var temp_remove_orders = alasql('SELECT * FROM ordersremove where status=1 and whouse=?',[getWHouseID()]);
 if(temp_remove_orders.length){
     $('#out-orders').text(temp_remove_orders.length);
+    $('#well-out').css('background-color','#ff0303');
+    $('#well-out').css('color','white');
 }else{
     $('#out-orders').text('No');
 }//set order numbers in dashboard
 var temp_restock_orders = alasql('SELECT * FROM restock where (whouse_from=? or whouse_to=?) and status<4 ',[getWHouseID(), getWHouseID()]);
 if(temp_restock_orders.length){
     $('#restocking-requests').text(temp_restock_orders.length);
+    $('#well-restock').css('background-color','#ff9703');
+    $('#well-restock').css('color','white');
 }else{
     $('#restocking-requests').text('No');
 }

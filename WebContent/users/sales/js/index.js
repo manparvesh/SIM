@@ -49,6 +49,8 @@ var stocks = alasql(sql, [ '%' + q3 + '%' ]);
 var temporders = alasql('SELECT * FROM ordersremove WHERE status=?', [1]);
 if(temporders.length){
     $('#well-orders').text(temporders.length);
+    $('#well-new').css('background-color','#00c31e');
+    $('#well-new').css('color','white');
 }else{
     $('#well-orders').text('No');
 }
@@ -56,6 +58,8 @@ if(temporders.length){
 var tempreturnorders = alasql('SELECT * FROM replacements where order_type=2 and status=5');
 if(tempreturnorders.length){
     $('#return-orders').text(tempreturnorders.length);
+    $('#well-ret').css('background-color','#ff9703');
+    $('#well-ret').css('color','white');
 }else{
     $('#return-orders').text('No');
 }

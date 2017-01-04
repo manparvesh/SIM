@@ -91,21 +91,30 @@ function setRowLinks(){
 }
 
 //set order numbers in dashboard
+// req
 var temporders = alasql('SELECT * FROM requirements where status=7');
 if(temporders.length){
     $('#well-orders').text(temporders.length);
+    $('#well-req').css('background-color','#00b4c3');
+    $('#well-req').css('color','white');
 }else{
     $('#well-orders').text('No');
-}//set order numbers in dashboard
+}
+// restock
 var temporders = alasql('SELECT * FROM restock where status=1');
 if(temporders.length){
     $('#restocking-requests').text(temporders.length);
+    $('#well-restock').css('background-color','#ff9703');
+    $('#well-restock').css('color','white');
 }else{
     $('#restocking-requests').text('No');
-}//set order numbers in dashboard
+}
+//def
 var temporders = alasql('SELECT * FROM replacements where replacement_type=1 and order_type=1 and status=5');
 if(temporders.length){
-    $('#products').text(temporders.length);
+    $('#products').text(temporders.length);//#ff0303
+    $('#well-def').css('background-color','#ff0303');
+    $('#well-def').css('color','white');
 }else{
     $('#products').text('No');
 }
