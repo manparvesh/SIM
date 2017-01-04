@@ -196,3 +196,22 @@ function logout(){
     alasql('DROP TABLE IF EXISTS logins;');
     alasql('CREATE TABLE logins(id INT IDENTITY, emp_id INT);');
 }
+
+function printPage(){
+    html2canvas($('body')).then(function(canvas) {
+        //document.body.appendChild(canvas);
+        //var w = window.open("").document.body.appendChild(canvas);
+
+        var divToPrint= canvas; //document.getElementById('DivIdToPrint');
+        var newWin=window.open('','Print-Window', '');
+        //newWin.document.open();
+        newWin.document.body.appendChild(canvas);
+        newWin.print();
+        newWin.document.close();
+
+        //window.print();
+        //FileSaver.saveAs(w, "hw.png");
+        //w.print();
+        //window.print(canvas);
+    });
+}
