@@ -89,3 +89,5 @@ function login(){
     alasql('INSERT INTO logins VALUES(?,?);', [1,dept]);
     
 }
+
+$('#inputUserName').focus();

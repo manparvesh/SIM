@@ -25,12 +25,16 @@ var tbody = $('#tbody-transs');
 for (var i = 0; i < rows.length; i++) {
 	var row = rows[i];
     if(row.qty > 0){
-        var tr = $('<tr class="success">').appendTo(tbody);
+        var tr = $('<tr>').appendTo(tbody);
     }else if(row.qty < 0){
-        var tr = $('<tr class="danger">').appendTo(tbody);
+        var tr = $('<tr>').appendTo(tbody);
     }
 	tr.append('<td>' + row.date + '</td>');
-	tr.append('<td>' + row.qty + '</td>');
+	if(row.qty > 0){
+        tr.append('<td class="success">' + row.qty + '</td>');
+    }else{
+        tr.append('<td class="danger">' + row.qty + '</td>');
+    }
 	tr.append('<td>' + row.balance + '</td>');
 	tr.append('<td>' + row.memo + '</td>');
 }
