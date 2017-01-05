@@ -5,7 +5,7 @@ if(orderID){
 }else{
     alert('Please select an order first');
     $('#everything').empty();
-    //$('#everything').append('<h2>nothing here, homes</h2>');
+    $('#everything').append('<a class="btn btn-raised btn-warning" href="/">Click here to return to the previous page</a>');
 }
 
 var returnType = 1;
@@ -129,14 +129,17 @@ function populateTable(){
     
     details = alasql('SELECT * FROM ordersremovedetails WHERE order_id=?',[orderID]);
     
+    var total = 0;
+    
     if(status>1){
         thead_order_details.append('\
                                    <tr> \
                             <th class="col-md-1">ID</th>\
-                            <th class="col-md-3">Manufacturer</th>\
-                            <th class="col-md-3">Kind</th>\
+                            <th class="col-md-2">Kind</th>\
+                            <th class="col-md-2">Manufacturer</th>\
                             <th class="col-md-3">Product</th>\
                             <th class="col-md-2">Quantity</th>\
+                            <th class="col-md-2">Price (in JP¥)</th>\
                         </tr>\
                                    ');
         
@@ -146,20 +149,33 @@ function populateTable(){
             var kind = alasql('select * from kind where id = ?',[product.kind])[0].text;
             var tr = $('<tr></tr>');
             tr.append('<td class="col-md-1">' + detail.id + '</td>');
-            tr.append('<td class="col-md-3">' + kind + '</td>');
-            tr.append('<td class="col-md-3">' + product.maker + '</td>');
+            tr.append('<td class="col-md-2">' + kind + '</td>');
+            tr.append('<td class="col-md-2">' + product.maker + '</td>');
             tr.append('<td class="col-md-3">' + product.detail + '</td>');
             tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
+            tr.append('<td class="col-md-2">' + numberWithCommas(product.price) + '</td>');
+            total += product.price;
+            
             tr.appendTo(tbody_order_details);
         }
+        
+        tbody_order_details.append('<tr>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <th>Total (in JP¥):</th>\
+                    <th>'+ numberWithCommas(total) +'</th>\
+                    </tr>');
     }else{
         thead_order_details.append('\
                    <tr> \
             <th class="col-md-1">ID</th>\
-            <th class="col-md-2">Manufacturer</th>\
             <th class="col-md-2">Kind</th>\
-            <th class="col-md-3">Product</th>\
-            <th class="col-md-2">Quantity</th>\
+            <th class="col-md-2">Manufacturer</th>\
+            <th class="col-md-2">Product</th>\
+            <th class="col-md-1">Quantity</th>\
+            <th class="col-md-2">Price (in JP¥)</th>\
             <th class="col-md-2">Availability</th>\
         </tr>\
                    ');
@@ -173,8 +189,9 @@ function populateTable(){
                 tr.append('<td class="col-md-1">' + detail.id + '</td>');
                 tr.append('<td class="col-md-2">' + kind + '</td>');
                 tr.append('<td class="col-md-2">' + product.maker + '</td>');
-                tr.append('<td class="col-md-3">' + product.detail + '</td>');
-                tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
+                tr.append('<td class="col-md-2">' + product.detail + '</td>');
+                tr.append('<td class="col-md-1">' + detail.quantity + '</td>');
+                tr.append('<td class="col-md-2">' + numberWithCommas(product.price) + '</td>');
                 co(product.id + ' ' + temp_whouse_id);
                 var temp_whouse_q = alasql('select * from stock where item=? and whouse=?',[product.id, temp_whouse_id])[0].balance;
                 if(detail.quantity > temp_whouse_q){
@@ -182,8 +199,18 @@ function populateTable(){
                 }
                 tr.append('<td class="col-md-2">' + getAvailability(detail.quantity, temp_whouse_q) + '</td>');
                 tr.appendTo(tbody_order_details);
+                total += product.price;
             }
         }
+        tbody_order_details.append('<tr>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <th>Total (in JP¥):</th>\
+                    <th>'+ numberWithCommas(total) +'</th>\
+                    <td></td>\
+                    </tr>');
     }
 }
 

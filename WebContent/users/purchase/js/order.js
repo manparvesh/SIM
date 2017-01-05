@@ -69,18 +69,32 @@ function populateTable(){
     var tbody_order_details = $('#tbody-sales-order-details');
     tbody_order_details.empty();
     var products = alasql('SELECT * FROM item');
+    var total = 0;
     for (var i = 0; i < details.length; i++) {
         var detail = details[i];
         var product = products[detail.product_id - 1];
         //co(product);
         var tr = $('<tr></tr>');
         tr.append('<td class="col-md-2">' + detail.id + '</td>');
-        tr.append('<td class="col-md-2">' + product.kind + '</td>');
+        tr.append('<td class="col-md-2">' + alasql('select * from kind where id = ?',[product.kind])[0].text + '</td>');
         tr.append('<td class="col-md-2">' + product.maker + '</td>');
-        tr.append('<td class="col-md-4">' + product.detail + '</td>');
+        tr.append('<td class="col-md-2">' + product.detail + '</td>');
         tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
+        var tempcost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[order.supplier_id, detail.product_id])[0].cost;
+        tr.append('<td class="col-md-2">' + numberWithCommas(tempcost) + '</td>');
+        total+=tempcost;
+        
         tr.appendTo(tbody_order_details);
     }
+    
+    tbody_order_details.append('<tr>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>\
+                    <th>Total (in JP¥):</th>\
+                    <th>'+ numberWithCommas(total) +'</th>\
+                    </tr>');
 }
 
 populateTable();
