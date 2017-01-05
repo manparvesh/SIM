@@ -74,12 +74,23 @@ $('#inputPassword').on('input', function(){
 
 $('#inputPassword').keypress(function (e) {
   if (e.which == 13) {
-    if($('#signin').prop('disabled')){}else{
+    if($('#signin').prop('disabled')){
+        showSnackbar('Invalid credentials');
+    }else{
         login();
         window.location = $('#signin').attr('href');
     }
     return false;
   }
+});
+
+$('#signin').on('click', function(){
+    if($('#signin').prop('disabled')){
+        showSnackbar('Invalid credentials');
+    }
+    if($('#inputPassword').val().length == 0 || $('#inputUserName').val().length == 0){
+        showSnackbar('Input box(es) empty');
+    }
 });
 
 function login(){
@@ -88,6 +99,7 @@ function login(){
 
     alasql('INSERT INTO logins VALUES(?,?);', [1,dept]);
     
+    //showSnackbar('Logging in..');
 }
 
 $('#inputUserName').focus();
