@@ -94,9 +94,21 @@ function getPrettyDate(daaate){
 }
 
 $('#date-1').text(getPrettyDate(order.date_received));
-$('#date-2').text(getPrettyDate(order.date_approved));
-$('#date-3').text(getPrettyDate(order.date_shipped));
-$('#date-4').text(getPrettyDate(order.date_completed));
+if(status>1){
+    $('#date-2').text(getPrettyDate(order.date_approved));
+}else{
+    $('#date-2').text(getPrettyDate(order.date_approved) + ' (expected)');
+}
+if(status>2){
+    $('#date-3').text(getPrettyDate(order.date_shipped));
+}else{
+    $('#date-3').text(getPrettyDate(order.date_shipped) + ' (expected)');
+}
+if(status>3){
+    $('#date-4').text(getPrettyDate(order.date_completed));
+}else{
+    $('#date-4').text(getPrettyDate(order.date_completed) + ' (expected)');
+}
 
 var today = new Date();
 var dd = today.getDate();

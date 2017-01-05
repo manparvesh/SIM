@@ -285,10 +285,11 @@ if(temp_add_orders.length){
 }else{
     $('#in-orders').text('No');
 }//set order numbers in dashboard
-var temp_remove_orders = alasql('SELECT * FROM ordersremove where status=1 and whouse=?',[getWHouseID()]);
+//SELECT * FROM ordersremove join customers on customers.id=ordersremove.customer_id where status=2 and customers.whouse=?
+var temp_remove_orders = alasql('SELECT * FROM ordersremove where status=2 and whouse=?',[getWHouseID()]);
 if(temp_remove_orders.length){
     $('#out-orders').text(temp_remove_orders.length);
-    $('#well-out').css('background-color','#ff0303');
+    $('#well-out').css('background-color','#009688');
     $('#well-out').css('color','white');
 }else{
     $('#out-orders').text('No');
