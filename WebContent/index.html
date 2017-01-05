@@ -18,6 +18,7 @@
       <script src="js/db-signin.js"></script>
     <!-- Custom styles for this page -->
     <link href="css/signin.css" rel="stylesheet">
+    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
       <!-- redirect file -->
       <script src="js/redirect-signin.js"></script>
     
@@ -30,11 +31,19 @@
   <body style="background-color: rgb(0, 150, 136);">
 
     <div class="container">
+        
+        
 
       <form class="form-signin well" id="signin-form">
+          <div style="padding:10px;" class="text-center text-inverse">
+              <h1 style="font-size:80px" class="text-warning"><i class="fa fa-diamond" aria-hidden="true"></i></h1>
+              <h3><b>S</b>uper <b>I</b>nventory <b>M</b>anager</h3>
+          </div>
+          <hr style="height:1px">
           <thread>
-              <h2 class="form-signin-heading text-primary text-center">Sign in</h2>
+              <!--<h2 class="form-signin-heading text-primary text-center">Sign in</h2>-->
           </thread>
+          
           <div class="form-group label-floating">
             <label for="inputUserName" class="control-label">Username</label>
             <input type="text" id="inputUserName" class="form-control" required>
