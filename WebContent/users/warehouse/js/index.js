@@ -285,8 +285,7 @@ if(temp_add_orders.length){
 }else{
     $('#in-orders').text('No');
 }//set order numbers in dashboard
-//SELECT * FROM ordersremove join customers on customers.id=ordersremove.customer_id where status=2 and customers.whouse=?
-var temp_remove_orders = alasql('SELECT * FROM ordersremove where status=2 and whouse=?',[getWHouseID()]);
+var temp_remove_orders = alasql('SELECT * FROM ordersremove join customers on customers.id=ordersremove.customer_id where status=2 and customers.whouse=?',[getWHouseID()]);
 if(temp_remove_orders.length){
     $('#out-orders').text(temp_remove_orders.length);
     $('#well-out').css('background-color','#009688');
