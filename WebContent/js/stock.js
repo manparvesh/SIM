@@ -68,14 +68,14 @@ var config = {
             fill: false,
             backgroundColor: window.chartColors.blue,
             borderColor: window.chartColors.blue,
-            borderDash: [5, 5],
             data: [
             ],
+            fill: false,
         }, {
             label: "Optimal amount",
             fill: false,
-            backgroundColor: window.chartColors.orange,
-            borderColor: window.chartColors.orange,
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
             borderDash: [5, 5],
             data: [
             ],
@@ -83,10 +83,6 @@ var config = {
     },
     options: {
         responsive: true,
-        title:{
-            display:true,
-            text:'Quantity history'
-        },
         tooltips: {
             mode: 'index',
             intersect: false
@@ -107,7 +103,7 @@ var config = {
                 display: true,
                 scaleLabel: {
                     display: true,
-                    labelString: 'Quantity'
+                    labelString: 'Amount'
                 }
             }]
         }
@@ -174,7 +170,7 @@ function showChart(){
         var row = rows[i];
         var projData = [];
         projData.push(row.balance); // amount 
-        projData.push(1); // optimal
+        projData.push(51); // optimal
         
         var date = row.date;
         

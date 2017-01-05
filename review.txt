@@ -1,8 +1,0 @@
-For example Purchase menu.
-When product arrive the warehouse, I have to update particular orders. But it is difficult to find particular order.
-Finding particular order is basic operation.
-
-Requirements in Purchase account did not work. This operation is important for refilling stock.
-
-- Please review the basic operation from point of view of actual daily operation and handling mass data.
-- The basic function needs to work perfectly
