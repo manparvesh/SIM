@@ -60,7 +60,7 @@ function setProductNameValuesToDropDown(id){
             //co(rows[i].supplier_id);
             var option = $('<option id="row-' + id + '-product-name-option-'+i+'">');// '<option value="'+row.id+'">'+row.name+'</option>'; //$('<option></option>');
             option.attr('value', row.id);
-            option.text(row.name + ' (¥ ' + rows[i].cost +')');
+            option.text(row.name + ' (¥ ' + numberWithCommas(rows[i].cost) +')');
             //console.log(option);
             $('#row-' + id + '-suppliers').append(option);
             //co($('#row-' + id + '-suppliers'));
@@ -94,7 +94,7 @@ function setSupplierValuesToDropDown(id){
         var option = $('<option id="row-' + id + '-product-name-option-'+(i+1)+'">');// '<option value="'+row.id+'">'+row.name+'</option>'; //$('<option></option>');
         option.attr('value', row.id);
         option.attr('cost', rows[i].cost);
-        option.text(row.name + ' (¥ ' + rows[i].cost +')');
+        option.text(row.name + ' (¥ ' + numberWithCommas(rows[i].cost) +')');
         //console.log(option);
         $('#row-' + id + '-suppliers').append(option);
         //co($('#row-' + id + '-suppliers'));
@@ -126,7 +126,7 @@ function setQuantityFunction(id){
         var quantity = parseInt($(this).val());
         var price = selectedProductCost;//rows[id - 1].cost;
         //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
-        $('#row-' + id + '-price').text(quantity * price);
+        $('#row-' + id + '-price').text((quantity * price));
         
         calcTotal();
     });
@@ -192,8 +192,8 @@ function calcTotal(){
         }
     }   
     //co(sum);
-    $('#total').text(sum);
-    $('#total-confirm').text(sum);
+    $('#total').text(numberWithCommas(sum));
+    $('#total-confirm').text(numberWithCommas(sum));
     total = sum;
 }
 
@@ -250,7 +250,7 @@ $('#update').on('click',function(){
             tr.append('<td>' + whouse + '</td>');
             tr.append('<td>' + supplier + '</td>');
             tr.append('<td>' + quantity + '</td>');
-            tr.append('<td>' + price + '</td>');
+            tr.append('<td>' + numberWithCommas(price) + '</td>');
             tr.appendTo(tbody);
         }
         

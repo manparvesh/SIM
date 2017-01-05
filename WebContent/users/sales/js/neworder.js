@@ -161,8 +161,8 @@ function calcTotal(){
         }
     }   
     //co(sum);
-    $('#total').text(sum);
-    $('#total-confirm').text(sum);
+    $('#total').text(numberWithCommas(sum));
+    $('#total-confirm').text(numberWithCommas(sum));
     total = sum;
 }
 
@@ -210,7 +210,7 @@ $('#update').on('click',function(){
             tr.append('<td>' + product_name + '</td>');
             tr.append('<td>' + whouse + '</td>');
             tr.append('<td>' + quantity + '</td>');
-            tr.append('<td>' + price + '</td>');
+            tr.append('<td>' + numberWithCommas(price) + '</td>');
             tr.appendTo(tbody);
         }
         
