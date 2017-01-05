@@ -118,6 +118,24 @@ if(temporders.length){
 }else{
     $('#products').text('No');
 }
+//low stock
+var temporders = alasql('SELECT * FROM replacements where replacement_type=1 and order_type=1 and status=5');
+if(temporders.length){
+    $('#low-stock').text(temporders.length);//#ff0303
+    $('#well-low').css('background-color','#ff0303');
+    $('#well-low').css('color','white');
+}else{
+    $('#low-stock').text('No');
+}
+//new orders
+var temporders = alasql('SELECT * FROM replacements where replacement_type=1 and order_type=1 and status=5');
+if(temporders.length){
+    $('#new-orders').text(temporders.length);//#ff0303
+    $('#well-new-orders').css('background-color','#00d331');
+    $('#well-new-orders').css('color','white');
+}else{
+    $('#new-orders').text('No');
+}
 
 
 // build html table for orders
