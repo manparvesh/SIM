@@ -12,6 +12,9 @@
     <script src="lib/alasql.js"></script>
     <script src="lib/purl.js"></script>
     <script src="js/db.js"></script>
+    <script src="js/chart-util.js"></script>
+    <script src="plugins/moment/moment.min.js"></script>
+    <script src="plugins/chartjs/Chart.bundle.js"></script>
     
     <!-- Bootstrap Material Design -->
     <link href="material/css/bootstrap-material-design.css" rel="stylesheet">
@@ -156,6 +159,10 @@
 -->
         <div class="well">
             <h2 class="text-center text-primary"><i class="fa fa-line-chart" aria-hidden="true"></i> History</h2>
+            <hr>
+            <div style="width:75%;" class="center-block">
+                <canvas id="canvas"></canvas>
+            </div>
             <hr>
             <table class="table table-hover">
                 <thead>

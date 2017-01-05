@@ -49,3 +49,140 @@ $('#update').on('click', function() {
 	alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, id, date, qty, balance + qty, memo ]);
 	window.location.assign('stock.html?id=' + id);
 });
+
+function getPrettyDate(daaate){
+    if(moment(daaate).format('LL') == 'Invalid date'){
+        return '-';
+    }
+    return moment(daaate).format('LL');
+}
+
+//--------chart--------
+var projectCount = 0;
+var config = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: "Amount",
+            fill: false,
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            borderDash: [5, 5],
+            data: [
+            ],
+        }, {
+            label: "Optimal amount",
+            fill: false,
+            backgroundColor: window.chartColors.orange,
+            borderColor: window.chartColors.orange,
+            borderDash: [5, 5],
+            data: [
+            ],
+        }]
+    },
+    options: {
+        responsive: true,
+        title:{
+            display:true,
+            text:'Quantity history'
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Quantity'
+                }
+            }]
+        }
+    }
+};
+
+function addDataToChart(projData, date) {
+    if (config.data.datasets.length > 0) {
+        projectCount++;
+        config.data.labels.push(date);
+
+        for(var i=0;i<2;i++){
+            config.data.datasets[i].data.push(projData[i]);
+        }
+
+        window.myLine.update();
+    }
+};
+
+function clearChartData(){
+    if (config.data.datasets.length > 0) {
+        projectCount = 0;
+        var len = config.data.labels.length;
+        for(var i=0;i<len;i++){
+            config.data.labels.pop();
+        }
+
+        len = config.data.datasets[0].data.length;
+        
+        for(var i=0;i<len;i++){
+            for(var j=0;j<2;j++){
+                config.data.datasets[i].data.pop();
+            }
+        }
+
+        window.myLine.update();
+    }
+}
+
+//var rows = alasql('SELECT * FROM trans WHERE stock = ?', [ id ]);
+//var tbody = $('#tbody-transs');
+//for (var i = 0; i < rows.length; i++) {
+//	var row = rows[i];
+//    if(row.qty > 0){
+//        var tr = $('<tr>').appendTo(tbody);
+//    }else if(row.qty < 0){
+//        var tr = $('<tr>').appendTo(tbody);
+//    }
+//	tr.append('<td>' + row.date + '</td>');
+//	if(row.qty > 0){
+//        tr.append('<td class="success">' + row.qty + '</td>');
+//    }else{
+//        tr.append('<td class="danger">' + row.qty + '</td>');
+//    }
+//	tr.append('<td>' + row.balance + '</td>');
+//	tr.append('<td>' + row.memo + '</td>');
+//}
+
+function showChart(){
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.myLine = new Chart(ctx, config);
+    clearChartData();
+    for(var i=0;i<rows.length;i++){
+        var row = rows[i];
+        var projData = [];
+        projData.push(row.balance); // amount 
+        projData.push(1); // optimal
+        
+        var date = row.date;
+        
+        // add this to chart
+        addDataToChart(projData, getPrettyDate(date));
+    }
+}
+
+showChart();
+// --------------------------------- / chart  ---------------------------------
+
