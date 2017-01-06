@@ -166,17 +166,53 @@ function showChart(){
     var ctx = document.getElementById("canvas").getContext("2d");
     window.myLine = new Chart(ctx, config);
     clearChartData();
+    
+    var balanceData = getArrayFromTable(rows, 'balance');
+    var tempYAxis = [];
+    for(var i=0;i<balanceData.length;i++){
+        tempYAxis.push(i+1);
+    }
+    var trendlineParams = lireg(tempYAxis, balanceData);
+    co(trendlineParams);
+    
     for(var i=0;i<rows.length;i++){
         var row = rows[i];
         var projData = [];
         projData.push(row.balance); // amount 
-        projData.push(51); // optimal
+        if(trendlineParams[0]>0 || trendlineParams[0]==0 || trendlineParams[0]<0){
+            projData.push(Math.round(getPoint(trendlineParams, i+1))); // optimal
+        }else{
+            projData.push(row.balance); // optimal
+        }
         
         var date = row.date;
         
         // add this to chart
         addDataToChart(projData, getPrettyDate(date));
     }
+    
+    //current optimal values
+    var projData = [];
+    projData.push(null); // amount 
+    if(trendlineParams[0]>0 || trendlineParams[0]==0 || trendlineParams[0]<0){
+        projData.push(Math.round(getPoint(trendlineParams, i+1))); // optimal
+    }else{
+        projData.push(rows[0].balance); // optimal
+    }
+    
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    
+    var date = yyyy+'-'+mm+'-'+dd;
+
+    // add this to chart
+    addDataToChart(projData, 'Today: '+getPrettyDate(date));
 }
 
 showChart();
