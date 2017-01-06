@@ -81,8 +81,8 @@ function populateTable(){
         tr.append('<td class="col-md-2">' + product.detail + '</td>');
         tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
         var tempcost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[order.supplier_id, detail.product_id])[0].cost;
-        tr.append('<td class="col-md-2">' + numberWithCommas(tempcost) + '</td>');
-        total+=tempcost;
+        tr.append('<td class="col-md-2">' + numberWithCommas(detail.quantity*tempcost) + '</td>');
+        total+=detail.quantity*tempcost;
         
         tr.appendTo(tbody_order_details);
     }

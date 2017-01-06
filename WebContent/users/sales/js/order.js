@@ -153,8 +153,8 @@ function populateTable(){
             tr.append('<td class="col-md-2">' + product.maker + '</td>');
             tr.append('<td class="col-md-3">' + product.detail + '</td>');
             tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
-            tr.append('<td class="col-md-2">' + numberWithCommas(product.price) + '</td>');
-            total += product.price;
+            tr.append('<td class="col-md-2">' + numberWithCommas(detail.quantity*product.price) + '</td>');
+            total += detail.quantity*product.price;
             
             tr.appendTo(tbody_order_details);
         }
@@ -191,7 +191,7 @@ function populateTable(){
                 tr.append('<td class="col-md-2">' + product.maker + '</td>');
                 tr.append('<td class="col-md-2">' + product.detail + '</td>');
                 tr.append('<td class="col-md-1">' + detail.quantity + '</td>');
-                tr.append('<td class="col-md-2">' + numberWithCommas(product.price) + '</td>');
+                tr.append('<td class="col-md-2">' + numberWithCommas(detail.quantity*product.price) + '</td>');
                 co(product.id + ' ' + temp_whouse_id);
                 var temp_whouse_q = alasql('select * from stock where item=? and whouse=?',[product.id, temp_whouse_id])[0].balance;
                 if(detail.quantity > temp_whouse_q){
@@ -199,7 +199,7 @@ function populateTable(){
                 }
                 tr.append('<td class="col-md-2">' + getAvailability(detail.quantity, temp_whouse_q) + '</td>');
                 tr.appendTo(tbody_order_details);
-                total += product.price;
+                total += detail.quantity*product.price;
             }
         }
         tbody_order_details.append('<tr>\
