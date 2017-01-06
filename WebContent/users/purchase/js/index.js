@@ -119,14 +119,33 @@ if(temporders.length){
     $('#products').text('No');
 }
 //low stock
-var temporders = alasql('SELECT * FROM replacements where replacement_type=1 and order_type=1 and status=5');
-if(temporders.length){
-    $('#low-stock').text(temporders.length);//#ff0303
-    $('#well-low').css('background-color','#ff0303');
+var low_stock = false;
+var low_prods = 0;
+var temp_prod_list = alasql('select * from stock where whouse=1');
+for(var i=0;i<temp_prod_list.length;i++){
+    var temp_prod = temp_prod_list[i];
+    
+    var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[temp_prod.item, 1])[0].optimum;
+    
+    var currentAmount = alasql('select * from stock where item=? and whouse=?',[temp_prod.item, 1])[0].balance;
+    co((i+1) + ': ' + optimum + ' > ' + currentAmount);
+    if(currentAmount < optimum){
+        low_prods++;
+        low_stock = true;
+    }
+}
+if(low_stock){
+    $('#low-stock').text(low_prods);//#ff0303
+    $('#well-low').css('background-color','#ff9703');
     $('#well-low').css('color','white');
 }else{
     $('#low-stock').text('No');
 }
+
+$('#well-low').on('click', function(){
+    window.location.assign('neworder.html?type=low');
+});
+
 //new orders
 var temporders = alasql('SELECT * FROM ordersadd WHERE status<4');
 if(temporders.length){
