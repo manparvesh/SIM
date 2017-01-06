@@ -74,7 +74,6 @@ function setProductNameValuesToDropDown(id){
                 minIndex = i;
             }
         }
-        $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
         $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
         
         //setSupplierValuesToDropDown(id);
@@ -84,7 +83,7 @@ function setProductNameValuesToDropDown(id){
 function setSupplierValuesToDropDown(id){
     var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
     var selectedWHouseID = getWHouseID();
-    var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=?',[selectedProductID, selectedWHouseID]);
+    var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=? order by cost',[selectedProductID, selectedWHouseID]);
     //co(rows);
     var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
     $('#row-' + id + '-suppliers').empty();
@@ -108,9 +107,6 @@ function setSupplierValuesToDropDown(id){
             minIndex = i;
         }
     }
-    //co(maxCost + ' ' + maxIndex);
-    //co(minCost + ' ' + minIndex);
-    $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
     $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
     //co('min= '+minCost+' max= '+maxCost);
     //co('min= '+minIndex+' max= '+maxIndex);
@@ -457,32 +453,79 @@ if(order_type == 'monthly'){
     for(var i=0;i<prods.length;i++){
         var prod = prods[i];
         
-        addRow();
+        var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[prod.item, whouse])[0].optimum;
+        var currentAmount = alasql('select * from stock where item=? and whouse=?',[prod.item, whouse])[0].balance;
         
-        $('#row-' + (i+1) + '-product-name').val(prod.item);
-        setSupplierValuesToDropDown(i+1);
-        //co(prod.quantity);
+        if(optimum>0){
+            addRow();
+
+            $('#row-' + (i+1) + '-product-name').val(prod.item);
+            setSupplierValuesToDropDown(i+1);
+
+            $('#row-' + (i+1) + '-quantity').val(optimum);
+
+            var id = (i+1);
+
+            var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
+            var product_id = parseInt($('#row-' + id + '-product-name').val());
+            var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
+            //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
+            //co(selectedProductCost);
+            var quantity = parseInt($('#row-' + id + '-quantity').val());
+            var price = selectedProductCost;//rows[id - 1].cost;
+            //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
+            $('#row-' + id + '-price').text(quantity * price);
+
+            calcTotal();        
+        }
+        
+    }
+}
+if(order_type == 'low'){
+    var whouse = parseInt($('#whouse-select').val());
+    
+    var prods = alasql('select * from stock where whouse=?',[whouse]);
+    //co(alasql('select * from stock where whouse=1'));
+    //co(prods)
+    var ct=0;
+    var tid=0;
+    // add products to list
+    for(var i=0;i<prods.length;i++){
+        var prod = prods[i];
         
         var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[prod.item, whouse])[0].optimum;
+        var currentAmount = alasql('select * from stock where item=? and whouse=?',[prod.item, whouse])[0].balance;
         
-        //co(optimum)
         
-        $('#row-' + (i+1) + '-quantity').val(optimum);
+        if(currentAmount < optimum){
+            co((i+1) + ': ' + optimum + ' > ' + currentAmount);
+            
+            addRow();
+            ct++;
+            tid++;
+            var row_id = tid;
+
+            $('#row-' + row_id + '-product-name').val(prod.item);
+            setSupplierValuesToDropDown(row_id);
+
+            $('#row-' + row_id + '-quantity').val(optimum-currentAmount);
+
+
+            var supplier_id = parseInt($('#row-' + row_id + '-suppliers').val());
+            var product_id = parseInt($('#row-' + row_id + '-product-name').val());
+            var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
+            //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
+            //co(selectedProductCost);
+            var quantity = parseInt($('#row-' + row_id + '-quantity').val());
+            var price = selectedProductCost;//rows[id - 1].cost;
+            //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
+            $('#row-' + row_id + '-price').text(quantity * price);
+
+            calcTotal();        
+        }
         
-        var id = (i+1);
-        
-        var supplier_id = parseInt($('#row-' + id + '-suppliers').val());
-        var product_id = parseInt($('#row-' + id + '-product-name').val());
-        var selectedProductCost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[supplier_id, product_id])[0].cost;
-        //var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
-        //co(selectedProductCost);
-        var quantity = parseInt($('#row-' + id + '-quantity').val());
-        var price = selectedProductCost;//rows[id - 1].cost;
-        //console.log(quantity+' ' + $('#row-' + id + '-product-name-option-'+(i+1)).val() + ' ' + $('#row-' + id + '-suppliers').val() + ' ' + price);
-        $('#row-' + id + '-price').text(quantity * price);
-        
-        calcTotal();
     }
+    co(ct)
 }
 
 function logout(){
