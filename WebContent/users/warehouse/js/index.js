@@ -264,6 +264,31 @@ function handleScheduleCalendar(){
     var today=new Date,d = today.getDate(),m=today.getMonth()+1,y=today.getFullYear();
     var s = []; //DB.getRestockDates(100);
     s.push([d+"/"+m+"/"+y,"Today","#","#009688",""]);
+    
+    // order out shipping date
+    var tempOutgoingOrders = alasql('select ordersremove.*, customers.whouse from ordersremove join customers on customers.id=ordersremove.customer_id where status=2 and whouse=?',[getWHouseID()]);
+    for(var i=0;i<tempOutgoingOrders.length;i++){
+        var ord = tempOutgoingOrders[i];
+        var dt = new Date(ord.date_shipped);
+        s.push([dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear(), 'Outgoing order #'+ ord.id +' estimated shipping date',"../sales/order.html?id="+ord.id,"#ff0000",""]);
+    }
+    
+    // order out completion date
+    var tempOutgoingOrders = alasql('select ordersremove.*, customers.whouse from ordersremove join customers on customers.id=ordersremove.customer_id where status=3 and whouse=?',[getWHouseID()]);
+    for(var i=0;i<tempOutgoingOrders.length;i++){
+        var ord = tempOutgoingOrders[i];
+        var dt = new Date(ord.date_completed);
+        s.push([dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear(), 'Outgoing order #'+ ord.id +' estimated completed date',"../sales/order.html?id="+ord.id,"#ff9300",""]);
+    }
+    
+    // order in completion date
+    var tempInComingOrders = alasql('select * from ordersadd where status=3 and whouse=?',[getWHouseID()]);
+    for(var i=0;i<tempInComingOrders.length;i++){
+        var ord = tempInComingOrders[i];
+        var dt = new Date(ord.date_completed);
+        s.push([dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear(), 'Incoming order #'+ ord.id +' estimated completion date',"../purchase/order.html?id="+ord.id,"#00e800",""]);
+    }
+    
     var o=$("#schedule-calendar");
     $(o).calendar({events:s,tooltip_options:{placement:"top",html:true}});
     $(o).find("td.event").each(
