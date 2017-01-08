@@ -51,6 +51,11 @@ if(status > 1){ //2 or more
         $('#span-5').show();
         $('#refund-complete').show();
     }
+    
+    //cancelled
+    if(status == 9){
+        $('.content3').hide();
+    }
 }
 
 var whouse = alasql('SELECT * FROM ordersadd WHERE id=?', [orderID])[0].whouse;
@@ -233,3 +238,15 @@ function printPage(){
       }
     });
 }
+
+//order cancellation
+if(status<4){
+    $('#btn-cancel').show();
+}
+
+
+$('#btn-cancel').on('click', function(){
+    alasql('UPDATE ordersadd SET status = ? WHERE id = ?', [ 9, orderID ]);
+    
+    window.location.reload(true); // reload page
+});

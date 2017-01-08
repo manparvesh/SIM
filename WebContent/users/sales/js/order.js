@@ -76,6 +76,11 @@ if(status > 1){ //2 or more
         $('#span-5').show();
         $('#refund-complete').show();
     }
+    
+    //cancelled
+    if(status == 9){
+        $('.content3').hide();
+    }
 }
 
 var details = alasql('SELECT * FROM ordersremovedetails WHERE order_id=?',[orderID]);
@@ -444,4 +449,16 @@ function printPage(){
       }
     });
 }
+
+//order cancellation
+if(status<3){
+    $('#btn-cancel').show();
+}
+
+
+$('#btn-cancel').on('click', function(){
+    alasql('UPDATE ordersremove SET status = ? WHERE id = ?', [ 9, orderID ]);
+    
+    window.location.reload(true); // reload page
+});
 

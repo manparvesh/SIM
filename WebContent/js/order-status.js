@@ -26,6 +26,9 @@ function getLabelForOrderStatus(n){
         case 8: // requirement complete - success
             return '<span class="label label-success">Requirement complete</span>';
             break;
+        case 9: // cancelled - danger
+            return '<span class="label label-danger">Cancelled</span>';
+            break;
         default:
             return '';
     }
