@@ -52,7 +52,7 @@ function setProductNameValuesToDropDown(id){
     $('#row-' + id + '-product-name').on('change', function(){
         console.log($(this).val());
         var selectedProductID = parseInt($(this).val());
-        var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? ;',[selectedProductID]);
+        var rows = alasql('SELECT * FROM supplierproducts WHERE product_id=? order by cost',[selectedProductID]);
         $('#row-' + id + '-suppliers').empty();
         var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
         for (var i = 0; i < rows.length; i++) {
@@ -74,7 +74,7 @@ function setProductNameValuesToDropDown(id){
                 minIndex = i;
             }
         }
-        $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
+        //$('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
         
         //setSupplierValuesToDropDown(id);
     });
@@ -83,8 +83,8 @@ function setProductNameValuesToDropDown(id){
 function setSupplierValuesToDropDown(id){
     var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
     var selectedWHouseID = getWHouseID();
-    var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=? order by cost',[selectedProductID, selectedWHouseID]);
-    //co(rows);
+    var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=? order by supplierproducts.cost',[selectedProductID, selectedWHouseID]);
+    co(rows);
     var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
     $('#row-' + id + '-suppliers').empty();
     for (var i = 0; i < rows.length; i++) {
@@ -107,7 +107,7 @@ function setSupplierValuesToDropDown(id){
             minIndex = i;
         }
     }
-    $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
+    //$('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
     //co('min= '+minCost+' max= '+maxCost);
     //co('min= '+minIndex+' max= '+maxIndex);
 }
@@ -147,7 +147,7 @@ function setWHouseFunction(){
         for(var id=1;id<=row_id;id++){
             var selectedProductID = parseInt($('#row-' + id + '-product-name').val());
             var selectedWHouseID = getWHouseID();
-            var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=?',[selectedProductID, selectedWHouseID]);
+            var rows = alasql('SELECT supplierproducts.*,suppliers.whouse FROM supplierproducts JOIN suppliers ON supplierproducts.supplier_id=suppliers.id WHERE product_id=? AND suppliers.whouse=? order by cost',[selectedProductID, selectedWHouseID]);
             //co(rows);
             var minCost=10000000000, maxCost=-1, minIndex = 0, maxIndex = 0;
             $('#row-' + id + '-suppliers').empty();
@@ -173,8 +173,8 @@ function setWHouseFunction(){
             }
             //co(maxCost + ' ' + maxIndex);
             //co(minCost + ' ' + minIndex);
-            $('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
-            $('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
+            //$('#row-' + id + '-product-name-option-'+(1+minIndex)).attr('style', 'background-color:green;color:white;');
+            //$('#row-' + id + '-product-name-option-'+(1+maxIndex)).attr('style', 'background-color:red;color:white;');
         }
     });
 }
