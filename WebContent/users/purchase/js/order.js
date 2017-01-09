@@ -80,16 +80,48 @@ function populateTable(){
         var product = products[detail.product_id - 1];
         //co(product);
         var tr = $('<tr></tr>');
-        tr.append('<td class="col-md-2">' + detail.id + '</td>');
+        tr.append('<td class="col-md-2">' + (i+1) + '</td>');
         tr.append('<td class="col-md-2">' + alasql('select * from kind where id = ?',[product.kind])[0].text + '</td>');
         tr.append('<td class="col-md-2">' + product.maker + '</td>');
         tr.append('<td class="col-md-2">' + product.detail + '</td>');
-        tr.append('<td class="col-md-2">' + detail.quantity + '</td>');
+        tr.append('<td class="col-md-2">\
+            <input type="number" class="form-control" name="qty" value="' + detail.quantity + '" min="0" id="row-' + detail.id + '-quantity" disabled> \
+            <a class="btn  btn-xs pull-right" id="btn-edit-' + detail.id + '"><i class="fa fa-edit" style="font-size:20px;"></i></a> \
+            <a class="btn  btn-xs pull-right" style="display:none;" id="btn-ok-' + detail.id + '"><i class="fa fa-check" style="font-size:20px;"></i></a>\
+        </td>');
         var tempcost = alasql('select * from supplierproducts where supplier_id=? and product_id=?',[order.supplier_id, detail.product_id])[0].cost;
         tr.append('<td class="col-md-2">' + numberWithCommas(detail.quantity*tempcost) + '</td>');
         total+=detail.quantity*tempcost;
         
         tr.appendTo(tbody_order_details);
+        
+        //functions to edit quantity
+        if(status>1){
+            $('#btn-edit-' + detail.id + '').hide();
+        }else{
+            //edit button
+            $('#btn-edit-' + detail.id + '').on('click', function() {
+                $('#row-' + detail.id + '-quantity').prop('disabled', false);
+                
+                //hide this button and show ok button
+                $('#btn-edit-' + detail.id + '').hide();
+                $('#btn-ok-' + detail.id + '').show();
+            });
+            
+            //ok button
+            $('#btn-ok-' + detail.id + '').on('click', function() {
+                alasql('update ordersadddetails set quantity=? where order_id=? and product_id=?', [ parseInt($('#row-' + detail.id + '-quantity').val()), orderID, parseInt(detail.product_id) ]);
+
+                $('#row-' + detail.id + '-quantity').prop('disabled', true);
+                            
+                //hide this button and show ok button
+                $('#btn-edit-' + detail.id + '').show();
+                $('#btn-ok-' + detail.id + '').hide();
+                
+                //reload
+                window.location.reload(true);
+            });
+        }
     }
     
     tbody_order_details.append('<tr>\
