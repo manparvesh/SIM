@@ -50,3 +50,14 @@ Here is a simple flow that explains tha working of the system:
  	-> All the managers from where products have to be shipped are notified. 
  	-> After shipping the goods from that warehouse, the products are removed from tha list of that warehouse
  	-> When the goods are received by the other warehouse, the respective manager sets the order to complete and the products are added to the list of that warehouse.
+
+ Things added:
+ -------------
+ 1. print order
+ 2. Analysis of previous stocks and suggestion of appropriate quantity of products to be bought
+ 3. better notifications
+ 4. calendar updates
+ 5. low stock alerts
+ 6. product page UI
+ 7. order update
+ 8. order cancellation
