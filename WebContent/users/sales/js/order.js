@@ -99,6 +99,8 @@ $('#address').empty();
 $('#address').append('<strong>'+alasql('select * from customers where id=?',[order.customer_id])[0].name+'</strong>');
 $('#address').append('<p>'+alasql('select * from customers where id=?',[order.customer_id])[0].addr+'</p>');
 
+$('#contact').text(alasql('select * from customers where id=?',[order.customer_id])[0].contact);
+
 $('#date-1').text(getPrettyDate(order.date_received));
 if(status>1){
     $('#date-2').text(getPrettyDate(order.date_approved));

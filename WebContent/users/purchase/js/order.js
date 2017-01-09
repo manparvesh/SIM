@@ -140,6 +140,8 @@ $('#address').empty();
 $('#address').append('<strong>'+ supplier_name +'</strong><br>');
 $('#address').append(alasql('select * from suppliers where id=?',[order.supplier_id])[0].addr);
 
+$('#contact').text(alasql('select * from suppliers where id=?',[order.supplier_id])[0].contact);
+
 function getPrettyDate(daaate){
     return moment(daaate).format('LL');
 }
