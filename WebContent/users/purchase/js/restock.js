@@ -5,6 +5,8 @@ var total = 0;
 
 function removeRow(rn){
     $('#row-'+rn).remove();
+    $('#confirm-row-'+rn).remove();
+    ans.splice(rn-1, 1);
     rows_no--;
 }
 
@@ -97,10 +99,11 @@ function addRows(){
             tr.append('<td class="col-md-3 text-center">' + toWH + '</td>'); // to warehouse (Name, quantity, minimum required quantity)
             tr.append('<td class="col-md-2 text-center">' + opt_transfer + '</td>'); // optimum quantity
             tr.append('<td class="col-md-2 text-center"><input type="number" class="form-control" name="qty" value="' + opt_transfer + '" min="0" max="' + opt_transfer + '" id="row-' + row_id + '-quantity"></td>'); // quantity
+            tr.append('<td><a class="btn btn-raised btn-danger btn-sm pull-right" onclick="removeRow(' + row_id + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>');
             tr.appendTo(tbody);  
             
             
-            var tr2 = $('<tr class="row"></tr>');
+            var tr2 = $('<tr class="row" id="confirm-row-'+row_id+'"></tr>');
             tr2.append('<td class="col-md-2 text-center">' + product.detail + '</td>');
             tr2.append('<td class="col-md-3 text-center">' + fromWH + '</td>');
             tr2.append('<td class="col-md-3 text-center">' + toWH + '</td>');

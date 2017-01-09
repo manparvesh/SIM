@@ -199,11 +199,27 @@ function populateRestockingTable(){
 
     var restocks = alasql('select * from restock where whouse_from=? or whouse_to=?',[temp_whouse_id, temp_whouse_id]);
     
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+    
+	var date = today;
+    
     var modal_tbody_restock = $('#tbody-restocking-orders');
     modal_tbody_restock.empty();
     
     for(var i=0;i<restocks.length;i++){
         var restock = restocks[i];
+        co(restock)
         
         var prod = alasql('select * from item where id=?',[restock.product_id])[0].detail;
         
@@ -228,14 +244,21 @@ function populateRestockingTable(){
         
         if($('#setOrderToShippedLabel-' + restock.id)){
             $('#setOrderToShippedLabel-' + restock.id).on('click', function(){
-                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 3, restock.id ]);
-                
+                var temp_restock = restock;
+                var restock_id = restock.id; 
+                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 3, restock_id ]);
+                co(restock_id)
                 //update this in other tables
-                var prod_dets = alasql('select * from stock where item=? and whouse=?',[restock.product_id, restock.whouse_from])[0];
+                var prod_dets = alasql('select * from stock where item=? and whouse=?',[temp_restock.product_id, temp_restock.whouse_from])[0];
                 var balance = prod_dets.balance;
-                var qty = restock.quantity;
+                var qty = temp_restock.quantity;
                 
                 alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance - qty, prod_dets.id ]);
+                
+                // add trans record
+                var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+                var memo = 'Restocking order from '+getWHNameFromID(restock.whouse_from)+' to ' + getWHNameFromID(restock.whouse_to);
+                alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, prod_dets.id, date, -qty, balance - qty, memo ]);
                 
                 populateRestockingTable();
             });
@@ -251,6 +274,11 @@ function populateRestockingTable(){
                 var qty = restock.quantity;
                 
                 alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, prod_dets.id ]);
+                
+                // add trans record
+                var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
+                var memo = 'Restocking order from '+getWHNameFromID(restock.whouse_from)+' to ' + getWHNameFromID(restock.whouse_to);
+                alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, prod_dets.id, date, qty, balance + qty, memo ]);
 
                 populateRestockingTable();
             });
