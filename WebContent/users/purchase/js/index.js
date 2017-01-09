@@ -118,33 +118,6 @@ if(temporders.length){
 }else{
     $('#products').text('No');
 }
-//low stock
-var low_stock = false;
-var low_prods = 0;
-var temp_prod_list = alasql('select * from stock where whouse=1');
-for(var i=0;i<temp_prod_list.length;i++){
-    var temp_prod = temp_prod_list[i];
-    
-    var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[temp_prod.item, 1])[0].optimum;
-    
-    var currentAmount = alasql('select * from stock where item=? and whouse=?',[temp_prod.item, 1])[0].balance;
-    co((i+1) + ': ' + optimum + ' > ' + currentAmount);
-    if(currentAmount < optimum){
-        low_prods++;
-        low_stock = true;
-    }
-}
-if(low_stock){
-    $('#low-stock').text(low_prods);//#ff0303
-    $('#well-low').css('background-color','#ff9703');
-    $('#well-low').css('color','white');
-}else{
-    $('#low-stock').text('No');
-}
-
-$('#well-low').on('click', function(){
-    window.location.assign('neworder.html?type=low');
-});
 
 //new orders
 var temporders = alasql('SELECT * FROM ordersadd WHERE status<4');
@@ -516,3 +489,69 @@ function populateRestockingTable(){
 }
 
 populateRestockingTable();
+
+//low stock calculation
+function calcLowStock(){
+    var prods = alasql('select * from stock where whouse=1');
+    for(var j=0;j<prods.length;j++){
+        var prod = prods[j];
+        var rows = alasql('SELECT * FROM trans WHERE stock = ?', [ prod.item ]);
+
+        var balanceData = getArrayFromTable(rows, 'balance');
+        var tempYAxis = [];
+        for(var i=0;i<balanceData.length;i++){
+            tempYAxis.push(i+1);
+        }
+        var trendlineParams = lireg(tempYAxis, balanceData);
+        //co(tempYAxis + ' ' + balanceData)
+        //co(trendlineParams);
+        //co(rows);
+
+        var currOptimal = 0;
+        
+        if(trendlineParams[0]>0 || trendlineParams[0]==0 || trendlineParams[0]<0){
+            currOptimal = Math.round(getPoint(trendlineParams, balanceData.length)); // optimal
+        }else{
+            currOptimal = rows[0].balance; // optimal
+        }
+        //co(prod.item + ' ' + currOptimal)
+        //set optimal
+        alasql('update stockrange set optimum=? where whouse=1 and product_id=?',[currOptimal, prod.item]);
+        //set min
+        alasql('update stockrange set min=? where whouse=1 and product_id=?',[parseInt(currOptimal/2), prod.item]);
+        //set max
+        alasql('update stockrange set max=? where whouse=1 and product_id=?',[currOptimal*2, prod.item]);
+    }
+}
+
+calcLowStock();
+
+
+//set values to dashboard
+var low_stock = false;
+var low_prods = 0;
+var temp_prod_list = alasql('select * from stock where whouse=1');
+for(var i=0;i<temp_prod_list.length;i++){
+    var temp_prod = temp_prod_list[i];
+    
+    var optimum = alasql('select * from stockrange where product_id=? and whouse=?',[temp_prod.item, 1])[0].optimum;
+    
+    var currentAmount = alasql('select * from stock where item=? and whouse=?',[temp_prod.item, 1])[0].balance;
+    
+    if(currentAmount < optimum){
+        co(temp_prod.item + ': ' + optimum + '(optimum) > ' + currentAmount + '(current)');
+        low_prods++;
+        low_stock = true;
+    }
+}
+if(low_stock){
+    $('#low-stock').text(low_prods);//#ff0303
+    $('#well-low').css('background-color','#ff9703');
+    $('#well-low').css('color','white');
+}else{
+    $('#low-stock').text('No');
+}
+
+$('#well-low').on('click', function(){
+    window.location.assign('neworder.html?type=low');
+});
