@@ -242,7 +242,7 @@ populateReturnsTable();
 function populateModalReturnDetails(return_id){
     $('#modal-span-order-id').text(return_id);
         var temp_customer_id = alasql('select * from ordersremove where id=?',[return_id])[0].customer_id;
-        var temp_customer_name = alasql('select * from customers where id=?',[return_id])[0].name;
+        var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
     $('#modal-span-customer').text(temp_customer_name);
     
     var modal_tbody_returns = $('#modal-tbody-returns');
@@ -276,7 +276,7 @@ function populateModalReturnDetails(return_id){
         var kind = alasql('select * from kind where id=?',[temp_prod.kind])[0].text;
         
         //add these value to table
-        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#" onclick="populateModalReturnDetails('+return1.order_id+')"></tr>');
+        var tr = $('<tr href="#returnDialog"  data-toggle="modal" data-href="#"></tr>');
         tr.append('<td>' + temp_whouse_name + '</td>');
         tr.append('<td>' + temp_prod.detail + '</td>');
         tr.append('<td>' + temp_prod.maker + '</td>');
@@ -288,6 +288,8 @@ function populateModalReturnDetails(return_id){
     
     $('#setReturnStatus').on('click',function(){
         alasql('UPDATE replacements SET status = ? where order_id=? and order_type=2', [ 6, return_id ]);
+        
+        alasql('UPDATE ordersremove SET status = ? where id=?', [ 6, return_id ]);
         
         window.location.assign('index.html');
     });
