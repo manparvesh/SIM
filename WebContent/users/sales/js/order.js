@@ -274,6 +274,45 @@ if(requirement){
 
 function placeRequirementRequest(){
     var products = alasql('SELECT * FROM item');
+    
+    // split this order into 2, crate new order
+    
+    var today = new Date();
+    var dd = today.getDate();
+    var dd2 = today.getDate()+1;
+    var dd3 = today.getDate()+2;
+    var dd4 = today.getDate()+4;
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(dd2<10){
+        dd2='0'+dd2;
+    } 
+    if(dd3<10){
+        dd3='0'+dd3;
+    } 
+    if(dd4<10){
+        dd4='0'+dd4;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+    
+	var date = today;
+    var date2 = yyyy+'-'+mm+'-'+dd2;
+    var date3 = yyyy+'-'+mm+'-'+dd3;
+    var date4 = yyyy+'-'+mm+'-'+dd4;
+    
+    var newOrderID = alasql('SELECT MAX(id) + 1 as id FROM ordersremove')[0].id;
+    
+    //insert
+    alasql('insert into ordersremove values(?,?,?,?,?,?,?)', [ newOrderID, order.customer_id, 1, date, date2, date3, date4 ]);
+    
+    
     for (var i = 0; i < details.length; i++) {
         if($('requirement-row-' + (i+1) + '-quantity')){
             var detail = details[i];
@@ -300,12 +339,17 @@ function placeRequirementRequest(){
                 //co(requirement_id + space + orderID  + space +  temp_whouse_id + space +  product.id + space +  req + space +  quant);
                 
                 
-                co(alasql('select * from requirements'));
+                //co(alasql('select * from requirements'));
                 
                 co(alasql('select * from requirements where id=?',[requirement_id])[0]);
                 
                 // update Order details
                 alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);
+                
+                //insert into new order 
+                var ordersremovedetails_id = alasql('SELECT MAX(id) + 1 as id FROM ordersremovedetails')[0].id;
+                //details
+                alasql('INSERT INTO ordersremovedetails VALUES(?,?,?,?)', [ ordersremovedetails_id, newOrderID, product.id, detail.quantity-temp_whouse_q ]);
                 
                 // update Order details
                 //alasql('UPDATE ordersremovedetails SET quantity = ? WHERE order_id=? and product_id=?', [ temp_whouse_q, orderID, product.id ]);
