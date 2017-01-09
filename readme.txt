@@ -4,7 +4,7 @@ Super Inventory Management
 This is a system to manage the operations of an inventory that deals with storage and delivery of PC parts.
 There are 4 types of users who can use this system:
 
-S No.   USENAME  PASSWORD    DETAILS
+S No.   USERNAME  PASSWORD    DETAILS
 1.      purchase  purchase   member of purchase team
 2.      sale      sale       member of sales team
 3.      tech      tech       member of tech team

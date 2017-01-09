@@ -166,13 +166,51 @@
                 <canvas id="canvas"></canvas>
             </div>
             <hr>
-            <table class="table table-hover">
+            
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-primary">Current Optimum Amount: </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <p id="optimum" style="margin-top:15px"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-primary">Minimum Amount: </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <p id="min" style="margin-top:15px"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-primary">Maximum Amount: </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <p id="max" style="margin-top:15px"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+                
+                
+            <table class="table table-hover text-center">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Balance</th>
-                        <th>Comment</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Balance</th>
+                        <th class="text-center">Comment</th>
                     </tr>
                 </thead>
                 <tbody id="tbody-transs"></tbody>
@@ -187,7 +225,7 @@
     <script src="material/js/material.js"></script>
     <script src="material/js/ripples.min.js"></script>
     
-    <!-- Script to initialize Material Design -->
+    <!-- Script to i    nitialize Material Design -->
     <script>
       $.material.init();
     </script>

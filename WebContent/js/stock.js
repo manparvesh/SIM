@@ -29,7 +29,7 @@ for (var i = 0; i < rows.length; i++) {
     }else if(row.qty < 0){
         var tr = $('<tr>').appendTo(tbody);
     }
-	tr.append('<td>' + row.date + '</td>');
+	tr.append('<td>' + (row.date) + '</td>');
 	if(row.qty > 0){
         tr.append('<td class="success">' + row.qty + '</td>');
     }else{
@@ -194,10 +194,13 @@ function showChart(){
     //current optimal values
     var projData = [];
     projData.push(null); // amount 
+    var opt;
     if(trendlineParams[0]>0 || trendlineParams[0]==0 || trendlineParams[0]<0){
         projData.push(Math.round(getPoint(trendlineParams, i+1))); // optimal
+        opt = Math.round(getPoint(trendlineParams, i+1));
     }else{
         projData.push(rows[0].balance); // optimal
+        opt = rows[0].balance;
     }
     
     var today = new Date();
@@ -213,6 +216,11 @@ function showChart(){
 
     // add this to chart
     addDataToChart(projData, 'Today: '+getPrettyDate(date));
+    
+    //set optimum values
+    $('#optimum').text(opt);
+    $('#min').text(parseInt(opt/2));
+    $('#max').text(opt*2);
 }
 
 showChart();
