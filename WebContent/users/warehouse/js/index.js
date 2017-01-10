@@ -193,8 +193,16 @@ function getWHNameFromID(id){
     return alasql('select * from whouse where id=?',[id])[0].name;
 }
 
+var dataTablesRestocking = $('#data-table-restocking').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
 
 function populateRestockingTable(){
+    
+    dataTablesRestocking.destroy();
+    
     var temp_whouse_id = loginID - 3;
 
     var restocks = alasql('select * from restock where whouse_from=? or whouse_to=?',[temp_whouse_id, temp_whouse_id]);
@@ -233,21 +241,22 @@ function populateRestockingTable(){
         tr.append('<td class="text-center">' + getLabelForOrderStatus(restock.status) + '</td>');
         
         if(restock.status == 1 && temp_whouse_id == restock.whouse_from){
-            tr.append('<td class="text-center"><a style="cursor:pointer;" id="setOrderToShippedLabel-' + restock.id + '">' + getLabelForOrderStatus(3) + '</a></td>');
+            tr.append('<td class="text-center"><a style="cursor:pointer;" id="' + restock.id + '-setOrderToShippedLabel">' + getLabelForOrderStatus(3) + '</a></td>');
         }else if(restock.status == 3 && temp_whouse_id == restock.whouse_to){
-            tr.append('<td class="text-center"><a style="cursor:pointer;" id="setOrderToCompleteLabel-' + restock.id + '">' + getLabelForOrderStatus(4) + '</a></td>');
+            tr.append('<td class="text-center"><a style="cursor:pointer;" id="' + restock.id + '-setOrderToCompleteLabel">' + getLabelForOrderStatus(4) + '</a></td>');
         }else{
             tr.append('<td></td>');
         }
 
         tr.appendTo(modal_tbody_restock);
         
-        if($('#setOrderToShippedLabel-' + restock.id)){
-            $('#setOrderToShippedLabel-' + restock.id).on('click', function(){
-                var temp_restock = restock;
-                var restock_id = restock.id; 
+        if($('#' + restock.id+'-setOrderToShippedLabel')){
+            $('#' + restock.id+'-setOrderToShippedLabel').on('click', function(){
+                var temp = parseInt($(this).attr('id'));
+                var temp_restock = alasql('select * from restock where id=?',[temp])[0];
+                var restock_id = temp; 
                 alasql('UPDATE restock SET status = ? WHERE id = ?', [ 3, restock_id ]);
-                co(restock_id)
+                //co(restock_id)
                 //update this in other tables
                 var prod_dets = alasql('select * from stock where item=? and whouse=?',[temp_restock.product_id, temp_restock.whouse_from])[0];
                 var balance = prod_dets.balance;
@@ -257,33 +266,41 @@ function populateRestockingTable(){
                 
                 // add trans record
                 var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
-                var memo = 'Restocking order from '+getWHNameFromID(restock.whouse_from)+' to ' + getWHNameFromID(restock.whouse_to);
+                var memo = 'Restocking order from '+getWHNameFromID(temp_restock.whouse_from)+' to ' + getWHNameFromID(temp_restock.whouse_to);
                 alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, prod_dets.id, date, -qty, balance - qty, memo ]);
                 
                 populateRestockingTable();
             });
         }
         
-        if($('#setOrderToCompleteLabel-' + restock.id)){
-            $('#setOrderToCompleteLabel-' + restock.id).on('click', function(){
-                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 4, restock.id ]);
+        if($('#' + restock.id+'-setOrderToCompleteLabel')){
+            $('#' + restock.id+'-setOrderToCompleteLabel').on('click', function(){
+                var temp = parseInt($(this).attr('id'));
+                var temp_restock = alasql('select * from restock where id=?',[temp])[0];
+                alasql('UPDATE restock SET status = ? WHERE id = ?', [ 4, temp ]);
                 
                 //update this in other tables
-                var prod_dets = alasql('select * from stock where item=? and whouse=?',[restock.product_id, restock.whouse_to])[0];
+                var prod_dets = alasql('select * from stock where item=? and whouse=?',[temp_restock.product_id, restock.whouse_to])[0];
                 var balance = prod_dets.balance;
-                var qty = restock.quantity;
+                var qty = temp_restock.quantity;
                 
                 alasql('UPDATE stock SET balance = ? WHERE id = ?', [ balance + qty, prod_dets.id ]);
                 
                 // add trans record
                 var trans_id = alasql('SELECT MAX(id) + 1 as id FROM trans')[0].id;
-                var memo = 'Restocking order from '+getWHNameFromID(restock.whouse_from)+' to ' + getWHNameFromID(restock.whouse_to);
+                var memo = 'Restocking order from '+getWHNameFromID(temp_restock.whouse_from)+' to ' + getWHNameFromID(temp_restock.whouse_to);
                 alasql('INSERT INTO trans VALUES(?,?,?,?,?,?)', [ trans_id, prod_dets.id, date, qty, balance + qty, memo ]);
 
                 populateRestockingTable();
             });
         }
     }
+    
+    dataTablesRestocking = $('#data-table-restocking').DataTable({
+                "order":[[0,"desc"]],
+                "iDisplayLength": 25,
+                className: 'mdl-data-table__cell--non-numeric'
+            });
 }
 
 populateRestockingTable();

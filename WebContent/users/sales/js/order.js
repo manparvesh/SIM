@@ -199,8 +199,8 @@ function populateTable(){
                 tr.append('<td class="col-md-2">' + product.detail + '</td>');
                 tr.append('<td class="col-md-2">\
                     <input type="number" class="form-control" name="qty" value="' + detail.quantity + '" min="0" id="row-' + detail.id + '-quantity" disabled> \
-                    <a class="btn  btn-xs pull-right" id="btn-edit-' + detail.id + '"><i class="fa fa-edit" style="font-size:20px;"></i></a> \
-                    <a class="btn  btn-xs pull-right" style="display:none;" id="btn-ok-' + detail.id + '"><i class="fa fa-check" style="font-size:20px;"></i></a>\
+                    <a class="btn  btn-xs pull-right" id="' + detail.id + '-btn-edit"><i class="fa fa-edit" style="font-size:20px;"></i></a> \
+                    <a class="btn  btn-xs pull-right" style="display:none;" id="' + detail.id + '-btn-ok"><i class="fa fa-check" style="font-size:20px;"></i></a>\
                 </td>');
                 tr.append('<td class="col-md-2">' + numberWithCommas(detail.quantity*product.price) + '</td>');
                 co(product.id + ' ' + temp_whouse_id);
@@ -214,26 +214,29 @@ function populateTable(){
                 
                 //functions to edit quantity
                 if(status>1){
-                    $('#btn-edit-' + detail.id + '').hide();
+                    $('#' + detail.id + '-btn-edit').hide();
                 }else{
                     //edit button
-                    $('#btn-edit-' + detail.id + '').on('click', function() {
-                        $('#row-' + detail.id + '-quantity').prop('disabled', false);
+                    $('#' + detail.id + '-btn-edit').on('click', function() {
+                        var temp = parseInt($(this).attr('id'));
+                        $('#row-' + temp + '-quantity').prop('disabled', false);
 
                         //hide this button and show ok button
-                        $('#btn-edit-' + detail.id + '').hide();
-                        $('#btn-ok-' + detail.id + '').show();
+                        $('#' + temp + '-btn-edit').hide();
+                        $('#' + temp + '-btn-ok').show();
                     });
 
                     //ok button
-                    $('#btn-ok-' + detail.id + '').on('click', function() {
-                        alasql('update ordersremovedetails set quantity=? where order_id=? and product_id=?', [ parseInt($('#row-' + detail.id + '-quantity').val()), orderID, parseInt(detail.product_id) ]);
+                    $('#' + detail.id + '-btn-ok').on('click', function() {
+                        var temp = parseInt($(this).attr('id'));
+                        var dt = alasql('SELECT * FROM ordersremovedetails WHERE id=?',[temp])[0];
+                        alasql('update ordersremovedetails set quantity=? where order_id=? and product_id=?', [ parseInt($('#row-' + temp + '-quantity').val()), orderID, parseInt(dt.product_id) ]);
 
-                        $('#row-' + detail.id + '-quantity').prop('disabled', true);
+                        $('#row-' + temp + '-quantity').prop('disabled', true);
 
                         //hide this button and show ok button
-                        $('#btn-edit-' + detail.id + '').show();
-                        $('#btn-ok-' + detail.id + '').hide();
+                        $('#' + temp + '-btn-edit').show();
+                        $('#' + temp + '-btn-ok').hide();
 
                         //reload
                         window.location.reload(true);
