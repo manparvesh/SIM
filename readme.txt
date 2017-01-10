@@ -13,22 +13,24 @@ S No.   USERNAME  PASSWORD    DETAILS
 6.      ware3     ware3      warehouse manager of Singapore warehouse
 7.      ware4     ware4      warehouse manager of Delhi warehouse
 
-Here is a simple flow that explains tha working of the system:
+Operations and merits of the system:
 
-1. Addition of an order to inventory:
+1. Addition of products to inventory:
 	-> Purchase member adds order on new order page  
-	-> After confirmation from sellers, order is approved 
+	-> After confirmation from sellers, order is approved or updated acordingly.
 	-> After getting information from sellers when the order is shipped, the status of order is set to shipped 
 	-> Respective Warehouse manager is notified 
-	-> On arrival of order, the status is set to complete and the products are added to inventory 
+	-> On arrival of order, the status is set to complete and the products are added to inventory
+	-> He/she can print the details of order and can give the details to workers / tech team. 
 	-> The tech team checks the quality of all products and adds the defective products to defective list 
 	-> Purchase team member is notified 
 	-> He checks the details of order and contacts supplier to correct the same.
+	-> The order can be cancelled before it is completed at any time.
 
-2. Removal of an order from repository:
+2. Removal of products from inventory:
 	-> Sales member receives the order from customer and enters into the system 
-	-> If there are products in warehouse that are less than the required quantity, a "Requirement order" is placed 
-	-> The order is edited and only the available items are processed further. For requirements, a different order is placed by the purchase team 
+	-> If there are products in warehouse that are less than the required quantity, a "Requirement order" is placed. 
+	-> The order is edited and only the available items are processed further. For requirements, a different order is placed by the purchase team and when the requirement order is completed, another sales order is created to meet the original needs of the customer.
 	-> When the order is approved, the warehouse manager is notified
 	-> The manager arranges the packing and delivery of the order and sets the status to "shipped"
 	-> When the order is received by the customer, the order is set as received and the products are removed from the list.
@@ -41,6 +43,7 @@ Here is a simple flow that explains tha working of the system:
 
 4. Better planning of the operation schedule
 	-> A calendar widget is displayed that shows different dates related to different users to help with their tasks and plan ahead for the same
+	-> A warehosue manager can see if there are any orders that are planned to be sent or received and their estimated dates so that they can be on time. They can also check if any orders are late.
 
 5. Restocking between warehouses
  	-> In the end of every month, one can opt to re-arrange the stocks between different warehouses, based on their sales etc.
@@ -51,13 +54,10 @@ Here is a simple flow that explains tha working of the system:
  	-> After shipping the goods from that warehouse, the products are removed from tha list of that warehouse
  	-> When the goods are received by the other warehouse, the respective manager sets the order to complete and the products are added to the list of that warehouse.
 
- Things added:
- -------------
- 1. print order
- 2. Analysis of previous stocks and suggestion of appropriate quantity of products to be bought
- 3. better notifications
- 4. calendar updates
- 5. low stock alerts
- 6. product page UI
- 7. order update
- 8. order cancellation
+6. Low stock alerts
+	-> The system uses linear regression to estimate the optimal amount of each product that should be there in the warehouse, depending on previous sales and purchases.
+	-> Purchase team is notified of the products that are low in stock and by just clicking a button, they can place a purchase order with the required amount of products to be placed.
+
+7. Dashboard: 
+	-> The dashboard contains all the information required for a user to work on, depending on their respective user operations.
+	-> Appropriate alerts are also displayed to get them started for work. 
