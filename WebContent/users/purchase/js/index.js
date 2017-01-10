@@ -282,12 +282,14 @@ function populateRequirementsTable(){
             co(requirement);
             //co(alasql('select * from ordersremove'));
             var temp_customer_id = alasql('select * from ordersremove where id=?',[requirement.order_id])[0].customer_id;
+            var temp_customer_name = alasql('select * from customers where id=?', [ temp_customer_id ])[0].name;
             var temp_whouse_id = alasql('select * from customers where id=?',[temp_customer_id])[0].whouse;
             //co(requirement.order_id);
             //co(temp_whouse_id);
             //co(alasql('select * from ordersremove'));
             var temp_whouse_name = alasql('select * from whouse where id=?',[temp_whouse_id])[0].name;
             tr.append('<td>' + temp_whouse_name + '</td>');
+            tr.append('<td>' + temp_customer_name + '</td>');
             //co(requirement);
             //co(alasql('select * from ordersremove where id=?',[requirement.order_id])[0]);
             var temp_status = alasql('select * from requirements where order_id=?',[requirement.order_id])[0].status;
@@ -304,12 +306,15 @@ populateRequirementsTable();
 
 function putValuesInRequirementModal(id){
     var requirements = alasql('select * from requirements where order_id=?',[id]);
-    $('#modal-span-order-id').text(id);
-    co(requirements);
+    //co(id);
+    $('#modal-span-order-id-req').text(id);
+    $('#modal-span-order-id-req').show();
+    co($('#modal-span-order-id-req').text())
+    //co(requirements);
     var temp_customer_id = alasql('select * from ordersremove where id=?',[id])[0].customer_id;
     var temp_customer_name = alasql('select * from customers where id=?',[temp_customer_id])[0].name;
-    $('#modal-span-customer').text(temp_customer_name);
-    
+    $('#modal-span-customer-req').text(temp_customer_name);
+    co($('#modal-span-customer-req').text())
     //set onclick function to new purchase order button
     $('#doneReq').attr('onclick','placeNewPurchaseOrder('+id+')');
     
@@ -324,7 +329,7 @@ function putValuesInRequirementModal(id){
         var req = requirements[i];
         if(req){
             var product = alasql('select * from item where id=?',[req.product_id])[0];
-            co(product);
+            //co(product);
             var kind = alasql('select * from kind where id=?',[product.kind])[0];
             var tr = $('<tr></tr>');
             tr.append('<td>' + temp_whouse_name[req.whouse - 1].name + '</td>');

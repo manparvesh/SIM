@@ -196,10 +196,13 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Order ID
+                                        Sales Order ID
                                     </th>
                                     <th>
                                         Warehouse
+                                    </th>
+                                    <th>
+                                        Customer
                                     </th>
                                     <th>
                                         Status
@@ -392,8 +395,11 @@
           </div>
           <div class="modal-body">
             <div class="container-fluid">
-                <h4 class="text-center text-primary"><strong>Order ID:</strong> <span id="modal-span-order-id"></span></h4>
-                <h4 class="text-center text-primary"><strong>Customer:</strong> <span id="modal-span-customer"></span></h4>
+                <div class="well"  style="background-color: #009688;color:white;">
+                    <h4 class="text-center"><strong>Sales Order ID:</strong> <span id="modal-span-order-id-req"></span></h4>
+                    <h4 class="text-center"><strong>Customer:</strong> <span id="modal-span-customer-req"></span></h4>
+                </div>
+                
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
