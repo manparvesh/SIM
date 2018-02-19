@@ -10,15 +10,15 @@
 ## Users
 There are 4 types of users who can use this system:
 
-S No.  | USERNAME | PASSWORD  |  DETAILS
----|---|---|---
-1.     | purchase | purchase  | member of purchase team
-2.     | sale     | sale      | member of sales team
-3.     | tech     | tech      | member of tech team
-4.     | ware1    | ware1     | warehouse manager of Tokyo warehouse
-5.     | ware2    | ware2     | warehouse manager of Shanghai warehouse
-6.     | ware3    | ware3     | warehouse manager of Singapore warehouse
-7.     | ware4    | ware4     | warehouse manager of Delhi warehouse
+| S No.  | USERNAME | PASSWORD  |  DETAILS |
+|---|---|---|---|
+|1.     | purchase | purchase  | member of purchase team|
+|2.     | sale     | sale      | member of sales team|
+|3.     | tech     | tech      | member of tech team|
+|4.     | ware1    | ware1     | warehouse manager of Tokyo warehouse|
+|5.     | ware2    | ware2     | warehouse manager of Shanghai warehouse|
+|6.     | ware3    | ware3     | warehouse manager of Singapore warehouse|
+|7.     | ware4    | ware4     | warehouse manager of Delhi warehouse|
 
 ## Features
 
